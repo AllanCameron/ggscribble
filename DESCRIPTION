@@ -1,0 +1,23 @@
+Package: ggscribble
+Type: Package
+Title: Create Plots With A Hand-Drawn Look
+Version: 0.1.0
+Authors@R: c(
+    person(given = "Allan",
+           family = "Cameron",
+           role = c("aut", "cre"),
+           email = "Allan.Cameron@nhs.scot"))
+Description: A `ggplot2` extension that allows plots to achieve a hand-drawn
+    appearance via custom layers, theme elements and fonts. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 4.1.0)
+Imports:
+    grid,
+    scales,
+    ggplot2,
+    rlang,
+    cli
+LazyData: true
+RoxygenNote: 7.3.1
