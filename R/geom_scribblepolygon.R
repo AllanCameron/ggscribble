@@ -66,7 +66,9 @@ geom_scribblepolygon <- function (mapping = NULL, data = NULL,
 
 
 #' The ggproto object that powers scribble-filled shapes.
+#'
 #' See \link[ggplot2]{ggplot2-ggproto}
+#'
 #' @format NULL
 #' @usage NULL
 #' @export

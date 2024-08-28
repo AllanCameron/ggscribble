@@ -3,10 +3,8 @@
 \docType{data}
 \name{GeomScribblePolygon}
 \alias{GeomScribblePolygon}
-\title{The ggproto object that powers scribble-filled shapes.
-See \link[ggplot2]{ggplot2-ggproto}}
+\title{The ggproto object that powers scribble-filled shapes.}
 \description{
-The ggproto object that powers scribble-filled shapes.
 See \link[ggplot2]{ggplot2-ggproto}
 }
 \keyword{datasets}

@@ -42,6 +42,7 @@ wibblify <- function(shape, ...) {
   UseMethod("wibblify")
 }
 
+#' @export
 wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
   x <- grid::convertX(poly$x, "npc", TRUE)
   y <- grid::convertY(poly$y, "npc", TRUE)
@@ -56,6 +57,7 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
   poly
 }
 
+#' @export
 wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
   x <- grid::convertX(poly$x, "npc", TRUE)
   y <- grid::convertY(poly$y, "npc", TRUE)
@@ -68,6 +70,7 @@ wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
   poly
 }
 
+#' @export
 wibblify.lines <- function(line, wibbliness = 1, res = 100) {
   x <- grid::convertX(line$x, "npc", TRUE)
   y <- grid::convertY(line$y, "npc", TRUE)
