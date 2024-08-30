@@ -15,7 +15,7 @@ scribbleGrob(
   neatness = 1,
   density = 100,
   randomness = 1,
-  scribble_lwd = 1,
+  scribblewidth = 1,
   scribblecolour = "black",
   default.units = "npc"
 )
@@ -67,7 +67,7 @@ shapes which controls how straight the scribbles are. This is the
 equivalent of "wibbliness" for the scribble fill lines. A
 single value can be given instead to apply to all shapes.}
 
-\item{scribble_lwd}{A numeric vector with the same length as the number of
+\item{scribblewidth}{A numeric vector with the same length as the number of
 shapes which controls the line width of the scribble lines within each
 shape. A single value can be given instead to apply to all shapes.}
 

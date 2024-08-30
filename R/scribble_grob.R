@@ -36,7 +36,7 @@
 #'   shapes which controls how straight the scribbles are. This is the
 #'   equivalent of "wibbliness" for the scribble fill lines. A
 #'   single value can be given instead to apply to all shapes.
-#' @param scribble_lwd A numeric vector with the same length as the number of
+#' @param scribblewidth A numeric vector with the same length as the number of
 #'   shapes which controls the line width of the scribble lines within each
 #'   shape. A single value can be given instead to apply to all shapes.
 #' @param scribblecolour A character vector with the same length as the number
@@ -61,7 +61,7 @@
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          wibbliness = 1, neatness = 1, density = 100,
-                         randomness = 1, scribble_lwd = 1,
+                         randomness = 1, scribblewidth = 1,
                          scribblecolour = "black", default.units = "npc") {
 
   if(missing(id)) id <- rep(1, length(x))
@@ -70,7 +70,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
 
   pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
                neatness = neatness, density = density, randomness = randomness,
-               scribble_lwd = scribble_lwd, scribblecolour = scribblecolour)
+               scribblewidth = scribble_lwd, scribblecolour = scribblecolour)
 
   pars <- setNames(Map(function(x, nm) {
     if(length(x) == 1) x <- rep(x, n_groups)
@@ -87,7 +87,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
 
   }, split(x, id), split(y, id), pars$angle, pars$density, pars$wonkiness,
   pars$wibbliness, pars$neatness, seq_along(pars$angle), pars$scribblecolour,
-  pars$scribble_lwd)
+  pars$scribblewidth)
 
   grid::setChildren(grid::gTree(cl = "scribbles"), do.call(grid::gList, grobs))
 }

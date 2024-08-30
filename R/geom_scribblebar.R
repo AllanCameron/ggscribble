@@ -98,7 +98,7 @@ GeomScribbleBar <- ggplot2::ggproto("GeomScribbleBar", ggplot2::GeomBar,
 
   default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                 linetype = 1, alpha = NA, subgroup = NULL,
-                scribblecolour = "black", scribble_lwd = 1,
+                scribblecolour = "black", scribblewidth = 1,
                 wonkiness = 1, wibbliness = 1, randomness = 1,
                 neatness = 1, density = 200, angle = 45),
 
@@ -124,7 +124,7 @@ GeomScribbleCol <- ggplot2::ggproto("GeomScribbleCol",
 
   default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                 linetype = 1, alpha = NA, subgroup = NULL,
-                scribblecolour = "black", scribble_lwd = 1,
+                scribblecolour = "black", scribblewidth = 1,
                 wonkiness = 1, wibbliness = 1, randomness = 1,
                 neatness = 1, density = 200, angle = 45),
 
