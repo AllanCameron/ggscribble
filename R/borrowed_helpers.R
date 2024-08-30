@@ -5,6 +5,8 @@
   else x
 }
 
+unique0 <- function (x, ...) if (is.null(x)) x else vctrs::vec_unique(x, ...)
+
 manual_scale <- function (aesthetic, values = NULL, breaks = ggplot2::waiver(),
                           name = waiver(), ..., limits = NULL,
                           call = rlang::caller_call()) {

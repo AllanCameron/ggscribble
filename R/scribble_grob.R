@@ -60,14 +60,15 @@
 #'   grid::grid.draw()
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
+                         pathId = NULL,
                          wibbliness = 1, sloppiness = 1, density = 100,
                          randomness = 1, scribblewidth = 1,
                          scribblecolour = "black", default.units = "npc") {
 
   if(missing(id)) id <- rep(1, length(x))
+  if(is.null(pathId)) pathId <- rep(1, length(x))
   if(length(id) != length(x)) stop("mismatch between co-ordinates and id")
   n_groups <- length(unique(id))
-
   pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
                sloppiness = sloppiness, density = density,
                randomness = randomness,
@@ -79,16 +80,18 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
     return(x)
   }, pars, names(pars)), names(pars))
 
-  grobs <- Map(function(x, y, angle, density, wonk, wibble, neat, i, col, lwd) {
-    grid::pathGrob(x, y, gp = gp[i], default.units = default.units) |>
+  grobs <- Map(function(x, y, pathid, angle, density, wonk, wibble, neat, i,
+                        col, lwd) {
+    grid::pathGrob(x, y, pathId = pathid, gp = gp[i],
+                   default.units = default.units) |>
       wonkify(wonkiness = pars$wonkiness) |>
       wibblify(wibbliness = pars$wibbliness) |>
       scribble_fill(angle = angle, density = density, sloppiness = neat,
                     randomness = randomness, col = col, lwd = lwd)
 
-  }, split(x, id), split(y, id), pars$angle, pars$density, pars$wonkiness,
-  pars$wibbliness, pars$sloppiness, seq_along(pars$angle), pars$scribblecolour,
-  pars$scribblewidth)
+  }, split(x, id), split(y, id), split(pathId, id), pars$angle, pars$density,
+  pars$wonkiness, pars$wibbliness, pars$sloppiness, seq_along(pars$angle),
+  pars$scribblecolour, pars$scribblewidth)
 
   grid::setChildren(grid::gTree(cl = "scribbles"), do.call(grid::gList, grobs))
 }

@@ -95,13 +95,10 @@ GeomScribblePolygon <- ggplot2::ggproto("GeomScribblePolygon",
       munched <- ggplot2::coord_munch(coord, data, panel_params,
                                       is_closed = TRUE)
 
-      if (!is.null(munched$subgroup)) {
-        cli::cli_abort("Scribble grob does not support polygons with holes")
-      }
-
-      munched    <- munched[order(munched$group), ]
-      first_idx  <- !duplicated(munched$group)
-      first_rows <- munched[first_idx, ]
+      if (is.null(munched$subgroup)) {
+        munched <- munched[order(munched$group), ]
+        first_idx <- !duplicated(munched$group)
+        first_rows <- munched[first_idx, ]
 
       scribbleGrob(x = munched$x, y = munched$y,
           default.units = "npc", id = munched$group,
@@ -117,5 +114,29 @@ GeomScribblePolygon <- ggplot2::ggproto("GeomScribblePolygon",
               lwd = first_rows$linewidth * ggplot2::.pt,
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))
-  }
+      } else {
+        if (getRversion() < "3.6") {
+          cli::cli_abort("Polygons with holes requires R 3.6 or above.")
+        }
+        munched <- munched[order(munched$group, munched$subgroup), ]
+        id <- match(munched$subgroup, unique0(munched$subgroup))
+        first_idx <- !duplicated(munched$group)
+        first_rows <- munched[first_idx, ]
+
+        scribbleGrob(x = munched$x, y = munched$y,
+          default.units = "npc", pathId = id, id = munched$group,
+          scribblecolour = first_rows$scribblecolour,
+          scribblewidth = first_rows$scribblewidth,
+          density = first_rows$density,
+          wonkiness = first_rows$wonkiness,
+          wibbliness = first_rows$wibbliness,
+          sloppiness = first_rows$sloppiness,
+          angle = first_rows$angle,
+          gp = grid::gpar(col = first_rows$colour,
+              fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+              lwd = first_rows$linewidth * ggplot2::.pt,
+              lty = first_rows$linetype,
+              lineend = lineend, linejoin = linejoin, linemitre = linemitre))
+      }
+    }
 )

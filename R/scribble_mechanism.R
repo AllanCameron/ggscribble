@@ -23,8 +23,13 @@ wonkify <- function(poly, wonkiness = 1) {
   size <- max(diff(range(x)), diff(range(y)))
   x <- x + rnorm(length(x), 0, 0.01 * size * wonkiness)
   y <- y + rnorm(length(y), 0, 0.01 * size * wonkiness)
-  x <- c(head(x, -1), x[1])
-  y <- c(head(y, -1), y[1])
+  if(is.null(poly$pathId)) {
+    poly$pathId <- rep(1, length(x))
+  }
+  split(x, poly$pathId) <- lapply(split(x, poly$pathId),
+                                  function(x) c(head(x, -1), x[1]))
+  split(y, poly$pathId) <- lapply(split(y, poly$pathId),
+                                  function(x) c(head(x, -1), x[1]))
   poly$x <- grid::unit(x, "npc")
   poly$y <- grid::unit(y, "npc")
   poly
@@ -49,12 +54,27 @@ wibblify <- function(shape, ...) {
 wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
   x <- grid::convertX(poly$x, "npc", TRUE)
   y <- grid::convertY(poly$y, "npc", TRUE)
-  x <- approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
-  y <- approx(seq_along(y), y, xout = seq(1, length(y), len = res))$y
+
+  if(is.null(poly$pathId)) {
+    poly$pathId <- rep(1, length(x))
+  }
+  if(res < length(poly$x)) res <- 2 * length(poly$x)
+  x <- do.call("c", lapply(split(x, poly$pathId), function(x) {
+         approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
+  }))
+  y <- do.call("c", lapply(split(y, poly$pathId), function(x) {
+    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
+  }))
+  poly$pathId <- do.call("c", lapply(split(poly$pathId, poly$pathId),
+                                     function(x) rep(x[1], res)))
   x <- x + rnorm(length(x), 0, 0.0005 * wibbliness)
   y <- y + rnorm(length(y), 0, 0.0005 * wibbliness)
-  x <- c(head(x, -1), x[1])
-  y <- c(head(y, -1), y[1])
+
+
+  split(x, poly$pathId) <- lapply(split(x, poly$pathId),
+                                  function(x) c(head(x, -1), x[1]))
+  split(y, poly$pathId) <- lapply(split(y, poly$pathId),
+                                  function(x) c(head(x, -1), x[1]))
   poly$x <- grid::unit(x, "npc")
   poly$y <- grid::unit(y, "npc")
   poly
