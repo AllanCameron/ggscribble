@@ -23,14 +23,16 @@ wonkify <- function(poly, wonkiness = 1) {
   size <- max(diff(range(x)), diff(range(y)))
   x <- x + rnorm(length(x), 0, 0.01 * size * wonkiness)
   y <- y + rnorm(length(y), 0, 0.01 * size * wonkiness)
+  x <- c(head(x, -1), x[1])
+  y <- c(head(y, -1), y[1])
   poly$x <- grid::unit(x, "npc")
   poly$y <- grid::unit(y, "npc")
   poly
 }
 
 scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
-                          col = "black", lwd = 1, wonkiness = 1) {
-  shape_mask <- wonkify(shape, wonkiness)
+                          col = "black", lwd = 1, wonkiness = 1, neatness = 1) {
+  shape_mask <- wonkify(shape, neatness / 2)
   shape_mask$gp <- grid::gpar(fill = "black")
   scrib <- make_scribbles(angle, density, randomness,
                           gp = grid::gpar(lwd = lwd, col = col),
@@ -59,15 +61,7 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
 
 #' @export
 wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
-  x <- grid::convertX(poly$x, "npc", TRUE)
-  y <- grid::convertY(poly$y, "npc", TRUE)
-  x <- approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
-  y <- approx(seq_along(y), y, xout = seq(1, length(y), len = res))$y
-  x <- x + rnorm(length(x), 0, 0.0005 * wibbliness)
-  y <- y + rnorm(length(y), 0, 0.0005 * wibbliness)
-  poly$x <- grid::unit(x, "npc")
-  poly$y <- grid::unit(y, "npc")
-  poly
+  wibblify.polygon(poly, wibbliness, res)
 }
 
 #' @export

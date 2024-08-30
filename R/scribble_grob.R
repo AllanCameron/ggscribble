@@ -39,9 +39,9 @@
 #' @param scribble_lwd A numeric vector with the same length as the number of
 #'   shapes which controls the line width of the scribble lines within each
 #'   shape. A single value can be given instead to apply to all shapes.
-#' @param scribble_col A character vector with the same length as the number of
-#'   shapes which controls the colors of the scribble lines inside each shape.
-#'   A single value can be given instead to apply to all shapes.
+#' @param scribblecolour A character vector with the same length as the number
+#'   of shapes which controls the colors of the scribble lines inside each
+#'   shape. A single value can be given instead to apply to all shapes.
 #' @param default.units An atomic character string which determines the units
 #'   into which the x and y co-ordinates will be converted if given as a
 #'   numeric vector.
@@ -55,14 +55,14 @@
 #' scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
 #'              y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
 #'              id = c(1, 1, 1, 1, 2, 2, 2),
-#'              scribble_col = c("red", "green"),
+#'              scribblecolour = c("red", "green"),
 #'              density = 200) |>
 #'   grid::grid.draw()
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          wibbliness = 1, neatness = 1, density = 100,
                          randomness = 1, scribble_lwd = 1,
-                         scribble_col = "black", default.units = "npc") {
+                         scribblecolour = "black", default.units = "npc") {
 
   if(missing(id)) id <- rep(1, length(x))
   if(length(id) != length(x)) stop("mismatch between co-ordinates and id")
@@ -70,7 +70,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
 
   pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
                neatness = neatness, density = density, randomness = randomness,
-               scribble_lwd = scribble_lwd, scribble_col = scribble_col)
+               scribble_lwd = scribble_lwd, scribblecolour = scribblecolour)
 
   pars <- setNames(Map(function(x, nm) {
     if(length(x) == 1) x <- rep(x, n_groups)
@@ -82,11 +82,11 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
     grid::pathGrob(x, y, gp = gp[i], default.units = default.units) |>
       wonkify(wonkiness = pars$wonkiness) |>
       wibblify(wibbliness = pars$wibbliness) |>
-      scribble_fill(angle = angle, density = density,
+      scribble_fill(angle = angle, density = density, neatness = neat,
                     randomness = randomness, col = col, lwd = lwd)
 
   }, split(x, id), split(y, id), pars$angle, pars$density, pars$wonkiness,
-  pars$wibbliness, pars$neatness, seq_along(pars$angle), pars$scribble_col,
+  pars$wibbliness, pars$neatness, seq_along(pars$angle), pars$scribblecolour,
   pars$scribble_lwd)
 
   grid::setChildren(grid::gTree(cl = "scribbles"), do.call(grid::gList, grobs))

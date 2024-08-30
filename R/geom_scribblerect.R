@@ -72,7 +72,7 @@ geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
 GeomScribbleRect <- ggplot2::ggproto("GeomScribbleRect", ggplot2::GeomRect,
       default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                       linetype = 1, alpha = NA, subgroup = NULL,
-                      scribble_col = "black", scribble_lwd = 1,
+                      scribblecolour = "black", scribble_lwd = 1,
                       wonkiness = 1, wibbliness = 1, randomness = 1,
                       neatness = 1, density = 200, angle = 46),
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
@@ -83,12 +83,12 @@ GeomScribbleRect <- ggplot2::ggproto("GeomScribbleRect", ggplot2::GeomRect,
     }
     aesthetics <- setdiff(names(data), c("x", "y", "xmin",
         "xmax", "ymin", "ymax"))
-    index <- rep(seq_len(nrow(data)), each = 4)
+    index <- rep(seq_len(nrow(data)), each = 5)
     new <- data[index, aesthetics, drop = FALSE]
     new$x <- vctrs::vec_interleave(data$xmin, data$xmax, data$xmax,
-        data$xmin)
+        data$xmin, data$xmin)
     new$y <- vctrs::vec_interleave(data$ymax, data$ymax, data$ymin,
-        data$ymin)
+        data$ymin, data$ymax)
     new$group <- index
     grob <- GeomScribblePolygon$draw_panel(new, panel_params,
         coord, lineend = lineend, linejoin = linejoin)

@@ -16,7 +16,7 @@ scribbleGrob(
   density = 100,
   randomness = 1,
   scribble_lwd = 1,
-  scribble_col = "black",
+  scribblecolour = "black",
   default.units = "npc"
 )
 }
@@ -71,9 +71,9 @@ single value can be given instead to apply to all shapes.}
 shapes which controls the line width of the scribble lines within each
 shape. A single value can be given instead to apply to all shapes.}
 
-\item{scribble_col}{A character vector with the same length as the number of
-shapes which controls the colors of the scribble lines inside each shape.
-A single value can be given instead to apply to all shapes.}
+\item{scribblecolour}{A character vector with the same length as the number
+of shapes which controls the colors of the scribble lines inside each
+shape. A single value can be given instead to apply to all shapes.}
 
 \item{default.units}{An atomic character string which determines the units
 into which the x and y co-ordinates will be converted if given as a
@@ -91,7 +91,7 @@ grid::grid.newpage()
 scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
              y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
              id = c(1, 1, 1, 1, 2, 2, 2),
-             scribble_col = c("red", "green"),
+             scribblecolour = c("red", "green"),
              density = 200) |>
   grid::grid.draw()
 }

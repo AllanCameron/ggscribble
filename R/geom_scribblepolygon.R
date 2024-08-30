@@ -78,7 +78,7 @@ GeomScribblePolygon <- ggplot2::ggproto("GeomScribblePolygon",
 
     default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                       linetype = 1, alpha = NA, subgroup = NULL,
-                      scribble_col = "black", scribble_lwd = 1,
+                      scribblecolour = "black", scribble_lwd = 1,
                       wonkiness = 1, wibbliness = 1, randomness = 1,
                       neatness = 1, density = 200, angle = 45),
 
@@ -105,7 +105,7 @@ GeomScribblePolygon <- ggplot2::ggproto("GeomScribblePolygon",
 
       scribbleGrob(x = munched$x, y = munched$y,
           default.units = "npc", id = munched$group,
-          scribble_col = first_rows$scribble_col,
+          scribblecolour = first_rows$scribblecolour,
           scribble_lwd = first_rows$scribble_lwd,
           density = first_rows$density,
           wonkiness = first_rows$wonkiness,
