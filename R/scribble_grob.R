@@ -24,7 +24,7 @@
 #'   A value of 0 is perfectly straight, and the default value of 1 aims to
 #'   emulate a freehand line. A single value can be given instead to apply to
 #'   all shapes.
-#' @param neatness A numeric vector with the same length as the number of
+#' @param sloppiness A numeric vector with the same length as the number of
 #'   shapes which controls how closely the shape of the scribble fill
 #'   approximates the outline it fills. A single value can be given instead to
 #'   apply to all shapes.
@@ -60,7 +60,7 @@
 #'   grid::grid.draw()
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
-                         wibbliness = 1, neatness = 1, density = 100,
+                         wibbliness = 1, sloppiness = 1, density = 100,
                          randomness = 1, scribblewidth = 1,
                          scribblecolour = "black", default.units = "npc") {
 
@@ -69,8 +69,9 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
   n_groups <- length(unique(id))
 
   pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
-               neatness = neatness, density = density, randomness = randomness,
-               scribblewidth = scribble_lwd, scribblecolour = scribblecolour)
+               sloppiness = sloppiness, density = density,
+               randomness = randomness,
+               scribblewidth = scribblewidth, scribblecolour = scribblecolour)
 
   pars <- setNames(Map(function(x, nm) {
     if(length(x) == 1) x <- rep(x, n_groups)
@@ -82,11 +83,11 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
     grid::pathGrob(x, y, gp = gp[i], default.units = default.units) |>
       wonkify(wonkiness = pars$wonkiness) |>
       wibblify(wibbliness = pars$wibbliness) |>
-      scribble_fill(angle = angle, density = density, neatness = neat,
+      scribble_fill(angle = angle, density = density, sloppiness = neat,
                     randomness = randomness, col = col, lwd = lwd)
 
   }, split(x, id), split(y, id), pars$angle, pars$density, pars$wonkiness,
-  pars$wibbliness, pars$neatness, seq_along(pars$angle), pars$scribblecolour,
+  pars$wibbliness, pars$sloppiness, seq_along(pars$angle), pars$scribblecolour,
   pars$scribblewidth)
 
   grid::setChildren(grid::gTree(cl = "scribbles"), do.call(grid::gList, grobs))

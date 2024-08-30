@@ -12,7 +12,7 @@ scribbleGrob(
   angle = 45,
   wonkiness = 1,
   wibbliness = 1,
-  neatness = 1,
+  sloppiness = 1,
   density = 100,
   randomness = 1,
   scribblewidth = 1,
@@ -52,7 +52,7 @@ A value of 0 is perfectly straight, and the default value of 1 aims to
 emulate a freehand line. A single value can be given instead to apply to
 all shapes.}
 
-\item{neatness}{A numeric vector with the same length as the number of
+\item{sloppiness}{A numeric vector with the same length as the number of
 shapes which controls how closely the shape of the scribble fill
 approximates the outline it fills. A single value can be given instead to
 apply to all shapes.}

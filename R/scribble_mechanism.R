@@ -31,8 +31,9 @@ wonkify <- function(poly, wonkiness = 1) {
 }
 
 scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
-                          col = "black", lwd = 1, wonkiness = 1, neatness = 1) {
-  shape_mask <- wonkify(shape, neatness / 2)
+                          col = "black", lwd = 1, wonkiness = 1,
+                          sloppiness = 1) {
+  shape_mask <- wonkify(shape, sloppiness / 2)
   shape_mask$gp <- grid::gpar(fill = "black")
   scrib <- make_scribbles(angle, density, randomness,
                           gp = grid::gpar(lwd = lwd, col = col),
