@@ -2,12 +2,27 @@
 % Please edit documentation in R/geom_scribblebar.R
 \name{geom_scribblebar}
 \alias{geom_scribblebar}
+\alias{geom_scribblecol}
 \title{Create a ggplot layer containing scribble-filled bars}
 \usage{
 geom_scribblebar(
   mapping = NULL,
   data = NULL,
   stat = "count",
+  position = "stack",
+  ...,
+  just = 0.5,
+  width = NULL,
+  na.rm = FALSE,
+  orientation = NA,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+
+geom_scribblecol(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
   position = "stack",
   ...,
   just = 0.5,
@@ -84,12 +99,8 @@ the default plot specification, e.g. `borders()`.}
 Create a ggplot layer containing scribble-filled bars
 }
 \examples{
-ggplot2::ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
-                                  ymin = c(5, 10), ymax = c(10, 20),
-                                  g = 1:2),
-                mapping = ggplot2::aes(xmin = xmin, xmax = xmax,
-                                       ymin = ymin, ymax = ymax,
-                                       group = g)) +
- geom_scribblerect()
+ggplot(iris[c(1, 51, 101), ],
+      aes(Species, Sepal.Length, scribblecolour = Species)) +
+  geom_scribblecol()
 
 }

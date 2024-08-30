@@ -55,13 +55,9 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
-#'                                   ymin = c(5, 10), ymax = c(10, 20),
-#'                                   g = 1:2),
-#'                 mapping = ggplot2::aes(xmin = xmin, xmax = xmax,
-#'                                        ymin = ymin, ymax = ymax,
-#'                                        group = g)) +
-#'  geom_scribblerect()
+#' ggplot(iris[c(1, 51, 101), ],
+#'       aes(Species, Sepal.Length, scribblecolour = Species)) +
+#'   geom_scribblecol()
 #'
 geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
                               position = "stack", ..., just = 0.5, width = NULL,
@@ -74,6 +70,21 @@ geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
         params = rlang::list2(just = just, width = width, na.rm = na.rm,
                               orientation = orientation, ...))
 }
+
+#' @rdname geom_scribblebar
+#' @export
+geom_scribblecol <- function (mapping = NULL, data = NULL, stat = "identity",
+                              position = "stack", ..., just = 0.5, width = NULL,
+                              na.rm = FALSE, orientation = NA, show.legend = NA,
+                              inherit.aes = TRUE) {
+
+  layer(data = data, mapping = mapping, stat = stat, geom = GeomScribbleCol,
+        position = position, show.legend = show.legend,
+        inherit.aes = inherit.aes,
+        params = rlang::list2(just = just, width = width, na.rm = na.rm,
+                              orientation = orientation, ...))
+}
+
 
 
 #' The ggproto object that powers scribble-filled bar plots.
@@ -95,8 +106,34 @@ GeomScribbleBar <- ggplot2::ggproto("GeomScribbleBar", ggplot2::GeomBar,
                          linejoin = "mitre", width = NULL,
                          flipped_aes = FALSE) {
 
-  ggproto_parent(GeomScribbleRect, self)$draw_panel(data, panel_params,
+  ggplot2::ggproto_parent(GeomScribbleRect, self)$draw_panel(data, panel_params,
       coord, lineend = lineend, linejoin = linejoin)
+
+  }
+)
+
+#' The ggproto object that powers scribble-filled bar plots.
+#'
+#' See \link[ggplot2]{ggplot2-ggproto}
+#'
+#' @format NULL
+#' @usage NULL
+#' @export
+GeomScribbleCol <- ggplot2::ggproto("GeomScribbleCol",
+                                    GeomScribbleBar,
+
+  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+                linetype = 1, alpha = NA, subgroup = NULL,
+                scribblecolour = "black", scribble_lwd = 1,
+                wonkiness = 1, wibbliness = 1, randomness = 1,
+                neatness = 1, density = 200, angle = 45),
+
+  draw_panel = function (self, data, panel_params, coord, lineend = "butt",
+                         linejoin = "mitre", width = NULL,
+                         flipped_aes = FALSE) {
+
+    ggplot2::ggproto_parent(GeomScribbleBar, self)$draw_panel(data,
+                    panel_params, coord, lineend = lineend, linejoin = linejoin)
 
   }
 )
