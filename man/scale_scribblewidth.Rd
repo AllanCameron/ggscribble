@@ -43,20 +43,16 @@ scale_scribblewidth_discrete(...)
 \arguments{
 \item{breaks}{One of:
 - `NULL` for no breaks
-- `waiver()` for the default breaks computed by the
-  [transformation object][scales::trans_new()]
+- `waiver()` for the default breaks
 - A numeric vector of positions
 - A function that takes the limits as input and returns breaks
   as output (e.g., a function returned by [scales::extended_breaks()]).
   Also accepts rlang [lambda][rlang::as_function()] function notation.}
 
-\item{range}{Output range of linewidth}
-
-\item{guide}{A function used to create a guide or its name. See
-[guides()] for more information.}
+\item{range}{Output range of linewidth, defaults to `c(1, 6)`}
 
 \item{...}{Other arguments passed on to `continuous_scale()`, `binned_scale`,
-or `discrete_scale() as appropriate, to control name, limits,
+or `discrete_scale()` as appropriate, to control name, limits,
 breaks, labels and so forth.}
 
 \item{values}{a set of aesthetic values to map data values to. The values

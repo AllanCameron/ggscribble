@@ -7,11 +7,9 @@
 #' in ggplot.
 #'
 #' @param ... Other arguments passed on to `continuous_scale()`, `binned_scale`,
-#'   or `discrete_scale() as appropriate, to control name, limits,
+#'   or `discrete_scale()` as appropriate, to control name, limits,
 #'   breaks, labels and so forth.
-#' @param range Output range of linewidth
-#' @param guide A function used to create a guide or its name. See
-#'   [guides()] for more information.
+#' @param range Output range of linewidth, defaults to `c(1, 6)`
 #' @param na.value Missing values will be replaced with this value.
 #' @param values a set of aesthetic values to map data values to. The values
 #'   will be matched in order (usually alphabetical) with the limits of the
@@ -20,8 +18,7 @@
 #'   don't match will be given na.value.
 #' @param breaks One of:
 #'   - `NULL` for no breaks
-#'   - `waiver()` for the default breaks computed by the
-#'     [transformation object][scales::trans_new()]
+#'   - `waiver()` for the default breaks
 #'   - A numeric vector of positions
 #'   - A function that takes the limits as input and returns breaks
 #'     as output (e.g., a function returned by [scales::extended_breaks()]).
