@@ -1,5 +1,7 @@
 make_scribbles <- function(angle = 45, density = 100, randomness = 1,
                            gp = grid::gpar(), vp = NULL) {
+
+  density <- as.integer(density)
   x  <- seq(-1, 2, length = density * 2)
   y0 <- rep(-1, length = density * 2)
   y1 <- rep( 2, length = density * 2)
