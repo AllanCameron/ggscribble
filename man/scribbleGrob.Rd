@@ -11,6 +11,7 @@ scribbleGrob(
   gp = grid::gpar(),
   angle = 45,
   wonkiness = 1,
+  pathId = NULL,
   wibbliness = 1,
   sloppiness = 1,
   density = 100,

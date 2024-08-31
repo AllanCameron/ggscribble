@@ -88,15 +88,31 @@ wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
 }
 
 #' @export
-wibblify.lines <- function(line, wibbliness = 1, res = 100) {
-  x <- grid::convertX(line$x, "npc", TRUE)
-  y <- grid::convertY(line$y, "npc", TRUE)
-  x <- approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
-  y <- approx(seq_along(y), y, xout = seq(1, length(y), len = res))$y
-  x <- x + rnorm(length(x), 0, 0.0005 * wibbliness)
-  y <- y + rnorm(length(y), 0, 0.0005 * wibbliness)
-  line$x <- grid::unit(x, "npc")
-  line$y <- grid::unit(y, "npc")
+wibblify.polyline <- function(line, wibbliness = 1, res = 100) {
+  x <- grid::convertX(line$x, "native", TRUE)
+  y <- grid::convertY(line$y, "native", TRUE)
+
+  if(is.null(line$id)) line$id <- rep(1, length(x))
+  n_lines <- length(unique(line$id))
+  if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, n_lines)
+
+  if(res < length(line$x)) res <- 2 * length(line$x)
+
+  x <- do.call("c", Map(function(x, w) {
+    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y +
+      rnorm(res, 0, 0.0005 * w)
+  }, split(x, line$id), wibbliness))
+
+  y <- do.call("c", Map(function(x, w) {
+    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y +
+      rnorm(res, 0, 0.0005 * w)
+  }, split(y, line$id), wibbliness))
+
+  line$id <- do.call("c", lapply(split(line$id, line$id),
+                                     function(x) rep(x[1], res)))
+
+  line$x <- grid::unit(x, "native")
+  line$y <- grid::unit(y, "native")
   line
 }
 
