@@ -27,7 +27,7 @@ geom_scribbleline <- function (mapping = NULL, data = NULL, stat = "identity",
                                        orientation = orientation, ...))
 }
 
-#' The ggproto object that powers scribble-filled shapes.
+#' The ggproto object that powers scribbled lines
 #'
 #' See \link[ggplot2]{ggplot2-ggproto}
 #'
@@ -38,7 +38,7 @@ GeomScribbleline <- ggplot2::ggproto("Scribbleline", ggplot2::GeomLine,
 
   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
-                             wonkiness = 1, wibbliness = 1),
+                             wonkiness = 0, wibbliness = 1),
 
   draw_panel = function (self, data, panel_params, coord, arrow = NULL,
                          lineend = "butt", linejoin = "round",
@@ -47,9 +47,7 @@ GeomScribbleline <- ggplot2::ggproto("Scribbleline", ggplot2::GeomLine,
     grobs <- ggplot2::GeomLine$draw_panel(data, panel_params, coord, arrow,
                                           lineend, linejoin, linemitre)
 
-    data <- data[order(data$group), ]
-    first_idx <- !duplicated(data$group)
-    first_rows <- data[first_idx, ]
+    first_rows <- get_first_rows(data)
 
     wibblify(grobs, first_rows$wibbliness, res = res)
   })

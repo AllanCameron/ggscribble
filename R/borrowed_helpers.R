@@ -7,6 +7,19 @@
 
 unique0 <- function (x, ...) if (is.null(x)) x else vctrs::vec_unique(x, ...)
 
+empty <- function (df) {
+  is.null(df) || nrow(df) == 0 || ncol(df) == 0 || inherits(df, "waiver")
+}
+
+get_first_rows <- function(data) {
+
+  if(is.null(data$group)) return(data)
+
+  data <- data[order(data$group), ]
+  first_idx <- !duplicated(data$group)
+  return(data[first_idx, ])
+}
+
 manual_scale <- function (aesthetic, values = NULL, breaks = ggplot2::waiver(),
                           name = waiver(), ..., limits = NULL,
                           call = rlang::caller_call()) {

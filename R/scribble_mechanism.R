@@ -88,6 +88,30 @@ wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
 }
 
 #' @export
+wibblify.segments <- function(line, wibbliness = 1, res = 100) {
+
+  x0 <- grid::convertX(line$x0, "native", TRUE)
+  y0 <- grid::convertY(line$y0, "native", TRUE)
+  x1 <- grid::convertX(line$x1, "native", TRUE)
+  y1 <- grid::convertY(line$y1, "native", TRUE)
+
+  if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, length(x0))
+
+  xvals <- do.call("c", Map(function(x0, x1, w) {
+    seq(x0, x1, length.out = res) + rnorm(res, 0, 0.0005 * w)
+  }, x0, x1, wibbliness))
+
+  yvals <- do.call("c", Map(function(y0, y1, w) {
+    seq(y0, y1, length.out = res) + rnorm(res, 0, 0.0005 * w)
+  }, y0, y1, wibbliness))
+
+  ids <- rep(seq_along(x0), each = res)
+
+  grid::polylineGrob(xvals, yvals, id = ids, gp = line$gp,
+                     default.units = "native")
+}
+
+#' @export
 wibblify.polyline <- function(line, wibbliness = 1, res = 100) {
   x <- grid::convertX(line$x, "native", TRUE)
   y <- grid::convertY(line$y, "native", TRUE)
@@ -109,10 +133,9 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100) {
   }, split(y, line$id), wibbliness))
 
   line$id <- do.call("c", lapply(split(line$id, line$id),
-                                     function(x) rep(x[1], res)))
+                                 function(x) rep(x[1], res)))
 
   line$x <- grid::unit(x, "native")
   line$y <- grid::unit(y, "native")
   line
 }
-

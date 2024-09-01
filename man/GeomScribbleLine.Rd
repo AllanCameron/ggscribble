@@ -3,7 +3,7 @@
 \docType{data}
 \name{GeomScribbleline}
 \alias{GeomScribbleline}
-\title{The ggproto object that powers scribble-filled shapes.}
+\title{The ggproto object that powers scribbled lines}
 \description{
 See \link[ggplot2]{ggplot2-ggproto}
 }
