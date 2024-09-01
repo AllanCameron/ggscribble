@@ -11,7 +11,7 @@ wonkify <- function(x, ...) {
   UseMethod("wonkify")
 }
 
-wonkify.default <- function(poly, wonkiness = 1) {
+wonkify.polygon <- function(poly, wonkiness = 1) {
   wonkiness <- wonkiness[1]
   x <- grid::convertX(poly$x, "npc", TRUE)
   y <- grid::convertY(poly$y, "npc", TRUE)
@@ -28,6 +28,10 @@ wonkify.default <- function(poly, wonkiness = 1) {
   poly$x <- grid::unit(x, "npc")
   poly$y <- grid::unit(y, "npc")
   poly
+}
+
+wonkify.pathgrob <- function(path, wonkiness = 1) {
+  wonkify.polygon(path, wonkiness)
 }
 
 wonkify.polyline <- function(line, wonkiness = 1) {
@@ -53,6 +57,30 @@ wonkify.polyline <- function(line, wonkiness = 1) {
 
   line$x <- grid::unit(x, "native")
   line$y <- grid::unit(y, "native")
+  line
+}
+
+wonkify.segments <- function(line, wonkiness = 1) {
+
+  x0 <- grid::convertX(line$x0, "native", TRUE)
+  y0 <- grid::convertY(line$y0, "native", TRUE)
+  x1 <- grid::convertX(line$x1, "native", TRUE)
+  y1 <- grid::convertY(line$y1, "native", TRUE)
+
+  if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, length(x0))
+
+  size <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
+
+  x0 <- x0 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
+  x1 <- x1 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
+  y0 <- y0 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
+  y1 <- y1 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
+
+  line$x0 <- grid::unit(x0, "native")
+  line$y0 <- grid::unit(y0, "native")
+  line$x1 <- grid::unit(x1, "native")
+  line$y1 <- grid::unit(y1, "native")
+
   line
 }
 
