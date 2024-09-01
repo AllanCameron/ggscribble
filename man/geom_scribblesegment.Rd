@@ -10,7 +10,6 @@ geom_scribblesegment(
   stat = "identity",
   position = "identity",
   na.rm = FALSE,
-  orientation = NA,
   res = 200,
   show.legend = NA,
   inherit.aes = TRUE,

@@ -11,6 +11,7 @@ wonkify <- function(x, ...) {
   UseMethod("wonkify")
 }
 
+#' @export
 wonkify.polygon <- function(poly, wonkiness = 1) {
   wonkiness <- wonkiness[1]
   x <- grid::convertX(poly$x, "npc", TRUE)
@@ -30,10 +31,12 @@ wonkify.polygon <- function(poly, wonkiness = 1) {
   poly
 }
 
+#' @export
 wonkify.pathgrob <- function(path, wonkiness = 1) {
   wonkify.polygon(path, wonkiness)
 }
 
+#' @export
 wonkify.polyline <- function(line, wonkiness = 1) {
 
   x <- grid::convertX(line$x, "native", TRUE)
@@ -60,6 +63,7 @@ wonkify.polyline <- function(line, wonkiness = 1) {
   line
 }
 
+#' @export
 wonkify.segments <- function(line, wonkiness = 1) {
 
   x0 <- grid::convertX(line$x0, "native", TRUE)

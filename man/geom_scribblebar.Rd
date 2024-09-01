@@ -127,8 +127,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot(iris[c(1, 51, 101), ],
-      aes(Species, Sepal.Length, scribblecolour = Species)) +
-  geom_scribblecol()
+ggplot(iris[c(1, 51, 101), ], aes(Species, Sepal.Length, colour = Species)) +
+  geom_scribblecol(aes(scribblecolour = Species), scribblewidth = 2) +
+  theme_classic(20)
 
 }

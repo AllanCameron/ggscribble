@@ -6,9 +6,9 @@
 #' @export
 #'
 #' @examples
-#' ggplot(iris[c(1, 51, 101), ],
-#'       aes(Species, Sepal.Length, scribblecolour = Species)) +
-#'   geom_scribblecol()
+#' ggplot(iris[c(1, 51, 101), ], aes(Species, Sepal.Length, colour = Species)) +
+#'   geom_scribblecol(aes(scribblecolour = Species), scribblewidth = 2) +
+#'   theme_classic(20)
 #'
 geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
                               position = "stack", ..., just = 0.5, width = NULL,
@@ -29,7 +29,7 @@ geom_scribblecol <- function (mapping = NULL, data = NULL, stat = "identity",
                               na.rm = FALSE, orientation = NA, show.legend = NA,
                               inherit.aes = TRUE) {
 
-  layer(data = data, mapping = mapping, stat = stat, geom = GeomScribbleCol,
+  layer(data = data, mapping = mapping, stat = stat, geom = GeomScribblecol,
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
         params = rlang::list2(just = just, width = width, na.rm = na.rm,
