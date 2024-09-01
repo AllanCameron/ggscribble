@@ -11,6 +11,11 @@ empty <- function (df) {
   is.null(df) || nrow(df) == 0 || ncol(df) == 0 || inherits(df, "waiver")
 }
 
+ggname <- function (prefix, grob) {
+  grob$name <- grid::grobName(grob, prefix)
+  grob
+}
+
 get_first_rows <- function(data) {
 
   if(is.null(data$group)) return(data)
