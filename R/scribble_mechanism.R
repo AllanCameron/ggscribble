@@ -30,6 +30,32 @@ wonkify.default <- function(poly, wonkiness = 1) {
   poly
 }
 
+wonkify.polyline <- function(line, wonkiness = 1) {
+
+  x <- grid::convertX(line$x, "native", TRUE)
+  y <- grid::convertY(line$y, "native", TRUE)
+
+  if(is.null(line$id)) line$id <- rep(1, length(x))
+
+  n_lines <- length(unique(line$id))
+
+  if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, n_lines)
+
+  size <- max(diff(range(x)), diff(range(y)))
+
+  x <- do.call("c", Map(function(x, w) {
+    x + rnorm(length(x), 0, 0.01 * size * w)
+  }, split(x,line$id), wonkiness))
+
+  y <- do.call("c", Map(function(x, w) {
+    x + rnorm(length(x), 0, 0.01 * size * w)
+  }, split(y,line$id), wonkiness))
+
+  line$x <- grid::unit(x, "native")
+  line$y <- grid::unit(y, "native")
+  line
+}
+
 # Wibblify mechanism -----------------------------------------------------------
 
 # Wibbliness attempts to emulate how shaky the hand drawing the line was. The
