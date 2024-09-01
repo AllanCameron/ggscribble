@@ -49,5 +49,7 @@ GeomScribbleline <- ggplot2::ggproto("Scribbleline", ggplot2::GeomLine,
 
     first_rows <- get_first_rows(data)
 
-    wibblify(grobs, first_rows$wibbliness, res = res)
+    grobs |>
+      wonkify(first_rows$wonkiness) |>
+      wibblify(first_rows$wibbliness, res = res)
   })
