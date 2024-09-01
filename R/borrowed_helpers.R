@@ -16,6 +16,8 @@ ggname <- function (prefix, grob) {
   grob
 }
 
+data_frame0 <- function (...) vctrs::data_frame(..., .name_repair = "minimal")
+
 get_first_rows <- function(data) {
 
   if(is.null(data$group)) return(data)
