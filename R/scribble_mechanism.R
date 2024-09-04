@@ -12,10 +12,10 @@ wonkify <- function(x, ...) {
 }
 
 #' @export
-wonkify.polygon <- function(poly, wonkiness = 1) {
+wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
   wonkiness <- wonkiness[1]
-  x <- grid::convertX(poly$x, "npc", TRUE)
-  y <- grid::convertY(poly$y, "npc", TRUE)
+  x <- grid::convertX(poly$x, default.units, TRUE)
+  y <- grid::convertY(poly$y, default.units, TRUE)
   size <- max(diff(range(x)), diff(range(y)))
   x <- x + rnorm(length(x), 0, 0.01 * size * wonkiness)
   y <- y + rnorm(length(y), 0, 0.01 * size * wonkiness)
@@ -26,21 +26,21 @@ wonkify.polygon <- function(poly, wonkiness = 1) {
                                   function(x) c(head(x, -1), x[1]))
   split(y, poly$pathId) <- lapply(split(y, poly$pathId),
                                   function(x) c(head(x, -1), x[1]))
-  poly$x <- grid::unit(x, "npc")
-  poly$y <- grid::unit(y, "npc")
+  poly$x <- grid::unit(x, default.units)
+  poly$y <- grid::unit(y, default.units)
   poly
 }
 
 #' @export
-wonkify.pathgrob <- function(path, wonkiness = 1) {
-  wonkify.polygon(path, wonkiness)
+wonkify.pathgrob <- function(path, wonkiness = 1, default.units = "npc") {
+  wonkify.polygon(path, wonkiness, default.units)
 }
 
 #' @export
-wonkify.polyline <- function(line, wonkiness = 1) {
+wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
 
-  x <- grid::convertX(line$x, "native", TRUE)
-  y <- grid::convertY(line$y, "native", TRUE)
+  x <- grid::convertX(line$x, default.units, TRUE)
+  y <- grid::convertY(line$y, default.units, TRUE)
 
   if(is.null(line$id)) line$id <- rep(1, length(x))
 
@@ -58,18 +58,18 @@ wonkify.polyline <- function(line, wonkiness = 1) {
     x + rnorm(length(x), 0, 0.01 * size * w)
   }, split(y,line$id), wonkiness))
 
-  line$x <- grid::unit(x, "native")
-  line$y <- grid::unit(y, "native")
+  line$x <- grid::unit(x, default.units)
+  line$y <- grid::unit(y, default.units)
   line
 }
 
 #' @export
-wonkify.segments <- function(line, wonkiness = 1) {
+wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
 
-  x0 <- grid::convertX(line$x0, "native", TRUE)
-  y0 <- grid::convertY(line$y0, "native", TRUE)
-  x1 <- grid::convertX(line$x1, "native", TRUE)
-  y1 <- grid::convertY(line$y1, "native", TRUE)
+  x0 <- grid::convertX(line$x0, default.units, TRUE)
+  y0 <- grid::convertY(line$y0, default.units, TRUE)
+  x1 <- grid::convertX(line$x1, default.units, TRUE)
+  y1 <- grid::convertY(line$y1, default.units, TRUE)
 
   if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, length(x0))
 
@@ -80,10 +80,10 @@ wonkify.segments <- function(line, wonkiness = 1) {
   y0 <- y0 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
   y1 <- y1 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
 
-  line$x0 <- grid::unit(x0, "native")
-  line$y0 <- grid::unit(y0, "native")
-  line$x1 <- grid::unit(x1, "native")
-  line$y1 <- grid::unit(y1, "native")
+  line$x0 <- grid::unit(x0, default.units)
+  line$y0 <- grid::unit(y0, default.units)
+  line$x1 <- grid::unit(x1, default.units)
+  line$y1 <- grid::unit(y1, default.units)
 
   line
 }
@@ -100,9 +100,15 @@ wibblify <- function(shape, ...) {
 }
 
 #' @export
-wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
-  x <- grid::convertX(poly$x, "npc", TRUE)
-  y <- grid::convertY(poly$y, "npc", TRUE)
+wibblify.zeroGrob <- function(x, ...) {
+  return(ggplot2::zeroGrob())
+}
+
+#' @export
+wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
+                             default.units = "npc") {
+  x <- grid::convertX(poly$x, default.units, TRUE)
+  y <- grid::convertY(poly$y, default.units, TRUE)
 
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
@@ -124,44 +130,46 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100) {
                                   function(x) c(head(x, -1), x[1]))
   split(y, poly$pathId) <- lapply(split(y, poly$pathId),
                                   function(x) c(head(x, -1), x[1]))
-  poly$x <- grid::unit(x, "npc")
-  poly$y <- grid::unit(y, "npc")
+  poly$x <- grid::unit(x, default.units)
+  poly$y <- grid::unit(y, default.units)
   poly
 }
 
 #' @export
-wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100) {
-  wibblify.polygon(poly, wibbliness, res)
+wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100,
+                              default.units = "npc") {
+  wibblify.polygon(poly, wibbliness, res, default.units = default.units)
 }
 
 #' @export
-wibblify.segments <- function(line, wibbliness = 1, res = 100) {
+wibblify.segments <- function(line, wibbliness = 1, res = 100,
+                              default.units = "native") {
 
-  x0 <- grid::convertX(line$x0, "native", TRUE)
-  y0 <- grid::convertY(line$y0, "native", TRUE)
-  x1 <- grid::convertX(line$x1, "native", TRUE)
-  y1 <- grid::convertY(line$y1, "native", TRUE)
+  x0 <- grid::convertX(line$x0, default.units, TRUE)
+  y0 <- grid::convertY(line$y0, default.units, TRUE)
+  x1 <- grid::convertX(line$x1, default.units, TRUE)
+  y1 <- grid::convertY(line$y1, default.units, TRUE)
 
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, length(x0))
 
-  xvals <- do.call("c", Map(function(x0, x1, w) {
-    seq(x0, x1, length.out = res) + rnorm(res, 0, 0.0005 * w)
-  }, x0, x1, wibbliness))
+  wibbled <- Map(do_wibble, x0 = x0, x1 = x1, y0 = y0, y1 = y1,
+                 n = rep(res, length(x0)), wibbliness = wibbliness)
 
-  yvals <- do.call("c", Map(function(y0, y1, w) {
-    seq(y0, y1, length.out = res) + rnorm(res, 0, 0.0005 * w)
-  }, y0, y1, wibbliness))
+  xvals <- do.call("c", lapply(wibbled, function(x) x$x))
+  yvals <- do.call("c", lapply(wibbled, function(x) x$y))
 
   ids <- rep(seq_along(x0), each = res)
 
   grid::polylineGrob(xvals, yvals, id = ids, gp = line$gp,
-                     default.units = "native")
+                     default.units = default.units)
 }
 
 #' @export
-wibblify.polyline <- function(line, wibbliness = 1, res = 100) {
-  x <- grid::convertX(line$x, "native", TRUE)
-  y <- grid::convertY(line$y, "native", TRUE)
+wibblify.polyline <- function(line, wibbliness = 1, res = 100,
+                              default.units = "native") {
+
+  x <- grid::convertX(line$x, default.units, TRUE)
+  y <- grid::convertY(line$y, default.units, TRUE)
 
   if(is.null(line$id)) line$id <- rep(1, length(x))
   n_lines <- length(unique(line$id))
@@ -182,8 +190,8 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100) {
   line$id <- do.call("c", lapply(split(line$id, line$id),
                                  function(x) rep(x[1], res)))
 
-  line$x <- grid::unit(x, "native")
-  line$y <- grid::unit(y, "native")
+  line$x <- grid::unit(x, default.units)
+  line$y <- grid::unit(y, default.units)
   line
 }
 
@@ -226,4 +234,26 @@ scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
                           gp = grid::gpar(lwd = lwd, col = col),
                           vp = grid::viewport(mask = shape_mask))
   grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(shape, scrib))
+}
+
+do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
+
+  n <- n - 1
+  if(n < 2) n <- 2
+  mult <- 0.0075 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
+  bend <- mult * rnorm(1) * sin(seq(0, runif(1, pi/2, 2 * pi), length = n + 1))
+  len <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
+  theta <- atan2(y1 - y0, x1 - x0)
+  randomness <- rnorm(n + 1, 0, wibbliness * 0.001)
+  new_y <- numeric(n + 1)
+
+  for(i in head((seq(n)[-1]), -1)) {
+    mult <- if(i/n > 0.75) 0.9 - (0.9 * (4 * (i/n - 0.75))) else 0.9
+    new_y[i] <-  mult * new_y[i - 1] + randomness[i]
+  }
+
+  new_y <- new_y + bend
+  new_x <- c(0, cumsum(rep(len/n, n)))
+  list(x = cos(theta) * new_x + cos(theta - pi/2) * new_y + x0,
+       y = sin(theta) * new_x + sin(theta - pi/2) * new_y + y0)
 }

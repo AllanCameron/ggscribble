@@ -34,7 +34,7 @@
 #' @inheritParams ggplot2::geom_point
 #' @name Scribbled-reference-lines
 #' @param mapping Set of aesthetic mappings created by
-#' \link[ggplot2]{aes}[aes()].
+#' \link[ggplot2]{aes}.
 #' @param xintercept,yintercept,slope,intercept Parameters that control the
 #'   position of the line. If these are set, `data`, `mapping` and
 #'   `show.legend` are overridden.

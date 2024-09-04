@@ -1,4 +1,12 @@
 
+
+absoluteGrob <- function (grob, width = NULL, height = NULL,
+                          xmin = NULL, ymin = NULL, vp = NULL) {
+
+  grid::gTree(children = grob, width = width, height = height, xmin = xmin,
+        ymin = ymin, vp = vp, cl = "absoluteGrob")
+}
+
 `%||%` <- function (x, y) {
   if (rlang::is_null(x))
     y
@@ -16,8 +24,17 @@ ggname <- function (prefix, grob) {
   grob
 }
 
+modify_list <- function (old, new) {
+  for (i in names(new)) old[[i]] <- new[[i]]
+  old
+}
+
 data_frame0 <- function (...) vctrs::data_frame(..., .name_repair = "minimal")
 
+len0_null <- function (x) if (length(x) == 0) NULL else x
+
+
+# Not actually a borrowed function, surprised ggplot doesn't have this already
 get_first_rows <- function(data) {
 
   if(is.null(data$group)) return(data)

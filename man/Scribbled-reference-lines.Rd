@@ -41,7 +41,7 @@ geom_scribblevline(
 }
 \arguments{
 \item{mapping}{Set of aesthetic mappings created by
-\link[ggplot2]{aes}[aes()].}
+\link[ggplot2]{aes}.}
 
 \item{data}{The data to be displayed in this layer. There are three
 options:
