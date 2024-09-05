@@ -22,10 +22,6 @@ wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
   }
-  #split(x, poly$pathId) <- lapply(split(x, poly$pathId),
-  #                                function(x) c(head(x, -1), x[1]))
-  #split(y, poly$pathId) <- lapply(split(y, poly$pathId),
-  #                                function(x) c(head(x, -1), x[1]))
   poly$x <- grid::unit(x, default.units)
   poly$y <- grid::unit(y, default.units)
   poly
@@ -94,6 +90,28 @@ wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
 # details of applying this changes according to the different grob types and
 # therefore it uses S3 method dispatch. It is unexported at present, but this
 # could change if a need arose
+
+do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
+
+  n <- n - 1
+  if(n < 2) n <- 2
+  mult <- 0.0005 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
+  bend <- mult * rnorm(1) * sin(seq(0, runif(1, pi/2, 2 * pi), length = n + 1))
+  len <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
+  theta <- atan2(y1 - y0, x1 - x0)
+  randomness <- rnorm(n + 1, 0, wibbliness * 0.001)
+  new_y <- numeric(n + 1)
+
+  for(i in head((seq(n)[-1]), -1)) {
+    mult <- if(i/n > 0.75) 0.9 - (0.9 * (4 * (i/n - 0.75))) else 0.9
+    new_y[i] <-  mult * new_y[i - 1] + randomness[i]
+  }
+
+  new_y <- new_y + bend
+  new_x <- c(0, cumsum(rep(len/n, n)))
+  list(x = cos(theta) * new_x + cos(theta - pi/2) * new_y + x0,
+       y = sin(theta) * new_x + sin(theta - pi/2) * new_y + y0)
+}
 
 wibblify <- function(shape, ...) {
   UseMethod("wibblify")
@@ -176,21 +194,23 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100,
 
   if(res < length(line$x)) res <- 2 * length(line$x)
 
-  x <- do.call("c", Map(function(x, w) {
-    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y +
-      rnorm(res, 0, 0.0005 * w)
-  }, split(x, line$id), wibbliness))
+  li <- Map(function(x, y, id, w) {
+    li <- Map(do_wibble, x0 = head(x, -1), x1 = tail(x, -1), y0 = head(y, -1),
+              y1 = tail(y, -1), n = rep(res, length(x) - 1),
+              wibbliness = rep(w, length(x) - 1))
+    li <- list(x = do.call("c", lapply(li, function(x) x$x)),
+               y = do.call("c", lapply(li, function(x) x$y)))
+    li$id <- rep(id[1], length(li$x))
+    li
+  }, split(x, line$id), split(y, line$id), split(line$id, line$id), wibbliness)
 
-  y <- do.call("c", Map(function(x, w) {
-    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y +
-      rnorm(res, 0, 0.0005 * w)
-  }, split(y, line$id), wibbliness))
-
-  line$id <- do.call("c", lapply(split(line$id, line$id),
-                                 function(x) rep(x[1], res)))
+  x  <- do.call("c", lapply(li, function(x) x$x))
+  y  <- do.call("c", lapply(li, function(x) x$y))
+  id <- do.call("c", lapply(li, function(x) x$id))
 
   line$x <- grid::unit(x, default.units)
   line$y <- grid::unit(y, default.units)
+  line$id <- id
   line
 }
 
@@ -235,24 +255,4 @@ scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
   grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(shape, scrib))
 }
 
-do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
 
-  n <- n - 1
-  if(n < 2) n <- 2
-  mult <- 0.0005 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
-  bend <- mult * rnorm(1) * sin(seq(0, runif(1, pi/2, 2 * pi), length = n + 1))
-  len <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
-  theta <- atan2(y1 - y0, x1 - x0)
-  randomness <- rnorm(n + 1, 0, wibbliness * 0.001)
-  new_y <- numeric(n + 1)
-
-  for(i in head((seq(n)[-1]), -1)) {
-    mult <- if(i/n > 0.75) 0.9 - (0.9 * (4 * (i/n - 0.75))) else 0.9
-    new_y[i] <-  mult * new_y[i - 1] + randomness[i]
-  }
-
-  new_y <- new_y + bend
-  new_x <- c(0, cumsum(rep(len/n, n)))
-  list(x = cos(theta) * new_x + cos(theta - pi/2) * new_y + x0,
-       y = sin(theta) * new_x + sin(theta - pi/2) * new_y + y0)
-}
