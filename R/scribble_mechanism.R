@@ -22,10 +22,10 @@ wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
   }
-  split(x, poly$pathId) <- lapply(split(x, poly$pathId),
-                                  function(x) c(head(x, -1), x[1]))
-  split(y, poly$pathId) <- lapply(split(y, poly$pathId),
-                                  function(x) c(head(x, -1), x[1]))
+  #split(x, poly$pathId) <- lapply(split(x, poly$pathId),
+  #                                function(x) c(head(x, -1), x[1]))
+  #split(y, poly$pathId) <- lapply(split(y, poly$pathId),
+  #                                function(x) c(head(x, -1), x[1]))
   poly$x <- grid::unit(x, default.units)
   poly$y <- grid::unit(y, default.units)
   poly
@@ -113,25 +113,24 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
   }
+
   if(res < length(poly$x)) res <- 2 * length(poly$x)
-  x <- do.call("c", lapply(split(x, poly$pathId), function(x) {
-         approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
-  }))
-  y <- do.call("c", lapply(split(y, poly$pathId), function(x) {
-    approx(seq_along(x), x, xout = seq(1, length(x), len = res))$y
-  }))
+
+  wibbliness <- rep(wibbliness[1], length(unique(poly$pathId)))
+
+  li <- Map(function(x, y, w) {
+    li <- Map(do_wibble, x0 = head(x, -1), x1 = tail(x, -1), y0 = head(y, -1),
+              y1 = tail(y, -1), n = rep(res, length(x) - 1),
+              wibbliness = rep(w, length(x) - 1))
+    list(x = do.call("c", lapply(li, function(x) x$x)),
+         y = do.call("c", lapply(li, function(x) x$y)))
+  }, split(x, poly$pathId), split(y, poly$pathId), wibbliness)
+
+  poly$x <- grid::unit(do.call("c", lapply(li, function(x) x$x)), default.units)
+  poly$y <- grid::unit(do.call("c", lapply(li, function(x) x$y)), default.units)
+
   poly$pathId <- do.call("c", lapply(split(poly$pathId, poly$pathId),
                                      function(x) rep(x[1], res)))
-  x <- x + rnorm(length(x), 0, 0.0005 * wibbliness)
-  y <- y + rnorm(length(y), 0, 0.0005 * wibbliness)
-
-
-  split(x, poly$pathId) <- lapply(split(x, poly$pathId),
-                                  function(x) c(head(x, -1), x[1]))
-  split(y, poly$pathId) <- lapply(split(y, poly$pathId),
-                                  function(x) c(head(x, -1), x[1]))
-  poly$x <- grid::unit(x, default.units)
-  poly$y <- grid::unit(y, default.units)
   poly
 }
 
@@ -240,7 +239,7 @@ do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
 
   n <- n - 1
   if(n < 2) n <- 2
-  mult <- 0.0075 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
+  mult <- 0.0005 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
   bend <- mult * rnorm(1) * sin(seq(0, runif(1, pi/2, 2 * pi), length = n + 1))
   len <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
   theta <- atan2(y1 - y0, x1 - x0)
