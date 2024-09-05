@@ -247,12 +247,14 @@ make_scribbles <- function(angle = 45, density = 100, randomness = 1,
 scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
                           col = "black", lwd = 1, wonkiness = 1,
                           sloppiness = 1) {
-  shape_mask <- wonkify(shape, sloppiness / 2)
+  shape_mask <- shape
   shape_mask$gp <- grid::gpar(fill = "black")
+  line_mask <- wonkify(shape_mask, sloppiness / 2)
   scrib <- make_scribbles(angle, density, randomness,
                           gp = grid::gpar(lwd = lwd, col = col),
-                          vp = grid::viewport(mask = shape_mask))
-  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(shape, scrib))
+                          vp = grid::viewport(mask = line_mask))
+  shape$vp <- grid::viewport(mask = shape_mask)
+  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(scrib, shape))
 }
 
 
