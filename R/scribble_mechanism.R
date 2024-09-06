@@ -13,14 +13,26 @@ wonkify <- function(x, ...) {
 
 #' @export
 wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
+
+  if(all(wonkiness == 0)) return(poly)
+
   wonkiness <- wonkiness[1]
+
   x <- grid::convertX(poly$x, default.units, TRUE)
   y <- grid::convertY(poly$y, default.units, TRUE)
-  size <- max(diff(range(x)), diff(range(y)))
-  x <- x + rnorm(length(x), 0, 0.01 * size * wonkiness)
-  y <- y + rnorm(length(y), 0, 0.01 * size * wonkiness)
+
+  closed <- abs(x[1] - x[length(x)]) < 1e-5 &
+            abs(y[1] - y[length(y)]) < 1e-5
+  size <- sqrt(max(diff(range(x)), diff(range(y))))
+  x <- x + rnorm(length(x), 0, 0.005 * size * wonkiness)
+  y <- y + rnorm(length(y), 0, 0.005 * size * wonkiness)
+
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
+  }
+  if(closed) {
+    x[length(x)] <- x[1]
+    y[length(y)] <- y[1]
   }
   poly$x <- grid::unit(x, default.units)
   poly$y <- grid::unit(y, default.units)
@@ -95,11 +107,11 @@ do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
 
   n <- n - 1
   if(n < 2) n <- 2
-  mult <- 0.0005 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
+  mult <- 0.001 * wibbliness * dbeta(seq(0, 1, length = n + 1), 2, 2)
   bend <- mult * rnorm(1) * sin(seq(0, runif(1, pi/2, 2 * pi), length = n + 1))
   len <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
   theta <- atan2(y1 - y0, x1 - x0)
-  randomness <- rnorm(n + 1, 0, wibbliness * 0.001)
+  randomness <- rnorm(n + 1, 0, wibbliness * 0.00025)
   new_y <- numeric(n + 1)
 
   for(i in head((seq(n)[-1]), -1)) {
@@ -132,23 +144,35 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
     poly$pathId <- rep(1, length(x))
   }
 
-  if(res < length(poly$x)) res <- 2 * length(poly$x)
+  if(res < length(poly$x)) res <- 5 * length(poly$x)
 
   wibbliness <- rep(wibbliness[1], length(unique(poly$pathId)))
 
-  li <- Map(function(x, y, w) {
-    li <- Map(do_wibble, x0 = head(x, -1), x1 = tail(x, -1), y0 = head(y, -1),
-              y1 = tail(y, -1), n = rep(res, length(x) - 1),
-              wibbliness = rep(w, length(x) - 1))
-    list(x = do.call("c", lapply(li, function(x) x$x)),
-         y = do.call("c", lapply(li, function(x) x$y)))
-  }, split(x, poly$pathId), split(y, poly$pathId), wibbliness)
+  dfs <- data.frame(path = poly$pathId, x = x, y = y, id = poly$id) |>
+    split(interaction(poly$pathId, poly$id)) |>
+    lapply(function(d) {
+      d$x1 <- c(d$x[-1], d$x[1])
+      d$y1 <- c(d$y[-1], d$y[1])
+      d$dist <- sqrt((d$x1 - d$x)^2 + (d$y1 - d$y)^2)
+      d$n <- ceiling(res * (d$dist/sum(d$dist)))
+      d$n[d$n < 3] <- 3
+      d
+    })
+  dat <- do.call('rbind', lapply(dfs, function(d) {
 
-  poly$x <- grid::unit(do.call("c", lapply(li, function(x) x$x)), default.units)
-  poly$y <- grid::unit(do.call("c", lapply(li, function(x) x$y)), default.units)
+    li <- Map(do_wibble, x0 = d$x, x1 = d$x1, y0 = d$y, y1 = d$y1, n = d$n,
+              wibbliness = wibbliness[1])
 
-  poly$pathId <- do.call("c", lapply(split(poly$pathId, poly$pathId),
-                                     function(x) rep(x[1], res)))
+    do.call('rbind', lapply(li, function(l) {
+      data.frame(path = d$path[1], x = l$x, y = l$y, id = d$id[1])
+    }
+    ))
+  }))
+
+  poly$x <- grid::unit(dat$x, default.units)
+  poly$y <- grid::unit(dat$y, default.units)
+  poly$id <- dat$id
+  poly$pathId <- dat$path
   poly
 }
 
@@ -248,13 +272,13 @@ scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
                           col = "black", lwd = 1, wonkiness = 1,
                           sloppiness = 1) {
   shape_mask <- shape
-  shape_mask$gp <- grid::gpar(fill = "black")
+  shape_mask$gp <- grid::gpar(fill = "black", col = "white")
   line_mask <- wonkify(shape_mask, sloppiness / 2)
   scrib <- make_scribbles(angle, density, randomness,
                           gp = grid::gpar(lwd = lwd, col = col),
                           vp = grid::viewport(mask = line_mask))
   shape$vp <- grid::viewport(mask = shape_mask)
-  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(scrib, shape))
+  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(shape, scrib))
 }
 
 

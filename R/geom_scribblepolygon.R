@@ -63,7 +63,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
         first_rows <- munched[first_idx, ]
 
       scribbleGrob(x = munched$x, y = munched$y,
-          default.units = "npc", id = munched$group,
+          default.units = "npc", pathId = munched$group,
           scribblecolour = first_rows$scribblecolour,
           scribblewidth = first_rows$scribblewidth,
           density = first_rows$density,
@@ -86,7 +86,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
         first_rows <- munched[first_idx, ]
 
         scribbleGrob(x = munched$x, y = munched$y,
-          default.units = "npc", pathId = id, id = munched$group,
+          default.units = "npc", id = id, pathId = munched$group,
           scribblecolour = first_rows$scribblecolour,
           scribblewidth = first_rows$scribblewidth,
           density = first_rows$density,
