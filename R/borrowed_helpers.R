@@ -254,3 +254,154 @@ warn_overwritten_args <- function (
               ": Ignoring ", overwritten_arg_text, " because ",
               provided_arg_text, " ", verb, " provided."))
 }
+
+id_var <- function (x, drop = FALSE) {
+
+  if (length(x) == 0) {
+    id <- integer()
+    n = 0L
+  }
+  else if (!is.null(attr(x, "n")) && !drop) {
+    return(x)
+  }
+  else if (is.factor(x) && !drop) {
+    x <- addNA(x, ifany = TRUE)
+    id <- as.integer(x)
+    n <- length(levels(x))
+  }
+  else {
+    levels <- sort(unique0(x), na.last = TRUE)
+    id <- match(x, levels)
+    n <- max(id)
+  }
+  attr(id, "n") <- n
+  id
+}
+
+id <- function (.variables, drop = FALSE) {
+
+  nrows <- NULL
+  if (is.data.frame(.variables)) {
+    nrows <- nrow(.variables)
+    .variables <- unclass(.variables)
+  }
+  lengths <- lengths(.variables)
+  .variables <- .variables[lengths != 0]
+  if (length(.variables) == 0) {
+    n <- nrows %||% 0L
+    id <- seq_len(n)
+    attr(id, "n") <- n
+    return(id)
+  }
+  if (length(.variables) == 1) {
+    return(id_var(.variables[[1]], drop = drop))
+  }
+  ids <- rev(lapply(.variables, id_var, drop = drop))
+  p <- length(ids)
+  ndistinct <- vapply(ids, attr, "n", FUN.VALUE = numeric(1),
+                      USE.NAMES = FALSE)
+  n <- prod(ndistinct)
+  if (n > 2^31) {
+    char_id <- rlang::inject(paste(!!!ids, sep = "\r"))
+    res <- match(char_id, unique0(char_id))
+  }
+  else {
+    combs <- c(1, cumprod(ndistinct[-p]))
+    mat <- rlsng::inject(cbind(!!!ids))
+    res <- c((mat - 1L) %*% combs + 1L)
+  }
+  if (drop) {
+    id_var(res, drop = TRUE)
+  }
+  else {
+    res <- as.integer(res)
+    attr(res, "n") <- n
+    res
+  }
+}
+
+split_with_index <- function (x, f, n = max(f)) {
+
+  if (n == 1) return(list(x))
+  f <- as.integer(f)
+  attributes(f) <- list(levels = as.character(seq_len(n)), class = "factor")
+  unname(split(x, f))
+}
+
+df_rows <- function (x, i) {
+
+  cols <- lapply(x, `[`, i = i)
+  data_frame0(!!!cols, .size = length(i))
+}
+
+dapply <- function (df, by, fun, ..., drop = TRUE) {
+
+  grouping_cols <- .subset(df, by)
+  fallback_order <- unique0(c(by, names(df)))
+  apply_fun <- function(x) {
+    res <- fun(x, ...)
+    if (is.null(res)) return(res)
+    if (length(res) == 0) return(data_frame0())
+    vars <- lapply(setNames(by, by), function(col) .subset2(x, col)[1])
+    if (is.matrix(res)) res <- split_matrix(res)
+    if (is.null(names(res))) names(res) <- paste0("V", seq_along(res))
+    if (all(by %in% names(res)))
+      return(data_frame0(!!!unclass(res)))
+    res <- modify_list(unclass(vars), unclass(res))
+    res <- res[intersect(c(fallback_order, names(res)), names(res))]
+    data_frame0(!!!res)
+  }
+  if (all(vapply(grouping_cols, single_value, logical(1)))) {
+    return(apply_fun(df))
+  }
+  ids <- id(grouping_cols, drop = drop)
+  group_rows <- split_with_index(seq_len(nrow(df)), ids)
+  result <- lapply(seq_along(group_rows), function(i) {
+    cur_data <- df_rows(df, group_rows[[i]])
+    apply_fun(cur_data)
+  })
+  vctrs::vec_rbind(!!!result)
+}
+
+single_value <- function(x, ...) {
+  if(is.factor(x)) {
+    identical(levels(x), "1")
+  } else {
+    identical(attr(x, "n"), 1L)
+  }
+}
+
+stairstep <- function (data, direction = "hv") {
+
+  direction <- rlang::arg_match0(direction, c("hv", "vh", "mid"))
+  data <- as.data.frame(data)[order(data$x), ]
+  n <- nrow(data)
+  if (n <= 1) {
+    return(data[0, , drop = FALSE])
+  }
+  if (direction == "vh") {
+    xs <- rep(1:n, each = 2)[-2 * n]
+    ys <- c(1, rep(2:n, each = 2))
+  }
+  else if (direction == "hv") {
+    ys <- rep(1:n, each = 2)[-2 * n]
+    xs <- c(1, rep(2:n, each = 2))
+  }
+  else if (direction == "mid") {
+    xs <- rep(1:(n - 1), each = 2)
+    ys <- rep(1:n, each = 2)
+  }
+  if (direction == "mid") {
+    gaps <- data$x[-1] - data$x[-n]
+    mid_x <- data$x[-n] + gaps/2
+    x <- c(data$x[1], mid_x[xs], data$x[n])
+    y <- c(data$y[ys])
+    data_attr <- data[c(1, xs, n), setdiff(names(data), c("x", "y"))]
+  }
+  else {
+    x <- data$x[xs]
+    y <- data$y[ys]
+    data_attr <- data[xs, setdiff(names(data), c("x", "y"))]
+  }
+  data_frame0(x = x, y = y, data_attr)
+}
