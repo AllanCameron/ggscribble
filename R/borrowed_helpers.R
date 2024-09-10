@@ -405,3 +405,8 @@ stairstep <- function (data, direction = "hv") {
   }
   data_frame0(x = x, y = y, data_attr)
 }
+
+ensure_nonempty_data <- function (data) {
+
+  if (empty(data)) data_frame0(group = 1, .size = 1) else data
+}
