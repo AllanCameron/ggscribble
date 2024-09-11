@@ -23,9 +23,11 @@ wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
 
   closed <- abs(x[1] - x[length(x)]) < 1e-5 &
             abs(y[1] - y[length(y)]) < 1e-5
-  size <- sqrt(max(diff(range(x)), diff(range(y))))
-  x <- x + rnorm(length(x), 0, 0.005 * size * wonkiness)
-  y <- y + rnorm(length(y), 0, 0.005 * size * wonkiness)
+  size <- sqrt(max(diff(range(x, na.rm = TRUE)), diff(range(y, na.rm = TRUE))))
+  x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(!is.na(x)),
+                                       0, 0.005 * size * wonkiness)
+  y[!is.na(y)] <- y[!is.na(y)] + rnorm(sum(!is.na(y)),
+                                       0, 0.005 * size * wonkiness)
 
   if(is.null(poly$pathId)) {
     poly$pathId <- rep(1, length(x))
@@ -56,14 +58,16 @@ wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
 
   if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, n_lines)
 
-  size <- max(diff(range(x)), diff(range(y)))
+  size <- max(diff(range(x, na.rm = TRUE)), diff(range(y, na.rm = TRUE)))
 
   x <- do.call("c", Map(function(x, w) {
-    x + rnorm(length(x), 0, 0.01 * size * w)
+    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(is.na(x)), 0, 0.01 * size * w)
+    x
   }, split(x,line$id), wonkiness))
 
   y <- do.call("c", Map(function(x, w) {
-    x + rnorm(length(x), 0, 0.01 * size * w)
+    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(is.na(x)), 0, 0.01 * size * w)
+    x
   }, split(y,line$id), wonkiness))
 
   line$x <- grid::unit(x, default.units)
