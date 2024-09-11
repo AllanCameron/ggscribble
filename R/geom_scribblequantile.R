@@ -2,7 +2,7 @@
 #' Create a ggplot layer containing scribbled quantile lines
 #'
 #' @inheritParams ggplot2::geom_line
-#' @eval rd_aesthetics("geom", "scribbleline")
+#' @eval rd_aesthetics("geom", "scribblequantile")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
