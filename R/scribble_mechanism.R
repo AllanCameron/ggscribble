@@ -61,12 +61,12 @@ wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
   size <- max(diff(range(x, na.rm = TRUE)), diff(range(y, na.rm = TRUE)))
 
   x <- do.call("c", Map(function(x, w) {
-    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(is.na(x)), 0, 0.01 * size * w)
+    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(!is.na(x)), 0, 0.01 * size * w)
     x
   }, split(x,line$id), wonkiness))
 
   y <- do.call("c", Map(function(x, w) {
-    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(is.na(x)), 0, 0.01 * size * w)
+    x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(!is.na(x)), 0, 0.01 * size * w)
     x
   }, split(y,line$id), wonkiness))
 
