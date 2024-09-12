@@ -9,14 +9,14 @@ GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
     ggplot2::GeomErrorbar,
     default_aes = ggplot2::aes(colour = "black", linewidth = 1,
                                linetype = 1, alpha = NA,
-                               wonkiness = 0.5, wibbliness = 1),
+                               wonkiness = 0.5, wibbliness = 1, res = res),
     draw_panel = function (self, data, panel_params, coord, lineend = "butt",
                            width = NULL, flipped_aes = FALSE, res = 20) {
       grobs <- ggplot2::GeomErrorbar$draw_panel(data, panel_params, coord,
                                                 lineend, width, flipped_aes)
 
       grobs <- wonkify(grobs, data$wonkiness)
-      wibblify(grobs, data$wibbliness)
+      wibblify(grobs, data$wibbliness, res = res)
     }
 )
 
