@@ -39,9 +39,9 @@ geom_scribblepath <- function (mapping = NULL, data = NULL, stat = "identity",
 
 GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
 
-   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
-                              linetype = 1, alpha = NA,
-                              wonkiness = 0, wibbliness = 1),
+  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+                             linetype = 1, alpha = NA,
+                             wonkiness = 0, wibbliness = 1),
 
   draw_panel = function (self, data, panel_params, coord, arrow = NULL,
                          lineend = "butt", linejoin = "round", linemitre = 10,

@@ -83,6 +83,17 @@ wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
   x1 <- grid::convertX(line$x1, default.units, TRUE)
   y1 <- grid::convertY(line$y1, default.units, TRUE)
 
+  if(length(x0) == 1 && length(x1) == 1 &&
+     length(y0) > 1 && length(y1) == length(y0)) {
+    x0 <- rep(x0, length(y0))
+    x1 <- rep(x1, length(y0))
+  }
+
+  if(length(y0) == 1 && length(y1) == 1 &&
+     length(x0) > 1 && length(x1) == length(x0)) {
+    y0 <- rep(y0, length(x0))
+    y1 <- rep(y1, length(x0))
+  }
   if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, length(x0))
 
   size <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
@@ -194,6 +205,18 @@ wibblify.segments <- function(line, wibbliness = 1, res = 100,
   y0 <- grid::convertY(line$y0, default.units, TRUE)
   x1 <- grid::convertX(line$x1, default.units, TRUE)
   y1 <- grid::convertY(line$y1, default.units, TRUE)
+
+  if(length(x0) == 1 && length(x1) == 1 &&
+     length(y0) > 1 && length(y1) == length(y0)) {
+    x0 <- rep(x0, length(y0))
+    x1 <- rep(x1, length(y0))
+  }
+
+  if(length(y0) == 1 && length(y1) == 1 &&
+     length(x0) > 1 && length(x1) == length(x0)) {
+    y0 <- rep(y0, length(x0))
+    y1 <- rep(y1, length(x0))
+  }
 
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, length(x0))
 
