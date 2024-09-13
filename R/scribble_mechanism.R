@@ -243,8 +243,6 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100,
   n_lines <- length(unique(line$id))
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, n_lines)
 
-  if(res < length(line$x)) res <- 2 * length(line$x)
-
   li <- Map(function(x, y, id, w) {
     li <- Map(do_wibble, x0 = head(x, -1), x1 = tail(x, -1), y0 = head(y, -1),
               y1 = tail(y, -1), n = rep(res, length(x) - 1),
