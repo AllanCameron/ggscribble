@@ -18,7 +18,8 @@ scribbleGrob(
   randomness = 1,
   scribblewidth = 1,
   scribblecolour = "black",
-  default.units = "npc"
+  default.units = "npc",
+  res = 200
 )
 }
 \arguments{
@@ -79,6 +80,9 @@ shape. A single value can be given instead to apply to all shapes.}
 \item{default.units}{An atomic character string which determines the units
 into which the x and y co-ordinates will be converted if given as a
 numeric vector.}
+
+\item{res}{The number of points into which the edges of the polygon will be
+split for "wibbling"}
 }
 \value{
 A `scribbles` object, which is a grob that can be drawn using the

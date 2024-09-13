@@ -45,7 +45,8 @@
 #' @param default.units An atomic character string which determines the units
 #'   into which the x and y co-ordinates will be converted if given as a
 #'   numeric vector.
-#'
+#' @param res The number of points into which the edges of the polygon will be
+#'   split for "wibbling"
 #' @return A `scribbles` object, which is a grob that can be drawn using the
 #'   grid graphics system.
 #' @export
@@ -63,7 +64,8 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          pathId = NULL,
                          wibbliness = 1, sloppiness = 1, density = 100,
                          randomness = 1, scribblewidth = 1,
-                         scribblecolour = "black", default.units = "npc") {
+                         scribblecolour = "black", default.units = "npc",
+                         res = 200) {
 
   if(missing(id)) id <- rep(1, length(x))
   if(is.null(pathId)) pathId <- rep(1, length(x))
@@ -85,7 +87,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
     grid::pathGrob(x, y, id = id, gp = gp[i],
                    default.units = default.units) |>
       wonkify(wonkiness = pars$wonkiness) |>
-      wibblify(wibbliness = pars$wibbliness) |>
+      wibblify(wibbliness = pars$wibbliness, res) |>
       scribble_fill(angle = angle, density = density, sloppiness = neat,
                     randomness = randomness, col = col, lwd = lwd)
 
