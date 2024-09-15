@@ -16,7 +16,8 @@ geom_scribblebar(
   na.rm = FALSE,
   orientation = NA,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  res = 200
 )
 
 geom_scribblecol(
@@ -30,7 +31,8 @@ geom_scribblecol(
   na.rm = FALSE,
   orientation = NA,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  res = 200
 )
 }
 \arguments{

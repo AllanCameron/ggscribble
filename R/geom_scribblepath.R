@@ -25,7 +25,7 @@ geom_scribblepath <- function (mapping = NULL, data = NULL, stat = "identity",
                  show.legend = show.legend, inherit.aes = inherit.aes,
                  params = rlang::list2(lineend = lineend, linejoin = linejoin,
                                        linemitre = linemitre, arrow = arrow,
-                                       na.rm = na.rm, ...))
+                                       na.rm = na.rm, res = res, ...))
 }
 
 

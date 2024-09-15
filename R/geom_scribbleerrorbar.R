@@ -1,25 +1,3 @@
-#' The ggproto object that powers scribbled error bars
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
-#' @usage NULL
-#' @export
-GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
-    ggplot2::GeomErrorbar,
-    default_aes = ggplot2::aes(colour = "black", linewidth = 1,
-                               linetype = 1, alpha = NA,
-                               wonkiness = 0.5, wibbliness = 1, res = res),
-    draw_panel = function (self, data, panel_params, coord, lineend = "butt",
-                           width = NULL, flipped_aes = FALSE, res = 20) {
-      grobs <- ggplot2::GeomErrorbar$draw_panel(data, panel_params, coord,
-                                                lineend, width, flipped_aes)
-
-      grobs <- wonkify(grobs, data$wonkiness)
-      wibblify(grobs, data$wibbliness, res = res)
-    }
-)
-
 #' Create a ggplot layer containing scribbled error bars
 #'
 #' @inheritParams ggplot2::geom_line
@@ -37,7 +15,8 @@ GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
 #' )
 #'
 #' p <- ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group))
-#' p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper), width = 0.2)
+#' p + geom_scribbleerrorbar(ggplot2::aes(ymin = lower, ymax = upper),
+#'                           width = 0.2)
 
 geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
                                    stat = "identity", position = "identity",
@@ -51,3 +30,31 @@ geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
                  params = rlang::list2(na.rm = na.rm, orientation = orientation,
                                        res = res, ...))
 }
+
+#' The ggproto object that powers scribbled error bars
+#'
+#' See \link[ggplot2]{ggplot2-ggproto}
+#'
+#' @format NULL
+#' @usage NULL
+#' @export
+GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
+
+  ggplot2::GeomErrorbar,
+
+  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+                             linetype = 1, alpha = NA,
+                             wonkiness = 0.5, wibbliness = 1),
+
+  draw_panel = function (self, data, panel_params, coord, lineend = "butt",
+                         width = NULL, flipped_aes = FALSE, res = 20) {
+
+      grobs <- ggplot2::GeomErrorbar$draw_panel(data, panel_params, coord,
+                                                lineend, width, flipped_aes)
+
+      grobs <- wonkify(grobs, data$wonkiness)
+      wibblify(grobs, data$wibbliness, res = res)
+    }
+)
+
+

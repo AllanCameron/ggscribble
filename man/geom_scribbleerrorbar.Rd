@@ -90,7 +90,6 @@ Create a ggplot layer containing scribbled error bars
   \item \code{group}
   \item \code{linetype}
   \item \code{linewidth}
-  \item \code{res}
   \item \code{wibbliness}
   \item \code{wonkiness}
 }
@@ -110,5 +109,6 @@ df <- data.frame(
 )
 
 p <- ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group))
-p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper), width = 0.2)
+p + geom_scribbleerrorbar(ggplot2::aes(ymin = lower, ymax = upper),
+                          width = 0.2)
 }

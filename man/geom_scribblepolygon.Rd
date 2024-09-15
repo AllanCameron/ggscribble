@@ -13,7 +13,8 @@ geom_scribblepolygon(
   linejoin = "mitre",
   na.rm = FALSE,
   show.legend = NA,
-  inherit.aes = TRUE
+  inherit.aes = TRUE,
+  res = 200
 )
 }
 \arguments{
