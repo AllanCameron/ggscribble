@@ -41,7 +41,7 @@ GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
   default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
-                             wonkiness = 1, wibbliness = 1, randomness = 1,
+                             wonkiness = 0.1, wibbliness = 1, randomness = 1,
                              sloppiness = 1, density = 200, angle = 45),
 
   draw_group = function (self, data, panel_params, coord, lineend = "butt",
