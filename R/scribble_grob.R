@@ -53,12 +53,12 @@
 #'
 #' @examples
 #' grid::grid.newpage()
-#' scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
-#'              y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
-#'              id = c(1, 1, 1, 1, 2, 2, 2),
-#'              scribblecolour = c("red", "green"),
-#'              density = 200) |>
-#'   grid::grid.draw()
+#' sg <- scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
+#'                    y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
+#'                    id = c(1, 1, 1, 1, 2, 2, 2),
+#'                    scribblecolour = c("red", "green"),
+#'                    density = 200)
+#' grid::grid.draw(sg)
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          pathId = NULL,
@@ -68,7 +68,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          res = 200) {
 
   if(missing(id)) id <- rep(1, length(x))
-  if(is.null(pathId)) pathId <- rep(1, length(x))
+  if(is.null(pathId)) pathId <- id
   if(length(pathId) != length(x)) stop("mismatch between co-ordinates and id")
   n_groups <- length(unique(pathId))
   pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
@@ -84,12 +84,12 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
 
   grobs <- Map(function(x, y, id, angle, density, wonk, wibble, neat, i,
                         col, lwd) {
-    grid::pathGrob(x, y, id = id, gp = gp[i],
-                   default.units = default.units) |>
-      wonkify(wonkiness = pars$wonkiness) |>
-      wibblify(wibbliness = pars$wibbliness, res) |>
-      scribble_fill(angle = angle, density = density, sloppiness = neat,
-                    randomness = randomness, col = col, lwd = lwd)
+    gs <- grid::pathGrob(x, y, id = id, gp = gp[i],
+                   default.units = default.units)
+    gs <- wonkify(gs, wonkiness = pars$wonkiness)
+    gs <- wibblify(gs, wibbliness = pars$wibbliness, res)
+    scribble_fill(gs, angle = angle, density = density, sloppiness = neat,
+                  randomness = randomness, col = col, lwd = lwd)
 
   }, split(x, pathId), split(y, pathId), split(id, pathId), pars$angle,
   pars$density,

@@ -93,10 +93,10 @@ Create imperfect polygons filled with scribbled lines
 }
 \examples{
 grid::grid.newpage()
-scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
-             y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
-             id = c(1, 1, 1, 1, 2, 2, 2),
-             scribblecolour = c("red", "green"),
-             density = 200) |>
-  grid::grid.draw()
+sg <- scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
+                   y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
+                   id = c(1, 1, 1, 1, 2, 2, 2),
+                   scribblecolour = c("red", "green"),
+                   density = 200)
+grid::grid.draw(sg)
 }

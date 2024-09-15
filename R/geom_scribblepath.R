@@ -87,7 +87,7 @@ GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
       start <- c(TRUE, group_diff)
       end <- c(group_diff, TRUE)
       if (!constant) {
-          grid::segmentsGrob(munched$x[!end], munched$y[!end],
+          grobs <- grid::segmentsGrob(munched$x[!end], munched$y[!end],
                              munched$x[!start], munched$y[!start],
                              default.units = "native", arrow = arrow,
               gp = grid::gpar(
@@ -96,21 +96,21 @@ GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
                 lwd = munched$linewidth[!end] * ggplot2::.pt,
                 lty = munched$linetype[!end],
                 lineend = lineend, linejoin = linejoin,
-                linemitre = linemitre)) |>
-          wonkify(munched$wonkiness[!end]) |>
-          wibblify(munched$wibbliness[!end], res)
+                linemitre = linemitre))
+          grobs <- wonkify(grobs, munched$wonkiness[!end])
+          wibblify(grobs, munched$wibbliness[!end], res)
       }
       else {
           id <- match(munched$group, unique0(munched$group))
-          grid::polylineGrob(munched$x, munched$y, id = id,
+          grobs <- grid::polylineGrob(munched$x, munched$y, id = id,
                              default.units = "native",
               arrow = arrow, gp = grid::gpar(
                 col = ggplot2::alpha(munched$colour, munched$alpha)[start],
                 fill = ggplot2::alpha(munched$colour, munched$alpha)[start],
                 lwd = munched$linewidth[start] * ggplot2::.pt,
                 lty = munched$linetype[start], lineend = lineend,
-                linejoin = linejoin, linemitre = linemitre)) |>
-            wonkify(munched$wonkiness[start]) |>
-            wibblify(munched$wibbliness[start], res)
+                linejoin = linejoin, linemitre = linemitre))
+            grobs <- wonkify(grobs, munched$wonkiness[start])
+            wibblify(grobs, munched$wibbliness[start], res)
       }
   })

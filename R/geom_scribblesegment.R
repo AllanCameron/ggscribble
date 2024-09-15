@@ -58,14 +58,14 @@ GeomScribblesegment <- ggplot2::ggproto("GeomScribblesegment",
     if (coord$is_linear()) {
         coord <- coord$transform(data, panel_params)
         arrow.fill <- arrow.fill %||% coord$colour
-        return(grid::segmentsGrob(coord$x, coord$y, coord$xend, coord$yend,
+        grobs <- grid::segmentsGrob(coord$x, coord$y, coord$xend, coord$yend,
                 default.units = "native",
                 gp = grid::gpar(col = alpha(coord$colour,
                 coord$alpha), fill = alpha(arrow.fill, coord$alpha),
-                lwd = coord$linewidth * .pt, lty = coord$linetype,
-                lineend = lineend, linejoin = linejoin), arrow = arrow) |>
-                 wonkify(wonkiness = first_rows$wonkiness) |>
-                 wibblify(wibbliness = first_rows$wibbliness))
+                lwd = coord$linewidth * ggplot2::.pt, lty = coord$linetype,
+                lineend = lineend, linejoin = linejoin), arrow = arrow)
+        grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)
+        return(wibblify(grobs, wibbliness = first_rows$wibbliness))
     }
     data$group <- 1:nrow(data)
     starts <- subset(data, select = c(-xend, -yend))

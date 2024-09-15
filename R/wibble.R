@@ -50,9 +50,10 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
 
   wibbliness <- rep(wibbliness[1], length(unique(poly$pathId)))
 
-  dfs <- data.frame(path = poly$pathId, x = x, y = y, id = poly$id) |>
-    split(interaction(poly$pathId, poly$id)) |>
-    lapply(function(d) {
+  dfs <- split(data.frame(path = poly$pathId, x = x, y = y, id = poly$id),
+               interaction(poly$pathId, poly$id))
+
+  dfs <- lapply(dfs, function(d) {
       d$x1 <- c(d$x[-1], d$x[1])
       d$y1 <- c(d$y[-1], d$y[1])
       d$dist <- sqrt((d$x1 - d$x)^2 + (d$y1 - d$y)^2)

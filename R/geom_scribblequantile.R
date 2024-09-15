@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(mpg, ggplot2::aes(displ, 1 / hwy)) +
+#' ggplot2::ggplot(ggplot2::mpg, ggplot2::aes(displ, 1 / hwy)) +
 #'   ggplot2::geom_point() +
 #'   geom_scribblequantile(quantiles = c(0.25, 0.5, 0.75))
 geom_scribblequantile <- function (mapping = NULL, data = NULL,
@@ -85,30 +85,31 @@ GeomScribblequantile <- ggplot2::ggproto("GeomScribblequantile",
       start <- c(TRUE, group_diff)
       end <- c(group_diff, TRUE)
       if (!constant) {
-          grid::segmentsGrob(munched$x[!end], munched$y[!end],
+          grobs <- grid::segmentsGrob(munched$x[!end], munched$y[!end],
                              munched$x[!start], munched$y[!start],
                              default.units = "native", arrow = arrow,
               gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                                                    munched$alpha)[!end],
                   fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
-                  lwd = munched$linewidth[!end] * .pt,
+                  lwd = munched$linewidth[!end] * ggplot2::.pt,
                   lty = munched$linetype[!end], lineend = lineend,
-                  linejoin = linejoin, linemitre = linemitre)) |>
-          wonkify(wonkiness = munched$wonkiness[!end]) |>
-          wibblify(wibbliness = munched$wibbliness[!end])
+                  linejoin = linejoin, linemitre = linemitre))
+          grobs <- wonkify(grobs, wonkiness = munched$wonkiness[!end])
+          wibblify(grobs, wibbliness = munched$wibbliness[!end], res)
       }
       else {
           id <- match(munched$group, unique0(munched$group))
           first_rows <- get_first_rows(data)
-          grid::polylineGrob(munched$x, munched$y, id = id,
+          grobs <- grid::polylineGrob(munched$x, munched$y, id = id,
                              default.units = "native", arrow = arrow,
                              gp = grid::gpar(
                                col = ggplot2::alpha(munched$colour,
                   munched$alpha)[start], fill = ggplot2::alpha(munched$colour,
                   munched$alpha)[start], lwd = munched$linewidth[start] *
-                  .pt, lty = munched$linetype[start], lineend = lineend,
-                  linejoin = linejoin, linemitre = linemitre)) |>
-            wonkify(wonkiness = first_rows$wonkiness) |>
-            wibblify(wibbliness = first_rows$wibbliness)
+                  ggplot2::.pt, lty = munched$linetype[start],
+                  lineend = lineend, linejoin = linejoin,
+                  linemitre = linemitre))
+            grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)
+            wibblify(grobs, wibbliness = first_rows$wibbliness, res)
       }
   })

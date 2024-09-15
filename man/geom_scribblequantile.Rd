@@ -102,7 +102,7 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(mpg, ggplot2::aes(displ, 1 / hwy)) +
+ggplot2::ggplot(ggplot2::mpg, ggplot2::aes(displ, 1 / hwy)) +
   ggplot2::geom_point() +
   geom_scribblequantile(quantiles = c(0.25, 0.5, 0.75))
 }

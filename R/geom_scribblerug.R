@@ -62,7 +62,7 @@ GeomScribblerug <- ggplot2::ggproto("GeomScribblerug", ggplot2::GeomRug,
       list(min = -1 * length, max = unit(1, "npc") + length)
     }
     gp <- grid::gpar(col = alpha(data$colour, data$alpha), lty = data$linetype,
-                     lwd = data$linewidth * .pt, lineend = lineend)
+                     lwd = data$linewidth * ggplot2::.pt, lineend = lineend)
     if (!is.null(data$x)) {
       if (grepl("b", sides)) {
         rugs$x_b <- grid::segmentsGrob(x0 = unit(data$x, "npc"),
