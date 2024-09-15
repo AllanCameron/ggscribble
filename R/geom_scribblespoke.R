@@ -14,7 +14,7 @@ GeomScribblespoke <- ggplot2::ggproto("GeomScribblespoke",
 
   draw_panel = function (self, data, panel_params, coord, arrow = NULL,
                          arrow.fill = NULL, lineend = "butt",
-                         linejoin = "round", na.rm = FALSE, res = 10) {
+                         linejoin = "round", na.rm = FALSE, res = 200) {
 
     if(!is.null(arrow)) {
       arrow <- NULL
@@ -48,7 +48,7 @@ GeomScribblespoke <- ggplot2::ggproto("GeomScribblespoke",
 geom_scribblespoke <- function (mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity", ..., na.rm = FALSE,
                                 show.legend = NA, inherit.aes = TRUE,
-                                res = 10) {
+                                res = 200) {
 
   ggplot2::layer(data = data, mapping = mapping, geom = GeomScribblespoke,
                  stat = stat, position = position, show.legend = show.legend,

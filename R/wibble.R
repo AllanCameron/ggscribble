@@ -27,6 +27,23 @@ do_wibble <- function(x0, y0, x1, y1, n, wibbliness) {
        y = sin(theta) * new_x + sin(theta - pi/2) * new_y + y0)
 }
 
+wibble_segs <- function(x0, x1, y0, y1, wibbliness = 1, res = 200) {
+
+  lx    <- length(x0)
+  if(length(wibbliness) != lx) wibbliness <- rep(wibbliness[1], lx)
+  len   <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
+  theta <- atan2(y1 - y0, x1 - x0)
+  nvals <- ceiling(len * res)
+  id    <- rep(seq_along(nvals), nvals)
+  x     <- len[id] * sequence(nvals, from = 0, by = 1) / (nvals[id] - 1)
+  y     <- unlist(lapply(nvals, function(x) {
+    c(ambient::noise_perlin(c(x, 1), frequency = 0.02))
+  })) * wibbliness[id] * 0.02
+  xvals <- cos(theta)[id] * x + cos(theta - pi/2)[id] * y + x0[id]
+  yvals <- sin(theta)[id] * x + sin(theta - pi/2)[id] * y + y0[id]
+  list(x = xvals, y = yvals, id = id)
+}
+
 wibblify <- function(shape, ...) {
   UseMethod("wibblify")
 }
@@ -108,15 +125,11 @@ wibblify.segments <- function(line, wibbliness = 1, res = 100,
 
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, length(x0))
 
-  wibbled <- Map(do_wibble, x0 = x0, x1 = x1, y0 = y0, y1 = y1,
-                 n = rep(res, length(x0)), wibbliness = wibbliness)
+  wibbled <- wibble_segs(x0 = x0, x1 = x1, y0 = y0, y1 = y1,
+                         res = res, wibbliness = wibbliness)
 
-  xvals <- do.call("c", lapply(wibbled, function(x) x$x))
-  yvals <- do.call("c", lapply(wibbled, function(x) x$y))
-
-  ids <- rep(seq_along(x0), each = res)
-
-  grid::polylineGrob(xvals, yvals, id = ids, gp = line$gp,
+  grid::polylineGrob(wibbled$x, wibbled$y, id = wibbled$id,
+                     gp = line$gp,
                      default.units = default.units)
 }
 

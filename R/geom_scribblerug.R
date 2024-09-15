@@ -14,7 +14,7 @@ geom_scribblerug <- function (mapping = NULL, data = NULL, stat = "identity",
                               position = "identity", ..., outside = FALSE,
                               sides = "bl", length = unit(0.03, "npc"),
                               na.rm = FALSE, show.legend = NA,
-                              inherit.aes = TRUE, res = 20) {
+                              inherit.aes = TRUE, res = 200) {
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
                  geom = GeomScribblerug, position = position,
@@ -39,7 +39,7 @@ GeomScribblerug <- ggplot2::ggproto("GeomScribblerug", ggplot2::GeomRug,
 
   draw_panel = function (self, data, panel_params, coord,
                          lineend = "butt", sides = "bl", outside = FALSE,
-                         length = unit(0.03, "npc"), res = 10) {
+                         length = unit(0.03, "npc"), res = 200) {
 
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
