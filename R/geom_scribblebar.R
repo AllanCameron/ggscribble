@@ -13,13 +13,14 @@
 geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
                               position = "stack", ..., just = 0.5, width = NULL,
                               na.rm = FALSE, orientation = NA, show.legend = NA,
-                              inherit.aes = TRUE) {
+                              inherit.aes = TRUE, res = 200) {
 
-  layer(data = data, mapping = mapping, stat = stat, geom = GeomScribblebar,
-        position = position, show.legend = show.legend,
-        inherit.aes = inherit.aes,
-        params = rlang::list2(just = just, width = width, na.rm = na.rm,
-                              orientation = orientation, ...))
+  ggplot2::layer(data = data, mapping = mapping, stat = stat,
+                 geom = GeomScribblebar, position = position,
+                 show.legend = show.legend, inherit.aes = inherit.aes,
+                 params = rlang::list2(just = just, width = width,
+                                       na.rm = na.rm, res = res,
+                                       orientation = orientation, ...))
 }
 
 #' @rdname geom_scribblebar
@@ -27,13 +28,14 @@ geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
 geom_scribblecol <- function (mapping = NULL, data = NULL, stat = "identity",
                               position = "stack", ..., just = 0.5, width = NULL,
                               na.rm = FALSE, orientation = NA, show.legend = NA,
-                              inherit.aes = TRUE) {
+                              inherit.aes = TRUE, res = 200) {
 
-  layer(data = data, mapping = mapping, stat = stat, geom = GeomScribblecol,
-        position = position, show.legend = show.legend,
-        inherit.aes = inherit.aes,
-        params = rlang::list2(just = just, width = width, na.rm = na.rm,
-                              orientation = orientation, ...))
+  ggplot2::layer(data = data, mapping = mapping, stat = stat,
+                 geom = GeomScribblecol, position = position,
+                 show.legend = show.legend, inherit.aes = inherit.aes,
+                 params = rlang::list2(just = just, width = width,
+                                       na.rm = na.rm, res = res,
+                                       orientation = orientation, ...))
 }
 
 
@@ -55,10 +57,10 @@ GeomScribblebar <- ggplot2::ggproto("GeomScribblebar", ggplot2::GeomBar,
 
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
                          linejoin = "mitre", width = NULL,
-                         flipped_aes = FALSE) {
+                         flipped_aes = FALSE, res = res) {
 
   ggplot2::ggproto_parent(GeomScribblerect, self)$draw_panel(data, panel_params,
-      coord, lineend = lineend, linejoin = linejoin)
+      coord, lineend = lineend, linejoin = linejoin, res = res)
 
   }
 )
@@ -81,10 +83,11 @@ GeomScribblecol <- ggplot2::ggproto("GeomScribblecol",
 
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
                          linejoin = "mitre", width = NULL,
-                         flipped_aes = FALSE) {
+                         flipped_aes = FALSE, res) {
 
     ggplot2::ggproto_parent(GeomScribblebar, self)$draw_panel(data,
-                    panel_params, coord, lineend = lineend, linejoin = linejoin)
+                    panel_params, coord, lineend = lineend, linejoin = linejoin,
+                    res = res)
 
   }
 )

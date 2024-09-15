@@ -17,11 +17,12 @@
 #'
 geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
           position = "identity", ..., linejoin = "mitre",
-          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE) {
+          na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, res = 200) {
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
                  geom = GeomScribblerect, position = position,
                  show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm, ...))
+                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm,
+                                       res = res, ...))
 }
 
 #' The ggproto object that powers scribble-filled rectangles.
@@ -38,7 +39,7 @@ GeomScribblerect <- ggplot2::ggproto("GeomScribblerect", ggplot2::GeomRect,
                       wonkiness = 1, wibbliness = 1, randomness = 1,
                       sloppiness = 1, density = 200, angle = 46),
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
-                         linejoin = "mitre") {
+                         linejoin = "mitre", res = res) {
 
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
@@ -53,7 +54,7 @@ GeomScribblerect <- ggplot2::ggproto("GeomScribblerect", ggplot2::GeomRect,
         data$ymin, data$ymax)
     new$group <- index
     grob <- GeomScribblepolygon$draw_panel(new, panel_params,
-        coord, lineend = lineend, linejoin = linejoin)
+        coord, lineend = lineend, linejoin = linejoin, res = res)
     grob$name <- grid::grobName(grob, "geom_scribblerect")
     grob
 })

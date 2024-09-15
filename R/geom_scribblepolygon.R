@@ -16,13 +16,15 @@
 geom_scribblepolygon <- function (mapping = NULL, data = NULL,
                                   stat = "identity", position = "identity", ...,
                                   linejoin = "mitre", na.rm = FALSE,
-                                  show.legend = NA, inherit.aes = TRUE) {
+                                  show.legend = NA, inherit.aes = TRUE,
+                                  res = 200) {
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
                  geom = GeomScribblepolygon,
                  position = position, show.legend = show.legend,
                  inherit.aes = inherit.aes,
-                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm, ...))
+                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm,
+                                       res = res, ...))
 }
 
 
@@ -46,7 +48,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
 
     draw_panel = function (self, data, panel_params, coord,
                            lineend = "butt", linejoin = "round",
-                           linemitre = 10) {
+                           linemitre = 10, res = res) {
 
       if (is.null(data$linewidth) && !is.null(data$size)) {
         data$linewidth <- data$size
@@ -94,6 +96,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           wibbliness = first_rows$wibbliness,
           sloppiness = first_rows$sloppiness,
           angle = first_rows$angle,
+          res = res,
           gp = grid::gpar(col = first_rows$colour,
               fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
               lwd = first_rows$linewidth * ggplot2::.pt,
