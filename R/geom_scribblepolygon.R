@@ -72,6 +72,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           wonkiness = first_rows$wonkiness,
           wibbliness = first_rows$wibbliness,
           sloppiness = first_rows$sloppiness,
+          randomness = first_rows$randomness,
           angle = first_rows$angle,
           gp = grid::gpar(col = first_rows$colour,
               fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
@@ -79,9 +80,6 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))
       } else {
-        if (getRversion() < "3.6") {
-          cli::cli_abort("Polygons with holes requires R 3.6 or above.")
-        }
         munched <- munched[order(munched$group, munched$subgroup), ]
         id <- match(munched$subgroup, unique0(munched$subgroup))
         first_idx <- !duplicated(munched$group)
@@ -95,6 +93,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           wonkiness = first_rows$wonkiness,
           wibbliness = first_rows$wibbliness,
           sloppiness = first_rows$sloppiness,
+          randomness = first_rows$randomness,
           angle = first_rows$angle,
           res = res,
           gp = grid::gpar(col = first_rows$colour,
