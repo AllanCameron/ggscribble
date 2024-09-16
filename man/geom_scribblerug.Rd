@@ -16,7 +16,7 @@ geom_scribblerug(
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
-  res = 20
+  res = 200
 )
 }
 \arguments{

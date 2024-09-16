@@ -6,9 +6,11 @@
 #' @export
 #'
 #' @examples
-#' ggplot(iris[c(1, 51, 101), ], aes(Species, Sepal.Length, colour = Species)) +
-#'   geom_scribblecol(aes(scribblecolour = Species), scribblewidth = 2) +
-#'   theme_classic(20)
+#' ggplot2::ggplot(iris[c(1, 51, 101), ],
+#'                 ggplot2::aes(Species, Sepal.Length, colour = Species)) +
+#'   geom_scribblecol(ggplot2::aes(scribblecolour = Species),
+#'                    scribblewidth = 2) +
+#'   ggplot2::theme_classic(20)
 #'
 geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
                               position = "stack", ..., just = 0.5, width = NULL,

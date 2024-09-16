@@ -13,7 +13,7 @@ geom_scribblespoke(
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE,
-  res = 10
+  res = 200
 )
 }
 \arguments{

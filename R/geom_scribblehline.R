@@ -15,7 +15,7 @@ geom_scribblehline <- function (mapping = NULL, data = NULL, ...,
                            "because {.arg yintercept} was provided."))
     }
     data <- data_frame0(yintercept = yintercept)
-    mapping <- aes(yintercept = yintercept)
+    mapping <- ggplot2::aes(yintercept = yintercept)
     show.legend <- FALSE
   }
   ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,

@@ -73,8 +73,9 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot(iris, aes(Species, scribblecolour = Species,
-                colour = Species, scribblewidth = Species)) +
+ggplot2::ggplot(iris,
+                ggplot2::aes(Species, scribblecolour = Species,
+                             colour = Species, scribblewidth = Species)) +
  geom_scribblebar() +
  scale_scribblewidth_manual(values = c(1, 3, 5))
 }

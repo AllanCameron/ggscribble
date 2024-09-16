@@ -93,7 +93,7 @@ geom_scribbleabline <- function (mapping = NULL, data = NULL, ..., slope,
     n_slopes <- max(length(slope), length(intercept))
     data <- data_frame0(intercept = intercept, slope = slope,
                         .size = n_slopes)
-    mapping <- aes(intercept = intercept, slope = slope)
+    mapping <- ggplot2::aes(intercept = intercept, slope = slope)
     show.legend <- FALSE
   }
   ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,

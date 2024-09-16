@@ -19,6 +19,7 @@ Imports:
     ggplot2,
     rlang,
     cli,
-    vctrs
+    vctrs,
+    ambient
 LazyData: true
 RoxygenNote: 7.3.1

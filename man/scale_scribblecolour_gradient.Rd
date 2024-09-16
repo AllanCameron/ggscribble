@@ -94,8 +94,9 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot(iris, aes(Species, scribblecolour = Species, colour = Species)) +
+ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+                                   colour = Species)) +
   geom_scribblebar() +
   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +
-  scale_colour_manual(values = c("green4", "navy", "red3"))
+  ggplot2::scale_colour_manual(values = c("green4", "navy", "red3"))
 }

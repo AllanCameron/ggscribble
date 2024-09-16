@@ -14,13 +14,13 @@ geom_scribblevline <- function (mapping = NULL, data = NULL, ...,
                            "because {.arg xintercept} was provided."))
     }
     data <- data_frame0(xintercept = xintercept)
-    mapping <- aes(xintercept = xintercept)
+    mapping <- ggplot2::aes(xintercept = xintercept)
     show.legend <- FALSE
   }
-  layer(data = data, mapping = mapping, stat = StatIdentity,
-        geom = GeomScribblevline, position = PositionIdentity,
-        show.legend = show.legend, inherit.aes = FALSE,
-        params = rlang::list2(na.rm = na.rm, res = res, ...))
+  ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,
+                 geom = GeomScribblevline, position = PositionIdentity,
+                 show.legend = show.legend, inherit.aes = FALSE,
+                 params = rlang::list2(na.rm = na.rm, res = res, ...))
 }
 
 

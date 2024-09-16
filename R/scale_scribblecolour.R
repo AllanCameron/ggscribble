@@ -29,10 +29,12 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot(iris, aes(Species, scribblecolour = Species, colour = Species)) +
+#' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+#'                                    colour = Species)) +
 #'   geom_scribblebar() +
 #'   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +
-#'   scale_colour_manual(values = c("green4", "navy", "red3"))
+#'   ggplot2::scale_colour_manual(values = c("green4", "navy", "red3"))
+
 scale_scribblecolour_gradient <- function (name = waiver(), ...,
     low = "#132B43", high = "#56B1F7", space = "Lab", na.value = "grey50",
     guide = "colourbar", aesthetics = "scribblecolour") {

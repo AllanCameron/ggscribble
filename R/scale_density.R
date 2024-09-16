@@ -29,10 +29,10 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot(iris, aes(Species, scribblecolour = Species,
-#'                 colour = Species, density = Species)) +
+#' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+#'                                    colour = Species, density = Species)) +
 #'  geom_scribblebar() +
-#' scale_density_manual(values = c(45, 135, 0))
+#'  scale_density_manual(values = c(45, 135, 0))
 
 scale_density <- function (name = ggplot2::waiver(),
                          breaks = waiver(), labels = waiver(),

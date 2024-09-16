@@ -72,8 +72,8 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot(iris, aes(Species, scribblecolour = Species,
-                colour = Species, density = Species)) +
+ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+                                   colour = Species, density = Species)) +
  geom_scribblebar() +
-scale_density_manual(values = c(45, 135, 0))
+ scale_density_manual(values = c(45, 135, 0))
 }

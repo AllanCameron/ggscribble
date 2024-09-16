@@ -26,8 +26,9 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot(iris, aes(Species, scribblecolour = Species,
-#'                 colour = Species, scribblewidth = Species)) +
+#' ggplot2::ggplot(iris,
+#'                 ggplot2::aes(Species, scribblecolour = Species,
+#'                              colour = Species, scribblewidth = Species)) +
 #'  geom_scribblebar() +
 #'  scale_scribblewidth_manual(values = c(1, 3, 5))
 
@@ -35,7 +36,9 @@ scale_scribblewidth <- function (name = ggplot2::waiver(),
                          breaks = waiver(), labels = waiver(),
                          limits = NULL, range = c(1, 6),
                          guide = "legend") {
-  ggplot2::continuous_scale("scribblewidth", palette = scales::pal_rescale(range),
+
+  ggplot2::continuous_scale("scribblewidth",
+                            palette = scales::pal_rescale(range),
                             name = name, breaks = breaks, labels = labels,
                             limits = limits, guide = guide)
 }
@@ -49,6 +52,7 @@ scale_scribblewidth_continuous <- scale_scribblewidth
 #' @export
 scale_scribblewidth_identity <- function(name = ggplot2::waiver(),
                                  ..., guide = "none") {
+
   ggplot2::continuous_scale(
     "scribblewidth", name = name,
     palette = scales::pal_identity(), ..., guide = guide,
@@ -70,7 +74,8 @@ scale_scribblewidth_ordinal <- function (name = ggplot2::waiver(), ...,
                                  range = c(1, 6)) {
   force(range)
   ggplot2::discrete_scale("scribblewidth", name = name,
-                          palette = function(n) seq(range[1], range[2], length.out = n),
+                          palette = function(n) seq(range[1], range[2],
+                                                    length.out = n),
                           ...)
 }
 

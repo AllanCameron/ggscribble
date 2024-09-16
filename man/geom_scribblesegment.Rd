@@ -98,5 +98,6 @@ ggplot2::ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 2),
                                   y = c(5, 2), y1 = c(3, 4),
                                   g = c("A", "B")),
                 mapping = ggplot2::aes(x, y, colour = g)) +
-  geom_scribblesegment(aes(xend = x1, yend = y1), res = 200, wibbliness = 2)
+  geom_scribblesegment(ggplot2::aes(xend = x1, yend = y1),
+                       res = 200, wibbliness = 2)
 }

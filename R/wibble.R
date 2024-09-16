@@ -34,13 +34,17 @@ wibble_segs <- function(x0, x1, y0, y1, wibbliness = 1, res = 200) {
   len   <- sqrt((x1 - x0)^2 + (y1 - y0)^2)
   theta <- atan2(y1 - y0, x1 - x0)
   nvals <- ceiling(len * res)
+  nvals <- pmax(2, nvals)
   id    <- rep(seq_along(nvals), nvals)
   x     <- len[id] * sequence(nvals, from = 0, by = 1) / (nvals[id] - 1)
   y     <- unlist(lapply(nvals, function(x) {
-    c(ambient::noise_perlin(c(x, 1), frequency = 0.02))
+    noiz <- c(ambient::noise_perlin(c(x, 1), frequency = 0.02))
+    noiz - tail(noiz, 1) * seq(0, 1, length.out = x)
   })) * wibbliness[id] * 0.02
+
   xvals <- cos(theta)[id] * x + cos(theta - pi/2)[id] * y + x0[id]
   yvals <- sin(theta)[id] * x + sin(theta - pi/2)[id] * y + y0[id]
+
   list(x = xvals, y = yvals, id = id)
 }
 
