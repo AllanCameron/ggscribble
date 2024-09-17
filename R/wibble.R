@@ -48,6 +48,34 @@ wibble_segs <- function(x0, x1, y0, y1, wibbliness = 1, res = 200) {
   list(x = xvals, y = yvals, id = id)
 }
 
+wibble_lines <- function(x, y, id, wibbliness = 1, res = 100) {
+
+  seg_len   <- numeric(length(x))
+  seg_len[] <- NA_real_
+  theta     <- seg_len
+  is_seg    <- c(diff(id) == 0, FALSE)
+  is_end    <- c(FALSE, diff(id) == 0)
+  seg_len[is_seg] <- sqrt(diff(x)^2 + diff(y)^2)[is_seg]
+  res_len   <- pmax(5, ceiling(res * seg_len))
+  x <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
+                        a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
+  y <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
+                        a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
+  id <- rep(id[is_seg], res_len[!is.na(res_len)])
+  xnoise <- do.call("c", Map(function(x, y, w) {
+    ambient::gen_perlin(x + runif(1, 0, 1000),
+                        y + runif(1, 0, 1000),
+                        frequency = 10 * res/200) * 0.01 * w
+  }, x = split(x, id), y = split(y, id), w = wibbliness))
+  ynoise <- do.call("c", Map(function(x, y, w) {
+    ambient::gen_perlin(x + runif(1, 0, 1000),
+                        y + runif(1, 0, 1000),
+                        frequency = 10 * res/200) * 0.01 * w
+  }, x = split(x, id), y = split(y, id), w = wibbliness))
+
+  list(x = unname(x + xnoise), y = unname(y + ynoise), id = id)
+}
+
 wibblify <- function(shape, ...) {
   UseMethod("wibblify")
 }
@@ -148,23 +176,11 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100,
   n_lines <- length(unique(line$id))
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, n_lines)
 
-  li <- Map(function(x, y, id, w) {
-    li <- Map(do_wibble, x0 = head(x, -1), x1 = tail(x, -1), y0 = head(y, -1),
-              y1 = tail(y, -1), n = rep(res, length(x) - 1),
-              wibbliness = rep(w, length(x) - 1))
-    li <- list(x = do.call("c", lapply(li, function(x) x$x)),
-               y = do.call("c", lapply(li, function(x) x$y)))
-    li$id <- rep(id[1], length(li$x))
-    li
-  }, split(x, line$id), split(y, line$id), split(line$id, line$id), wibbliness)
+  li <- wibble_lines(x, y, line$id, wibbliness, res)
 
-  x  <- do.call("c", lapply(li, function(x) x$x))
-  y  <- do.call("c", lapply(li, function(x) x$y))
-  id <- do.call("c", lapply(li, function(x) x$id))
-
-  line$x <- grid::unit(x, default.units)
-  line$y <- grid::unit(y, default.units)
-  line$id <- id
+  line$x <- grid::unit(li$x, default.units)
+  line$y <- grid::unit(li$y, default.units)
+  line$id <- li$id
   line
 }
 
