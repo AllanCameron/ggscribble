@@ -28,7 +28,7 @@
 #'   shapes which controls how closely the shape of the scribble fill
 #'   approximates the outline it fills. A single value can be given instead to
 #'   apply to all shapes.
-#' @param density A numeric vector with the same length as the number of
+#' @param scribbledensity A numeric vector with the same length as the number of
 #'   shapes which controls how densely the scribbles are packed into the shape.
 #'   The default value is 100. A single value can be given instead to apply to
 #'   all shapes.
@@ -57,12 +57,13 @@
 #'                    y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
 #'                    id = c(1, 1, 1, 1, 2, 2, 2),
 #'                    scribblecolour = c("red", "green"),
-#'                    density = 200)
+#'                    scribbledensity = 200)
 #' grid::grid.draw(sg)
 
 scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                          pathId = NULL,
-                         wibbliness = 1, sloppiness = 1, density = 100,
+                         wibbliness = 1, sloppiness = 1,
+                         scribbledensity = 100,
                          randomness = 1, scribblewidth = 1,
                          scribblecolour = "black", default.units = "npc",
                          res = 200) {
@@ -71,10 +72,14 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
   if(is.null(pathId)) pathId <- id
   if(length(pathId) != length(x)) stop("mismatch between co-ordinates and id")
   n_groups <- length(unique(pathId))
-  pars <- list(angle = angle, wonkiness = wonkiness, wibbliness = wibbliness,
-               sloppiness = sloppiness, density = density,
+  pars <- list(angle = angle,
+               wonkiness = wonkiness,
+               wibbliness = wibbliness,
+               sloppiness = sloppiness,
+               scribbledensity = scribbledensity,
                randomness = randomness,
-               scribblewidth = scribblewidth, scribblecolour = scribblecolour)
+               scribblewidth = scribblewidth,
+               scribblecolour = scribblecolour)
 
   pars <- setNames(Map(function(x, nm) {
     if(length(x) == 1) x <- rep(x, n_groups)
@@ -88,11 +93,12 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                    default.units = default.units)
     gs <- wonkify(gs, wonkiness = pars$wonkiness)
     gs <- wibblify(gs, wibbliness = pars$wibbliness, res)
-    scribble_fill(gs, angle = angle, density = density, sloppiness = neat,
-                  randomness = randomness, col = col, lwd = lwd)
+    scribble_fill(gs, angle = angle, scribbledensity = scribbledensity,
+                  sloppiness = neat, randomness = randomness,
+                  col = col, lwd = lwd)
 
   }, split(x, pathId), split(y, pathId), split(id, pathId), pars$angle,
-  pars$density,
+  pars$scribbledensity,
   pars$wonkiness, pars$wibbliness, pars$sloppiness, seq_along(pars$angle),
   pars$scribblecolour, pars$scribblewidth)
 

@@ -37,7 +37,7 @@ GeomScribblerect <- ggplot2::ggproto("GeomScribblerect", ggplot2::GeomRect,
                       linetype = 1, alpha = NA, subgroup = NULL,
                       scribblecolour = "black", scribblewidth = 1,
                       wonkiness = 1, wibbliness = 1, randomness = 1,
-                      sloppiness = 1, density = 200, angle = 46),
+                      sloppiness = 1, scribbledensity = 200, angle = 46),
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
                          linejoin = "mitre", res = res) {
 

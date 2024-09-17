@@ -3,10 +3,10 @@
 # This function creates a bunch of wibbly parallel lines of a given angle
 # and density which will be masked and used for the scribble fill of solid
 # shapes
-make_scribbles <- function(angle = 45, density = 100, randomness = 1,
+make_scribbles <- function(angle = 45, scribbledensity = 100, randomness = 1,
                            gp = grid::gpar(), vp = NULL) {
 
-  density <- as.integer(density)
+  density <- as.integer(scribbledensity)
   x  <- seq(-1, 2, length = density * 2)
   y0 <- rep(-1, length = density * 2)
   y1 <- rep( 2, length = density * 2)
@@ -27,13 +27,14 @@ make_scribbles <- function(angle = 45, density = 100, randomness = 1,
 # Creates a mask from the given polygon (after deforming it if desired),
 # and generates parallel lines inside the mask. It bundles the result along
 # with the original polygon into a single grob.
-scribble_fill <- function(shape, angle = 45, density = 100, randomness = 1,
+scribble_fill <- function(shape, angle = 45, scribbledensity = 100,
+                          randomness = 1,
                           col = "black", lwd = 1, wonkiness = 1,
                           sloppiness = 1) {
   shape_mask <- shape
   shape_mask$gp <- grid::gpar(fill = "black", col = "white")
   line_mask <- wonkify(shape_mask, sloppiness / 2)
-  scrib <- make_scribbles(angle, density, randomness,
+  scrib <- make_scribbles(angle, scribbledensity, randomness,
                           gp = grid::gpar(lwd = lwd, col = col),
                           vp = grid::viewport(mask = line_mask))
   shape$vp <- grid::viewport(mask = shape_mask)

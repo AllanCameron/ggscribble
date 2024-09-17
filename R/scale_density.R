@@ -30,60 +30,62 @@
 #' @export
 #' @examples
 #' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
-#'                                    colour = Species, density = Species)) +
+#'                                    colour = Species,
+#'                                    scribbledensity = Species)) +
 #'  geom_scribblebar() +
-#'  scale_density_manual(values = c(45, 135, 0))
+#'  scale_scribbledensity_manual(values = c(45, 135, 0))
 
-scale_density <- function (name   = ggplot2::waiver(),
-                           breaks = ggplot2::waiver(),
-                           labels = waiver(),
-                           limits = NULL,
-                           range  = c(50, 400),
-                           guide  = "legend") {
+scale_scribbledensity <- function (name   = ggplot2::waiver(),
+                                   breaks = ggplot2::waiver(),
+                                   labels = waiver(),
+                                   limits = NULL,
+                                   range  = c(50, 400),
+                                   guide  = "legend") {
 
-  ggplot2::continuous_scale("density", palette = scales::pal_rescale(range),
+  ggplot2::continuous_scale("scribbledensity",
+                            palette = scales::pal_rescale(range),
                             name = name, breaks = breaks, labels = labels,
                             limits = limits, guide = guide)
 }
 
-#' @rdname scale_density
+#' @rdname scale_scribbledensity
 #' @export
-scale_density_continuous <- scale_density
+scale_scribbledensity_continuous <- scale_scribbledensity
 
 
-#' @rdname scale_density
+#' @rdname scale_scribbledensity
 #' @export
-scale_density_identity <- function(name = ggplot2::waiver(),
-                                 ..., guide = "none") {
+scale_scribbledensity_identity <- function(name = ggplot2::waiver(),
+                                           ..., guide = "none") {
   ggplot2::continuous_scale(
-    "density", name = name,
+    "scribbledensity", name = name,
     palette = scales::pal_identity(), ..., guide = guide,
     super = ggplot2::ScaleContinuousIdentity
   )
 }
 
-#' @rdname scale_density
+#' @rdname scale_scribbledensity
 #' @export
-scale_density_manual <- function (..., values, breaks = ggplot2::waiver(),
-                                na.value = NA) {
+scale_scribbledensity_manual <- function (..., values, breaks = ggplot2::waiver(),
+                                          na.value = NA) {
 
-  manual_scale("density", values, breaks, ..., na.value = na.value)
+  manual_scale("scribbledensity", values, breaks, ..., na.value = na.value)
 }
 
-#' @rdname scale_density
+#' @rdname scale_scribbledensity
 #' @export
-scale_density_ordinal <- function (name = ggplot2::waiver(), ...,
-                                 range = c(50, 400)) {
+scale_scribbledensity_ordinal <- function (name = ggplot2::waiver(), ...,
+                                           range = c(50, 400)) {
   force(range)
-  ggplot2::discrete_scale("density", name = name,
-                          palette = function(n) seq(range[1], range[2], length.out = n),
-                          ...)
+  ggplot2::discrete_scale("scribbledensity", name = name,
+                          palette = function(n) seq(range[1], range[2],
+                                                    length.out = n), ...)
 }
 
-#' @rdname scale_density
+#' @rdname scale_scribbledensity
 #' @export
-scale_density_discrete <- function (...) {
+scale_scribbledensity_discrete <- function (...) {
   args <- rlang::list2(...)
   args$call <- if(is.null(args$call)) rlang::current_call() else args$call
-  rlang::exec(scale_density_ordinal, !!!args)
+  rlang::exec(scale_scribbledensity_ordinal, !!!args)
 }

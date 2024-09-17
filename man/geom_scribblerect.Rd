@@ -86,13 +86,13 @@ Create a ggplot layer containing scribble-filled rectangles
   \item \code{alpha}
   \item \code{angle}
   \item \code{colour}
-  \item \code{density}
   \item \code{fill}
   \item \code{group}
   \item \code{linetype}
   \item \code{linewidth}
   \item \code{randomness}
   \item \code{scribblecolour}
+  \item \code{scribbledensity}
   \item \code{scribblewidth}
   \item \code{sloppiness}
   \item \code{subgroup}

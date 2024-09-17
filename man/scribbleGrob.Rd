@@ -14,7 +14,7 @@ scribbleGrob(
   pathId = NULL,
   wibbliness = 1,
   sloppiness = 1,
-  density = 100,
+  scribbledensity = 100,
   randomness = 1,
   scribblewidth = 1,
   scribblecolour = "black",
@@ -59,7 +59,7 @@ shapes which controls how closely the shape of the scribble fill
 approximates the outline it fills. A single value can be given instead to
 apply to all shapes.}
 
-\item{density}{A numeric vector with the same length as the number of
+\item{scribbledensity}{A numeric vector with the same length as the number of
 shapes which controls how densely the scribbles are packed into the shape.
 The default value is 100. A single value can be given instead to apply to
 all shapes.}
@@ -97,6 +97,6 @@ sg <- scribbleGrob(x = c(0.4, 0.6, 0.6, 0.4, 0.8, 0.9, 0.85),
                    y = c(0.4, 0.4, 0.6, 0.6, 0.8, 0.8, 0.9),
                    id = c(1, 1, 1, 1, 2, 2, 2),
                    scribblecolour = c("red", "green"),
-                   density = 200)
+                   scribbledensity = 200)
 grid::grid.draw(sg)
 }
