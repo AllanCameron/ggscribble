@@ -34,10 +34,13 @@
 #'  geom_scribblebar() +
 #'  scale_density_manual(values = c(45, 135, 0))
 
-scale_density <- function (name = ggplot2::waiver(),
-                         breaks = waiver(), labels = waiver(),
-                         limits = NULL, range = c(50, 400),
-                         guide = "legend") {
+scale_density <- function (name   = ggplot2::waiver(),
+                           breaks = ggplot2::waiver(),
+                           labels = waiver(),
+                           limits = NULL,
+                           range  = c(50, 400),
+                           guide  = "legend") {
+
   ggplot2::continuous_scale("density", palette = scales::pal_rescale(range),
                             name = name, breaks = breaks, labels = labels,
                             limits = limits, guide = guide)

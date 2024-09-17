@@ -35,7 +35,7 @@
 #'   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +
 #'   ggplot2::scale_colour_manual(values = c("green4", "navy", "red3"))
 
-scale_scribblecolour_gradient <- function (name = waiver(), ...,
+scale_scribblecolour_gradient <- function (name = ggplot2::waiver(), ...,
     low = "#132B43", high = "#56B1F7", space = "Lab", na.value = "grey50",
     guide = "colourbar", aesthetics = "scribblecolour") {
 
@@ -51,7 +51,8 @@ scale_scribblecolour_continuous <- scale_scribblecolour_gradient
 
 #' @rdname scale_scribblecolour_gradient
 #' @export
-scale_scribblecolour_identity <- function (name = waiver(), ..., guide = "none",
+scale_scribblecolour_identity <- function (name = ggplot2::waiver(), ...,
+                                           guide = "none",
                                            aesthetics = "scribblecolour") {
 
     ggplot2::discrete_scale(aesthetics, name = name,
@@ -64,7 +65,7 @@ scale_scribblecolour_identity <- function (name = waiver(), ..., guide = "none",
 scale_scribblecolour_manual <- function (...,
                                          values,
                                          aesthetics = "scribblecolour",
-                                         breaks = waiver(),
+                                         breaks = ggplot2::waiver(),
                                          na.value = "grey50") {
 
   manual_scale(aesthetics, values, breaks, ..., na.value = na.value)
@@ -72,7 +73,7 @@ scale_scribblecolour_manual <- function (...,
 
 #' @rdname scale_scribblecolour_gradient
 #' @export
-scale_scribblecolour_discrete <- function (name = waiver(), ...,
+scale_scribblecolour_discrete <- function (name = ggplot2::waiver(), ...,
     h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
     na.value = "grey50", aesthetics = "scribblecolour") {
 

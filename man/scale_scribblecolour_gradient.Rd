@@ -9,7 +9,7 @@
 \title{Scribble colour scales}
 \usage{
 scale_scribblecolour_gradient(
-  name = waiver(),
+  name = ggplot2::waiver(),
   ...,
   low = "#132B43",
   high = "#56B1F7",
@@ -20,7 +20,7 @@ scale_scribblecolour_gradient(
 )
 
 scale_scribblecolour_continuous(
-  name = waiver(),
+  name = ggplot2::waiver(),
   ...,
   low = "#132B43",
   high = "#56B1F7",
@@ -31,7 +31,7 @@ scale_scribblecolour_continuous(
 )
 
 scale_scribblecolour_identity(
-  name = waiver(),
+  name = ggplot2::waiver(),
   ...,
   guide = "none",
   aesthetics = "scribblecolour"
@@ -41,12 +41,12 @@ scale_scribblecolour_manual(
   ...,
   values,
   aesthetics = "scribblecolour",
-  breaks = waiver(),
+  breaks = ggplot2::waiver(),
   na.value = "grey50"
 )
 
 scale_scribblecolour_discrete(
-  name = waiver(),
+  name = ggplot2::waiver(),
   ...,
   h = c(0, 360) + 15,
   c = 100,

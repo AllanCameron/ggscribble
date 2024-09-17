@@ -33,9 +33,11 @@
 #'  scale_scribblewidth_manual(values = c(1, 3, 5))
 
 scale_scribblewidth <- function (name = ggplot2::waiver(),
-                         breaks = waiver(), labels = waiver(),
-                         limits = NULL, range = c(1, 6),
-                         guide = "legend") {
+                                 breaks = ggplot2::waiver(),
+                                 labels = ggplot2::waiver(),
+                                 limits = NULL,
+                                 range = c(1, 6),
+                                 guide = "legend") {
 
   ggplot2::continuous_scale("scribblewidth",
                             palette = scales::pal_rescale(range),

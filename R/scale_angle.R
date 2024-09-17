@@ -35,7 +35,7 @@
 #'  scale_angle_manual(values = c(45, 135, 0))
 
 scale_angle <- function (name = ggplot2::waiver(),
-                         breaks = waiver(), labels = waiver(),
+                         breaks = ggplot2::waiver(), labels = ggplot2::waiver(),
                          limits = NULL, range = c(0, 90),
                          guide = "legend") {
   ggplot2::continuous_scale("angle", palette = scales::pal_rescale(range),

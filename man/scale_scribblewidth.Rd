@@ -11,8 +11,8 @@
 \usage{
 scale_scribblewidth(
   name = ggplot2::waiver(),
-  breaks = waiver(),
-  labels = waiver(),
+  breaks = ggplot2::waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(1, 6),
   guide = "legend"
@@ -20,8 +20,8 @@ scale_scribblewidth(
 
 scale_scribblewidth_continuous(
   name = ggplot2::waiver(),
-  breaks = waiver(),
-  labels = waiver(),
+  breaks = ggplot2::waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(1, 6),
   guide = "legend"

@@ -11,7 +11,7 @@
 \usage{
 scale_density(
   name = ggplot2::waiver(),
-  breaks = waiver(),
+  breaks = ggplot2::waiver(),
   labels = waiver(),
   limits = NULL,
   range = c(50, 400),
@@ -20,7 +20,7 @@ scale_density(
 
 scale_density_continuous(
   name = ggplot2::waiver(),
-  breaks = waiver(),
+  breaks = ggplot2::waiver(),
   labels = waiver(),
   limits = NULL,
   range = c(50, 400),

@@ -45,7 +45,7 @@ get_first_rows <- function(data) {
 }
 
 manual_scale <- function (aesthetic, values = NULL, breaks = ggplot2::waiver(),
-                          name = waiver(), ..., limits = NULL,
+                          name = ggplot2::waiver(), ..., limits = NULL,
                           call = rlang::caller_call()) {
 
   call <- call %||% current_call()

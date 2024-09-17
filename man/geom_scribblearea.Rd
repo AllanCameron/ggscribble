@@ -103,7 +103,15 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data.frame(x = seq(0, pi, 0.1), y = sin(seq(0, pi, 0.1))),
-                ggplot2::aes(x, y)) +
- geom_scribblearea()
+dat <- data.frame(x = rep(seq(0, pi, 0.1), 2),
+                  y = c(2 * sin(seq(0, pi, 0.1)), 1 +
+                        sin(seq(pi/3, 3*pi/2, length = 32))),
+                  z = rep(c("A", "B"), each = 32))
+
+ggplot2::ggplot(dat, ggplot2::aes(x, y, scribblecolour = z, angle = z)) +
+  geom_scribblearea(res = 300, wibbliness = 0.5,
+                    scribblewidth = 2, density = 300) +
+ scale_angle_manual(values = c(30, 45)) +
+ ggplot2::coord_cartesian(expand = 0) +
+ ggplot2::theme_classic(16)
 }

@@ -11,8 +11,8 @@
 \usage{
 scale_angle(
   name = ggplot2::waiver(),
-  breaks = waiver(),
-  labels = waiver(),
+  breaks = ggplot2::waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(0, 90),
   guide = "legend"
@@ -20,8 +20,8 @@ scale_angle(
 
 scale_angle_continuous(
   name = ggplot2::waiver(),
-  breaks = waiver(),
-  labels = waiver(),
+  breaks = ggplot2::waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(0, 90),
   guide = "legend"
