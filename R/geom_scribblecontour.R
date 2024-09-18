@@ -1,13 +1,47 @@
-#' The ggproto object that powers scribbled 2d density lines
+
+
+#' Create a ggplot layer containing scribbled contour lines
+#'
+#' @inheritParams ggplot2::geom_line
+#' @eval rd_aesthetics("geom", "scribblecontour")
+#' @return A `Layer` ggproto object that can be added to a plot.
+#' @export
+#'
+#' @examples
+#' v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
+#'
+#' ggplot2::ggplot(v, ggplot2::aes(x, y)) +
+#'   geom_scribblecontour(ggplot2::aes(z = z), bins = 6, color = "black") +
+#'   ggplot2::theme_classic(16)
+
+geom_scribblecontour <- function (mapping = NULL, data = NULL, stat = "contour",
+                                  position = "identity", ..., bins = NULL,
+                                  binwidth = NULL, breaks = NULL,
+                                  lineend = "butt", linejoin = "round",
+                                  linemitre = 10, na.rm = FALSE, res = 200,
+                                  show.legend = NA, inherit.aes = TRUE) {
+
+  ggplot2::layer(data = data, mapping = mapping, stat = stat,
+                 geom = GeomScribblecontour, position = position,
+                 show.legend = show.legend, inherit.aes = inherit.aes,
+                 params = rlang::list2(bins = bins, binwidth = binwidth,
+                                       breaks = breaks, lineend = lineend,
+                                       linejoin = linejoin,
+                                       linemitre = linemitre,
+                                       na.rm = na.rm, ..., res = res))
+}
+
+
+#' The ggproto object that powers scribbled 2d contour lines
 #'
 #' See \link[ggplot2]{ggplot2-ggproto}
 #'
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomScribbledensity2d <- ggplot2::ggproto("GeomScribbledensity2d",
+GeomScribblecontour <- ggplot2::ggproto("GeomScribblecontour",
 
-   ggplot2::GeomDensity2d,
+   ggplot2::GeomContour,
 
    default_aes = ggplot2::aes(colour = "black", linewidth = 1,
                               linetype = 1, alpha = NA,
@@ -85,32 +119,3 @@ GeomScribbledensity2d <- ggplot2::ggproto("GeomScribbledensity2d",
     }
    }
 )
-
-#' Create a ggplot layer containing scribbled 2d density contours
-#'
-#' @inheritParams ggplot2::geom_line
-#' @eval rd_aesthetics("geom", "scribbledensity2d")
-#' @return A `Layer` ggproto object that can be added to a plot.
-#' @export
-#'
-#' @examples
-#' set.seed(1)
-#'
-#' ggplot2::ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
-#'                 ggplot2::aes(x, y)) +
-#'  geom_scribbledensity2d()
-geom_scribbledensity2d <- function (mapping = NULL, data = NULL,
-                                    stat = "density_2d", position = "identity",
-                                    ..., contour_var = "density",
-                                    lineend = "butt", linejoin = "round",
-                                    linemitre = 10, na.rm = FALSE, res = 10,
-                                    show.legend = NA, inherit.aes = TRUE) {
-
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbledensity2d, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(lineend = lineend, linejoin = linejoin,
-                                       linemitre = linemitre, contour = TRUE,
-                                       contour_var = contour_var,
-                                       na.rm = na.rm, ..., res = res))
-}
