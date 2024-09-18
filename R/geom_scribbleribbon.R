@@ -1,41 +1,34 @@
-#' Create a ggplot layer containing scribble-filled polygonal areas
+#' Create a ggplot layer containing scribble-filled ribbons
 #'
 #' @inheritParams ggplot2::geom_polygon
-#' @eval rd_aesthetics("geom", "scribblearea")
+#' @eval rd_aesthetics("geom", "scribbleribbon")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
-#' dat <- data.frame(x = rep(seq(0, pi, 0.1), 2),
-#'                   y = c(2 * sin(seq(0, pi, 0.1)), 1 +
-#'                         sin(seq(pi/3, 3*pi/2, length = 32))),
-#'                   z = rep(c("A", "B"), each = 32))
+#' d <- data.frame(year = 2000:2004,
+#'                 low = c(5, 6, 6, 5, 4),
+#'                 high = c(10, 12, 10, 9, 11))
 #'
-#' ggplot2::ggplot(dat, ggplot2::aes(x, y, scribblecolour = z, angle = z)) +
-#'   geom_scribblearea(res = 300, wibbliness = 0.5,
-#'                     scribblewidth = 2, scribbledensity = 300) +
-#'  scale_angle_manual(values = c(30, 45)) +
-#'  ggplot2::coord_cartesian(expand = 0) +
-#'  ggplot2::theme_classic(16)
-
-geom_scribblearea <- function (mapping = NULL, data = NULL, stat = "align",
-                               position = "stack", na.rm = FALSE,
-                               orientation = NA, show.legend = NA, res = 200,
-                               inherit.aes = TRUE, ...,
-                               outline.type = "upper") {
+#' ggplot2::ggplot(d, ggplot2::aes(year)) +
+#'   geom_scribbleribbon(ggplot2::aes(ymin = low, ymax = high))
+geom_scribbleribbon <- function (mapping = NULL, data = NULL, stat = "identity",
+                                 position = "identity", ..., na.rm = FALSE,
+                                 orientation = NA, show.legend = NA, res = 200,
+                                 inherit.aes = TRUE, outline.type = "both") {
 
   outline.type <- rlang::arg_match0(outline.type, c("both", "upper",
                                                     "lower", "full"))
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblearea, position = position,
+                 geom = GeomScribbleribbon, position = position,
                  show.legend = show.legend, inherit.aes = inherit.aes,
                  params = rlang::list2(na.rm = na.rm, orientation = orientation,
                                        outline.type = outline.type, ...,
                                        res = res))
 }
 
-#' The ggproto object that powers scribble-filled area polygons.
+#' The ggproto object that powers scribble-filled ribbons
 #'
 #' See \link[ggplot2]{ggplot2-ggproto}
 #'
@@ -43,21 +36,22 @@ geom_scribblearea <- function (mapping = NULL, data = NULL, stat = "align",
 #' @usage NULL
 #' @export
 
-GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
-  ggplot2::GeomArea,
+GeomScribbleribbon <- ggplot2::ggproto("GeomScribbleribbon",
+
+  ggplot2::GeomRibbon,
 
   default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
-                             wonkiness = 0.1, wibbliness = 1, randomness = 1,
+                             wonkiness = 1, wibbliness = 1, randomness = 1,
                              sloppiness = 1, scribbledensity = 200, angle = 45),
 
   draw_group = function (self, data, panel_params, coord, lineend = "butt",
                          linejoin = "round", linemitre = 10, na.rm = FALSE,
-                         flipped_aes = FALSE, outline.type = "both",
-                         res = 200) {
+                         flipped_aes = FALSE,
+                         outline.type = "both", res = 200) {
 
-    if (is.null(data$linewidth) && !is.null(data$size)) {
+   if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
     }
     data <- ggplot2::flip_data(data, flipped_aes)
@@ -130,4 +124,5 @@ GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
                         linejoin = linejoin, linemitre = linemitre))
     g_lines <- wibblify(g_lines, aes$wibbliness, res)
     ggname("geom_ribbon", grid::grobTree(g_poly, g_lines))
-})
+}
+  )
