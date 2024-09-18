@@ -60,9 +60,11 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
                                       is_closed = TRUE)
 
       if (is.null(munched$subgroup)) {
-        munched <- munched[order(munched$group), ]
-        first_idx <- !duplicated(munched$group)
+        munched    <- munched[order(munched$group), ]
+        first_idx  <- !duplicated(munched$group)
         first_rows <- munched[first_idx, ]
+        munched    <- rbind(munched, first_rows)
+        munched    <- munched[order(munched$group), ]
 
       scribbleGrob(x = munched$x, y = munched$y,
           default.units = "npc", pathId = munched$group,
@@ -74,6 +76,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           sloppiness = first_rows$sloppiness,
           randomness = first_rows$randomness,
           angle = first_rows$angle,
+          res = res,
           gp = grid::gpar(col = first_rows$colour,
               fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
               lwd = first_rows$linewidth * ggplot2::.pt,

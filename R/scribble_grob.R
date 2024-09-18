@@ -93,7 +93,7 @@ scribbleGrob <- function(x, y, id, gp = grid::gpar(), angle = 45, wonkiness = 1,
                    default.units = default.units)
     gs <- wonkify(gs, wonkiness = pars$wonkiness)
     gs <- wibblify(gs, wibbliness = pars$wibbliness, res)
-    scribble_fill(gs, angle = angle, scribbledensity = scribbledensity,
+    scribble_fill(gs, angle = angle, scribbledensity = density,
                   sloppiness = neat, randomness = randomness,
                   col = col, lwd = lwd)
 

@@ -76,6 +76,42 @@ wibble_lines <- function(x, y, id, wibbliness = 1, res = 100) {
   list(x = unname(x + xnoise), y = unname(y + ynoise), id = id)
 }
 
+wibble_polys <- function(x, y, pathId, id, wibbliness = 1, res = 200) {
+
+  seg_len   <- numeric(length(x))
+  seg_len[] <- NA_real_
+  theta     <- seg_len
+  bits      <- paste(pathId, id, sep = ".")
+  bit_id    <- match(bits, unique(bits))
+  is_seg    <- c(diff(bit_id) == 0, FALSE)
+  is_end    <- c(FALSE, diff(bit_id) == 0)
+  seg_len[is_seg] <- sqrt(diff(x)^2 + diff(y)^2)[is_seg]
+  res_len   <- pmax(5, ceiling(res * seg_len))
+
+  x <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
+                        a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
+  y <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
+                        a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
+  pathId <- rep(pathId[is_seg], res_len[!is.na(res_len)])
+  id <- rep(id[is_seg], res_len[!is.na(res_len)])
+  bit_id <- rep(bit_id[is_seg], res_len[!is.na(res_len)])
+
+  xnoise <- do.call("c", Map(function(x, y, w) {
+    ambient::gen_perlin(x + runif(1, 0, 1000),
+                        y + runif(1, 0, 1000),
+                        frequency = 10 * res/200) * 0.01 * w
+  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness))
+
+  ynoise <- do.call("c", Map(function(x, y, w) {
+    ambient::gen_perlin(x + runif(1, 0, 1000),
+                        y + runif(1, 0, 1000),
+                        frequency = 10 * res/200) * 0.01 * w
+  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness))
+
+  list(x = x + xnoise, y = y + ynoise, id = id, pathId = pathId)
+}
+
+
 wibblify <- function(shape, ...) {
   UseMethod("wibblify")
 }
@@ -88,6 +124,7 @@ wibblify.zeroGrob <- function(x, ...) {
 #' @export
 wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
                              default.units = "npc") {
+
   x <- grid::convertX(poly$x, default.units, TRUE)
   y <- grid::convertY(poly$y, default.units, TRUE)
 
@@ -99,32 +136,12 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
 
   wibbliness <- rep(wibbliness[1], length(unique(poly$pathId)))
 
-  dfs <- split(data.frame(path = poly$pathId, x = x, y = y, id = poly$id),
-               interaction(poly$pathId, poly$id))
-
-  dfs <- lapply(dfs, function(d) {
-      d$x1 <- c(d$x[-1], d$x[1])
-      d$y1 <- c(d$y[-1], d$y[1])
-      d$dist <- sqrt((d$x1 - d$x)^2 + (d$y1 - d$y)^2)
-      d$n <- ceiling(res * (d$dist/sum(d$dist)))
-      d$n[d$n < 3] <- 3
-      d
-    })
-  dat <- do.call('rbind', lapply(dfs, function(d) {
-
-    li <- Map(do_wibble, x0 = d$x, x1 = d$x1, y0 = d$y, y1 = d$y1, n = d$n,
-              wibbliness = wibbliness[1])
-
-    do.call('rbind', lapply(li, function(l) {
-      data.frame(path = d$path[1], x = l$x, y = l$y, id = d$id[1])
-    }
-    ))
-  }))
+  dat <- wibble_polys(x, y, poly$pathId, poly$id, wibbliness, res)
 
   poly$x <- grid::unit(dat$x, default.units)
   poly$y <- grid::unit(dat$y, default.units)
   poly$id <- dat$id
-  poly$pathId <- dat$path
+  poly$pathId <- dat$pathId
   poly
 }
 
