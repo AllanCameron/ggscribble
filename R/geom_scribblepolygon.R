@@ -38,6 +38,7 @@ geom_scribblepolygon <- function (mapping = NULL, data = NULL,
 #' @export
 
 GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
+
     ggplot2::GeomPolygon,
 
     default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
