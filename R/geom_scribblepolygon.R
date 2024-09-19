@@ -49,7 +49,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
 
     draw_panel = function (self, data, panel_params, coord,
                            lineend = "butt", linejoin = "round",
-                           linemitre = 10, res = res) {
+                           linemitre = 10, res = 200) {
 
       if (is.null(data$linewidth) && !is.null(data$size)) {
         data$linewidth <- data$size
