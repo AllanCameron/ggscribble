@@ -32,6 +32,15 @@ data_frame0 <- function (...) vctrs::data_frame(..., .name_repair = "minimal")
 
 len0_null <- function (x) if (length(x) == 0) NULL else x
 
+create_quantile_segment_frame <- function (data, draw_quantiles) {
+  dens <- cumsum(data$density)/sum(data$density)
+  ecdf <- stats::approxfun(dens, data$y, ties = "ordered")
+  ys <- ecdf(draw_quantiles)
+  violin.xminvs <- (stats::approxfun(data$y, data$xminv))(ys)
+  violin.xmaxvs <- (stats::approxfun(data$y, data$xmaxv))(ys)
+  data_frame0(x = vctrs::vec_interleave(violin.xminvs, violin.xmaxvs),
+              y = rep(ys, each = 2), group = rep(ys, each = 2))
+}
 
 # Not actually a borrowed function, surprised ggplot doesn't have this already
 get_first_rows <- function(data) {

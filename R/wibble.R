@@ -83,30 +83,32 @@ wibble_polys <- function(x, y, pathId, id, wibbliness = 1, res = 200) {
   theta     <- seg_len
   bits      <- paste(pathId, id, sep = ".")
   bit_id    <- match(bits, unique(bits))
+  lens      <- rle(bit_id)$lengths
   is_seg    <- c(diff(bit_id) == 0, FALSE)
   is_end    <- c(FALSE, diff(bit_id) == 0)
   seg_len[is_seg] <- sqrt(diff(x)^2 + diff(y)^2)[is_seg]
   res_len   <- pmax(5, ceiling(res * seg_len))
-
-  x <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
-                        a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
-  y <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
-                        a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
   pathId <- rep(pathId[is_seg], res_len[!is.na(res_len)])
   id <- rep(id[is_seg], res_len[!is.na(res_len)])
   bit_id <- rep(bit_id[is_seg], res_len[!is.na(res_len)])
 
-  xnoise <- do.call("c", Map(function(x, y, w) {
-    ambient::gen_perlin(x + runif(1, 0, 1000),
-                        y + runif(1, 0, 1000),
-                        frequency = 10 * res/200) * 0.01 * w
-  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness))
+  x <- do.call("c", Map(function(a, b, rl) {
+    seq(a, b, length.out = rl)
+    }, a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
+  y <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
+                        a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
 
-  ynoise <- do.call("c", Map(function(x, y, w) {
+  xnoise <- do.call("c", Map(function(x, y, w, b) {
     ambient::gen_perlin(x + runif(1, 0, 1000),
                         y + runif(1, 0, 1000),
-                        frequency = 10 * res/200) * 0.01 * w
-  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness))
+                        frequency = res/(b^0.5) * 0.15) * 0.005 * w
+  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness, b = lens))
+
+  ynoise <- do.call("c", Map(function(x, y, w, b) {
+    ambient::gen_perlin(x + runif(1, 0, 1000),
+                        y + runif(1, 0, 1000),
+                        frequency = res/(b^0.5) * 0.15) * 0.005 * w
+  }, x = split(x, bit_id), y = split(y, bit_id), w = wibbliness, b = lens))
 
   list(x = x + xnoise, y = y + ynoise, id = id, pathId = pathId)
 }
@@ -123,7 +125,7 @@ wibblify.zeroGrob <- function(x, ...) {
 
 #' @export
 wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
-                             default.units = "npc") {
+                             default.units = "native") {
 
   x <- grid::convertX(poly$x, default.units, TRUE)
   y <- grid::convertY(poly$y, default.units, TRUE)
