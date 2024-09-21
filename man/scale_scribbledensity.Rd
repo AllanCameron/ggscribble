@@ -12,7 +12,7 @@
 scale_scribbledensity(
   name = ggplot2::waiver(),
   breaks = ggplot2::waiver(),
-  labels = waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(50, 400),
   guide = "legend"
@@ -21,7 +21,7 @@ scale_scribbledensity(
 scale_scribbledensity_continuous(
   name = ggplot2::waiver(),
   breaks = ggplot2::waiver(),
-  labels = waiver(),
+  labels = ggplot2::waiver(),
   limits = NULL,
   range = c(50, 400),
   guide = "legend"
