@@ -18,6 +18,7 @@
 geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
           position = "identity", ..., linejoin = "mitre",
           na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, res = 200) {
+
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
                  geom = GeomScribblerect, position = position,
                  show.legend = show.legend, inherit.aes = inherit.aes,
@@ -32,18 +33,23 @@ geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomScribblerect <- ggplot2::ggproto("GeomScribblerect", ggplot2::GeomRect,
-      default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
-                      linetype = 1, alpha = NA, subgroup = NULL,
-                      scribblecolour = "black", scribblewidth = 1,
-                      wonkiness = 1, wibbliness = 1, randomness = 1,
-                      sloppiness = 1, scribbledensity = 200, angle = 46),
+GeomScribblerect <- ggplot2::ggproto("GeomScribblerect",
+
+  ggplot2::GeomRect,
+
+  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+                  linetype = 1, alpha = NA, subgroup = NULL,
+                  scribblecolour = "black", scribblewidth = 1,
+                  wonkiness = 1, wibbliness = 1, randomness = 1,
+                  sloppiness = 1, scribbledensity = 200, angle = 46),
+
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
-                         linejoin = "mitre", res = res) {
+                         linejoin = "mitre", res = 200) {
 
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
     }
+
     aesthetics <- setdiff(names(data), c("x", "y", "xmin",
         "xmax", "ymin", "ymax"))
     index <- rep(seq_len(nrow(data)), each = 5)

@@ -38,7 +38,7 @@ scribble_fill <- function(shape, angle = 45, scribbledensity = 100,
                           gp = grid::gpar(lwd = lwd, col = col),
                           vp = grid::viewport(mask = line_mask))
   shape$vp <- grid::viewport(mask = shape_mask)
-  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(shape, scrib))
+  grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(scrib, shape))
 }
 
 
