@@ -63,7 +63,7 @@ GeomScribblesegment <- ggplot2::ggproto("GeomScribblesegment",
                 default.units = "native",
                 gp = grid::gpar(col = ggplot2::alpha(coord$colour,
                 coord$alpha), fill = ggplot2::alpha(arrow.fill, coord$alpha),
-                lwd = coord$linewidth, lty = coord$linetype,
+                lwd = coord$linewidth * ggplot2::.pt, lty = coord$linetype,
                 lineend = lineend, linejoin = linejoin), arrow = arrow)
         grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)
         return(wibblify(grobs, wibbliness = first_rows$wibbliness))

@@ -1,4 +1,4 @@
-#' Create a ggplot layer containing scribble-filled violin plots
+#' Create a ggplot layer containing scribble-filled crossbars
 #'
 #' @inheritParams ggplot2::geom_crossbar
 #' @eval rd_aesthetics("geom", "scribblecrossbar")
@@ -45,7 +45,7 @@ GeomScribblecrossbar <- ggplot2::ggproto("GeomScribblecrossbar",
 
   ggplot2::GeomCrossbar,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 0.5,
                              alpha = NA,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0, wibbliness = 1, randomness = 1,
@@ -91,6 +91,7 @@ GeomScribblecrossbar <- ggplot2::ggproto("GeomScribblecrossbar",
                            wibbliness = rep(data$wibbliness, 11),
                            randomness = rep(data$randomness, 11),
                            sloppiness = rep(data$sloppiness, 11),
+                           randomness = rep(data$randomness, 11),
                            scribbledensity = rep(data$scribbledensity, 11),
                            angle = rep(data$angle, 11),
                            group = rep(seq_len(nrow(data)), 11))
@@ -111,6 +112,7 @@ GeomScribblecrossbar <- ggplot2::ggproto("GeomScribblecrossbar",
                            wibbliness = rep(data$wibbliness, 5),
                            randomness = rep(data$randomness, 5),
                            sloppiness = rep(data$sloppiness, 5),
+                           randomness = rep(data$randomness, 5),
                            scribbledensity = rep(data$scribbledensity, 5),
                            angle = rep(data$angle, 5),
                            group = rep(seq_len(nrow(data)), 5))
