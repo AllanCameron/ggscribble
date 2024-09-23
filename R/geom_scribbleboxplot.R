@@ -126,15 +126,11 @@ GeomScribbleboxplot <- ggplot2::ggproto("GeomScribbleboxplot",
         outliers <- data_frame0(y = data$outliers[[1]],
                                 x = data$x[1],
                                 colour = outlier.colour %||% data$colour[1],
-                                fill = outlier.fill %||% data$fill[1],
-                                shape = outlier.shape %||% data$shape[1],
                                 size = outlier.size %||% data$size[1],
-                                stroke = outlier.stroke %||% data$stroke[1],
-                                fill = NA,
                                 alpha = outlier.alpha %||% data$alpha[1],
                                 .size = length(data$outliers[[1]]))
         outliers <- ggplot2::flip_data(outliers, flipped_aes)
-        outliers_grob <- ggplot2::GeomPoint$draw_panel(outliers, panel_params,
+        outliers_grob <- GeomScribblepoint$draw_panel(outliers, panel_params,
                             coord)
     }
     else {

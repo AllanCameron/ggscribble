@@ -42,3 +42,33 @@ scribble_fill <- function(shape, angle = 45, scribbledensity = 100,
 }
 
 
+make_noise <- function(size = grid::unit(0.01, 'npc'), default.units = "npc") {
+
+  if(!grid::is.unit(size)) size <- grid::unit(size, default.units)
+
+  ambient::gen_perlin(seq(0, runif(1, 0.1, 0.3), len = 20),
+                      seq(0, runif(1, 0.1, 0.3), len = 20),
+                      frequency = 12) * size
+}
+
+scribble_points <- function(x, y, size = 1,
+                            default.units = "npc", name = NULL,
+                            colour = "black") {
+
+  if(length(size) == 1) size <- rep(size, length(x))
+  if(length(colour) == 1) colour <- rep(colour, length(x))
+  gp <- grid::gpar(lwd = size * 2, col = colour)
+
+  if(!grid::is.unit(x)) x <- grid::unit(x, default.units)
+  if(!grid::is.unit(y)) y <- grid::unit(y, default.units)
+  if(!grid::is.unit(size)) size <- grid::unit(size * 0.005, default.units)
+
+  g <- grid::gTree(children = do.call(grid::gList, Map(function(x, y, i) {
+    grid::polylineGrob(make_noise(size[i]) + x,
+                       make_noise(size[i]) + y, gp = gp[i])
+  }, x, y, seq_along(x))))
+
+  g$name <- "scribble_points"
+
+  g
+}
