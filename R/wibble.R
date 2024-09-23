@@ -57,10 +57,18 @@ wibble_lines <- function(x, y, id, wibbliness = 1, res = 100) {
   is_end    <- c(FALSE, diff(id) == 0)
   seg_len[is_seg] <- sqrt(diff(x)^2 + diff(y)^2)[is_seg]
   res_len   <- pmax(5, ceiling(res * seg_len))
-  x <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
-                        a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
-  y <- do.call("c", Map(function(a, b, rl) seq(a, b, length.out = rl),
-                        a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
+
+  x <- do.call("c", Map(function(a, b, rl) {
+    if(is.na(a) | is.na(b)) return(NA_real_)
+    seq(a, b, length.out = rl)
+    }, a = x[is_seg], b = x[is_end], rl = res_len[is_seg]))
+
+  y <- do.call("c", Map(function(a, b, rl) {
+    if(is.na(a) | is.na(b)) return(NA_real_)
+    seq(a, b, length.out = rl)
+    }, a = y[is_seg], b = y[is_end], rl = res_len[is_seg]))
+
+  res_len[is.na(res_len) & is_seg] <- 1
   id <- rep(id[is_seg], res_len[!is.na(res_len)])
   xnoise <- do.call("c", Map(function(x, y, w) {
     ambient::gen_perlin(x + runif(1, 0, 1000),

@@ -22,7 +22,7 @@ geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
                                    stat = "identity", position = "identity",
                                    ..., na.rm = FALSE, orientation = NA,
                                    show.legend = NA, inherit.aes = TRUE,
-                                   res = 20) {
+                                   res = 200) {
 
   ggplot2::layer(data = data, mapping = mapping, stat = stat,
                  geom = GeomScribbleerrorbar, position = position,
@@ -44,10 +44,10 @@ GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
 
   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
-                             wonkiness = 0.5, wibbliness = 1),
+                             wonkiness = 0, wibbliness = 1),
 
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
-                         width = NULL, flipped_aes = FALSE, res = 20) {
+                         width = NULL, flipped_aes = FALSE, res = 200) {
 
       grobs <- ggplot2::GeomErrorbar$draw_panel(data, panel_params, coord,
                                                 lineend, width, flipped_aes)
