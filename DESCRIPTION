@@ -20,7 +20,9 @@ Imports:
     rlang,
     cli,
     vctrs,
-    ambient,
-    hexbin
+    ambient
+Suggests:
+    hexbin,
+    geomtextpath
 LazyData: true
 RoxygenNote: 7.3.1
