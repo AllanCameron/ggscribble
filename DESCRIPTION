@@ -8,7 +8,7 @@ Authors@R: c(
            role = c("aut", "cre"),
            email = "Allan.Cameron@nhs.scot"))
 Description: A `ggplot2` extension that allows plots to achieve a hand-drawn
-    appearance via custom layers, theme elements and fonts. 
+    appearance via custom layers, guides, theme elements and fonts. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
@@ -20,6 +20,7 @@ Imports:
     rlang,
     cli,
     vctrs,
-    ambient
+    ambient,
+    hexbin
 LazyData: true
 RoxygenNote: 7.3.1
