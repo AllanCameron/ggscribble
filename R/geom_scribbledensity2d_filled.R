@@ -88,13 +88,8 @@ GeomScribbledensity2dFilled <- ggplot2::ggproto("GeomScribbledensity2dFilled",
         id <- match(munched$subgroup, unique0(munched$subgroup))
         first_idx <- !duplicated(munched$group)
         first_rows <- munched[first_idx, ]
-        outer_only <- munched[id == 1,]
-        undup <- outer_only[!duplicated(outer_only$group),]
-        outer_only <- rbind(outer_only, undup)
-        outer_only <- outer_only[order(outer_only$group),]
 
         ggname("geom_scribbledensity2d_filled",
-          grid::gTree(children = grid::gList(
             scribbleGrob(munched$x, munched$y, default.units = "npc",
               id = id, pathId = munched$group,
               scribblecolour = first_rows$scribblecolour,
@@ -106,29 +101,13 @@ GeomScribbledensity2dFilled <- ggplot2::ggproto("GeomScribbledensity2dFilled",
               randomness = first_rows$randomness,
               angle = first_rows$angle,
               res = res,
-              gp = grid::gpar(col = NA,
+              gp = grid::gpar(col = first_rows$colour,
                               fill = ggplot2::fill_alpha(first_rows$fill,
                                                          first_rows$alpha),
                               lwd = first_rows$linewidth * ggplot2::.pt,
                               lty = first_rows$linetype,
                               lineend = lineend, linejoin = linejoin,
-                              linemitre = linemitre)),
-            wibblify(
-              wonkify(
-                grid::polylineGrob(outer_only$x, outer_only$y,
-                                   id = outer_only$group,
-                                   default.units = "native",
-                                   gp = grid::gpar(
-                                     fill = NA,
-                                     col = first_rows$colour,
-                                     lwd = first_rows$linewidth * ggplot2::.pt,
-                                     lty = first_rows$linetype,
-                                     lineend = lineend, linejoin = linejoin,
-                                     linemitre = linemitre)
-                                   ),
-                wonkiness = first_rows$wonkiness),
-              wibbliness = first_rows$wibbliness, res = res)
-            )))
+                              linemitre = linemitre)))
       }
     }
   )
