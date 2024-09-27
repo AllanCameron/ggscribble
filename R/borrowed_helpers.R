@@ -6,6 +6,7 @@ absoluteGrob <- function (grob, width = NULL, height = NULL,
         ymin = ymin, vp = vp, cl = "absoluteGrob")
 }
 
+
 `%||%` <- function (x, y) {
   if (rlang::is_null(x))
     y
@@ -417,4 +418,17 @@ stairstep <- function (data, direction = "hv") {
 ensure_nonempty_data <- function (data) {
 
   if (empty(data)) data_frame0(group = 1, .size = 1) else data
+}
+
+rename <- function (x, replace) {
+
+  current_names <- names(x)
+  old_names <- names(replace)
+  missing_names <- setdiff(old_names, current_names)
+  if (length(missing_names) > 0) {
+    replace <- replace[!old_names %in% missing_names]
+    old_names <- names(replace)
+  }
+  names(x)[match(old_names, current_names)] <- as.vector(replace)
+  x
 }
