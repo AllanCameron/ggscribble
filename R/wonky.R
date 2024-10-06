@@ -50,7 +50,13 @@ wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
   x <- grid::convertX(line$x, default.units, TRUE)
   y <- grid::convertY(line$y, default.units, TRUE)
 
-  if(is.null(line$id)) line$id <- rep(1, length(x))
+  if(is.null(line$id)) {
+    if(is.null(line$id.lengths)) {
+      line$id <- rep(1, length(x))
+    } else {
+      line$id <- rep(seq_along(line$id.lengths), line$id.lengths)
+    }
+  }
 
   n_lines <- length(unique(line$id))
 

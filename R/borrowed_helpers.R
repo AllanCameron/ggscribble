@@ -432,3 +432,35 @@ rename <- function (x, replace) {
   names(x)[match(old_names, current_names)] <- as.vector(replace)
   x
 }
+
+height_cm <- function (x) {
+
+  if (grid::is.grob(x)) {
+    grid::convertHeight(grid::grobHeight(x), "cm", TRUE)
+  }
+  else if (grid::is.unit(x)) {
+    grid::convertHeight(x, "cm", TRUE)
+  }
+  else if (is.list(x)) {
+    vapply(x, height_cm, numeric(1))
+  }
+  else {
+    cli::cli_abort("Don't know how to get height of {.cls {class(x)}} object")
+  }
+}
+
+width_cm <- function (x) {
+
+  if (grid::is.grob(x)) {
+    grid::convertWidth(grid::grobWidth(x), "cm", TRUE)
+  }
+  else if (grid::is.unit(x)) {
+    grid::convertWidth(x, "cm", TRUE)
+  }
+  else if (is.list(x)) {
+    vapply(x, width_cm, numeric(1))
+  }
+  else {
+    cli::cli_abort("Don't know how to get width of {.cls {class(x)}} object")
+  }
+}
