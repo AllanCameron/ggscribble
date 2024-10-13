@@ -89,6 +89,6 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, Petal.Length, colour = Species)) +
+ggplot(iris, aes(Species, Petal.Length, colour = Species)) +
   geom_scribblepoint(position = ggplot2::position_jitter(0.5))
 }

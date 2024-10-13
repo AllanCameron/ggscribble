@@ -20,8 +20,8 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Width)) +
-#'   geom_scribbleboxplot(ggplot2::aes(scribblecolour = Species),
+#' ggplot(iris, aes(Species, Sepal.Width)) +
+#'   geom_scribbleboxplot(aes(scribblecolour = Species),
 #'                        staplewidth = 0.4) +
 #'   ggplot2::theme_classic(16) +
 #'   scale_scribble_y_continuous() +
@@ -29,7 +29,7 @@
 
 scale_scribble_x_continuous <- function(..., wibbliness = 1, res = 200) {
 
-  args <- rlang::list2(...)
+  args <- list2(...)
   args <- check_scribbleguide(args, wibbliness, res)
   fn <- sub("scribble_", "", as.character(as.list(sys.call(0))[[1]]))
   do.call("do.call", list(what = str2lang(paste0("ggplot2::", fn)), args))

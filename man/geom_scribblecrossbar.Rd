@@ -118,9 +118,9 @@ df <- data.frame(trt = factor(c(1, 1, 2, 2)),
                  upper = c(1.1, 5.3, 3.3, 4.2),
                  lower = c(0.8, 4.6, 2.4, 3.6))
 
-ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group)) +
-  geom_scribblecrossbar(ggplot2::aes(ymin = lower, ymax = upper),
+ggplot(df, aes(trt, resp, colour = group)) +
+  geom_scribblecrossbar(aes(ymin = lower, ymax = upper),
                         width = 0.2) +
-  ggplot2::theme_classic(16)
+  theme_classic(16)
 
 }

@@ -10,9 +10,9 @@
 #' @examples
 #' v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 #'
-#' ggplot2::ggplot(v, ggplot2::aes(x, y)) +
-#'   geom_scribblecontour(ggplot2::aes(z = z), bins = 6, color = "black") +
-#'   ggplot2::theme_classic(16)
+#' ggplot(v, aes(x, y)) +
+#'   geom_scribblecontour(aes(z = z), bins = 6, color = "black") +
+#'   theme_classic(16)
 
 geom_scribblecontour <- function (mapping = NULL, data = NULL, stat = "contour",
                                   position = "identity", ..., bins = NULL,
@@ -21,29 +21,26 @@ geom_scribblecontour <- function (mapping = NULL, data = NULL, stat = "contour",
                                   linemitre = 10, na.rm = FALSE, res = 200,
                                   show.legend = NA, inherit.aes = TRUE) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblecontour, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(bins = bins, binwidth = binwidth,
-                                       breaks = breaks, lineend = lineend,
-                                       linejoin = linejoin,
-                                       linemitre = linemitre,
-                                       na.rm = na.rm, ..., res = res))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblecontour, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(bins = bins, binwidth = binwidth,
+                       breaks = breaks, lineend = lineend,
+                       linejoin = linejoin, linemitre = linemitre,
+                       na.rm = na.rm, ..., res = res))
 }
 
 
-#' The ggproto object that powers scribbled 2d contour lines
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribblecontour <- ggplot2::ggproto("GeomScribblecontour",
+
+GeomScribblecontour <- ggproto("GeomScribblecontour",
 
    ggplot2::GeomContour,
 
-   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+   default_aes = aes(colour = "black", linewidth = 1,
                               linetype = 1, alpha = NA,
                               wonkiness = 0, wibbliness = 0.5),
 
@@ -98,7 +95,7 @@ GeomScribblecontour <- ggplot2::ggproto("GeomScribblecontour",
             gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                                                  munched$alpha)[!end],
                 fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
-                lwd = munched$linewidth[!end] * ggplot2::.pt,
+                lwd = munched$linewidth[!end] * .pt,
                 lty = munched$linetype[!end],
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
 
@@ -111,8 +108,8 @@ GeomScribblecontour <- ggplot2::ggproto("GeomScribblecontour",
                            default.units = "native",
             arrow = arrow, gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                 munched$alpha)[start], fill = ggplot2::alpha(munched$colour,
-                munched$alpha)[start], lwd = munched$linewidth[start] *
-                ggplot2::.pt, lty = munched$linetype[start], lineend = lineend,
+                munched$alpha)[start], lwd = munched$linewidth[start] *.pt,
+                lty = munched$linetype[start], lineend = lineend,
                 linejoin = linejoin, linemitre = linemitre))
         grobs <- wonkify(grobs, munched$wonkiness[start])
         wibblify(grobs, munched$wibbliness[start], res = res)

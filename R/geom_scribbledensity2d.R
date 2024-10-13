@@ -1,15 +1,44 @@
-#' The ggproto object that powers scribbled 2d density lines
+#' Create a ggplot layer containing scribbled 2d density contours
 #'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
-#' @usage NULL
+#' @inheritParams ggplot2::geom_line
+#' @eval rd_aesthetics("geom", "scribbledensity2d")
+#' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
-GeomScribbledensity2d <- ggplot2::ggproto("GeomScribbledensity2d",
+#'
+#' @examples
+#' set.seed(1)
+#'
+#' ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
+#'                 aes(x, y)) +
+#'  geom_scribbledensity2d()
+
+geom_scribbledensity2d <- function (mapping = NULL, data = NULL,
+                                    stat = "density_2d", position = "identity",
+                                    ..., contour_var = "density",
+                                    lineend = "butt", linejoin = "round",
+                                    linemitre = 10, na.rm = FALSE, res = 10,
+                                    show.legend = NA, inherit.aes = TRUE) {
+
+  layer(data = data, mapping = mapping, stat = stat,
+                 geom = GeomScribbledensity2d, position = position,
+                 show.legend = show.legend, inherit.aes = inherit.aes,
+                 params = list2(lineend = lineend, linejoin = linejoin,
+                                       linemitre = linemitre, contour = TRUE,
+                                       contour_var = contour_var,
+                                       na.rm = na.rm, ..., res = res))
+}
+
+
+#' @rdname ggscribble-ggproto
+#' @usage NULL
+#' @format NULL
+#' @export
+
+GeomScribbledensity2d <- ggproto("GeomScribbledensity2d",
 
    ggplot2::GeomDensity2d,
 
-   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+   default_aes = aes(colour = "black", linewidth = 1,
                               linetype = 1, alpha = NA,
                               wonkiness = 0, wibbliness = 0.5),
 
@@ -64,7 +93,7 @@ GeomScribbledensity2d <- ggplot2::ggproto("GeomScribbledensity2d",
             gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                                                  munched$alpha)[!end],
                 fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
-                lwd = munched$linewidth[!end] * ggplot2::.pt,
+                lwd = munched$linewidth[!end] * .pt,
                 lty = munched$linetype[!end],
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
 
@@ -78,39 +107,10 @@ GeomScribbledensity2d <- ggplot2::ggproto("GeomScribbledensity2d",
             arrow = arrow, gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                 munched$alpha)[start], fill = ggplot2::alpha(munched$colour,
                 munched$alpha)[start], lwd = munched$linewidth[start] *
-                ggplot2::.pt, lty = munched$linetype[start], lineend = lineend,
+                .pt, lty = munched$linetype[start], lineend = lineend,
                 linejoin = linejoin, linemitre = linemitre))
         grobs <- wonkify(grobs, munched$wonkiness[start])
         wibblify(grobs, munched$wibbliness[start], res = res)
     }
    }
 )
-
-#' Create a ggplot layer containing scribbled 2d density contours
-#'
-#' @inheritParams ggplot2::geom_line
-#' @eval rd_aesthetics("geom", "scribbledensity2d")
-#' @return A `Layer` ggproto object that can be added to a plot.
-#' @export
-#'
-#' @examples
-#' set.seed(1)
-#'
-#' ggplot2::ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
-#'                 ggplot2::aes(x, y)) +
-#'  geom_scribbledensity2d()
-geom_scribbledensity2d <- function (mapping = NULL, data = NULL,
-                                    stat = "density_2d", position = "identity",
-                                    ..., contour_var = "density",
-                                    lineend = "butt", linejoin = "round",
-                                    linemitre = 10, na.rm = FALSE, res = 10,
-                                    show.legend = NA, inherit.aes = TRUE) {
-
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbledensity2d, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(lineend = lineend, linejoin = linejoin,
-                                       linemitre = linemitre, contour = TRUE,
-                                       contour_var = contour_var,
-                                       na.rm = na.rm, ..., res = res))
-}

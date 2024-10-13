@@ -41,7 +41,7 @@
 #' @param res The number of points into which the line will be "wibbled"
 #' @export
 #' @examples
-#' p <- ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) + ggplot2::geom_point()
+#' p <- ggplot(mtcars, aes(wt, mpg)) + ggplot2::geom_point()
 #'
 #' # Fixed values
 #' p + geom_scribblevline(xintercept = 5)
@@ -56,17 +56,17 @@
 #' p + geom_scribbleabline(intercept = 37, slope = -5)
 #'
 #' # To show different lines in different facets, use aesthetics
-#' p <- ggplot2::ggplot(mtcars, ggplot2::aes(mpg, wt)) +
+#' p <- ggplot(mtcars, aes(mpg, wt)) +
 #'   ggplot2::geom_point() +
 #'   ggplot2::facet_wrap(~ cyl)
 #'
 #' mean_wt <- data.frame(cyl = c(4, 6, 8), wt = c(2.28, 3.11, 4.00))
-#' p + geom_scribblehline(ggplot2::aes(yintercept = wt), mean_wt)
+#' p + geom_scribblehline(aes(yintercept = wt), mean_wt)
 #'
 #' # You can also control other aesthetics
-#' ggplot2::ggplot(mtcars, ggplot2::aes(mpg, wt, colour = wt)) +
+#' ggplot(mtcars, aes(mpg, wt, colour = wt)) +
 #'   ggplot2::geom_point() +
-#'   geom_scribblehline(ggplot2::aes(yintercept = wt, colour = wt), mean_wt) +
+#'   geom_scribblehline(aes(yintercept = wt, colour = wt), mean_wt) +
 #'   ggplot2::facet_wrap(~ cyl)
 
 geom_scribbleabline <- function (mapping = NULL, data = NULL, ..., slope,
@@ -93,27 +93,26 @@ geom_scribbleabline <- function (mapping = NULL, data = NULL, ..., slope,
     n_slopes <- max(length(slope), length(intercept))
     data <- data_frame0(intercept = intercept, slope = slope,
                         .size = n_slopes)
-    mapping <- ggplot2::aes(intercept = intercept, slope = slope)
+    mapping <- aes(intercept = intercept, slope = slope)
     show.legend <- FALSE
   }
-  ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,
-        geom = GeomScribbleabline, position = PositionIdentity,
+
+  layer(data = data, mapping = mapping, stat = ggplot2::StatIdentity,
+        geom = GeomScribbleabline, position = ggplot2::PositionIdentity,
         show.legend = show.legend, inherit.aes = FALSE,
-        params = rlang::list2(na.rm = na.rm, res = res, ...))
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled AB lines
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbleabline <- ggplot2::ggproto("GeomScribbleabline",
+GeomScribbleabline <- ggproto("GeomScribbleabline",
                                        ggplot2::GeomAbline,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+  default_aes = aes(colour = "black", linewidth = 1,
                          linetype = 1, alpha = NA,
                          wonkiness = 0, wibbliness = 1),
 

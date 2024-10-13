@@ -6,8 +6,9 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(data.frame(x = rnorm(100)), ggplot2::aes(x)) +
+#' ggplot(data.frame(x = rnorm(100)), aes(x)) +
 #'   geom_scribbledensity()
+
 geom_scribbledensity <- function (mapping = NULL, data = NULL, stat = "density",
                                   position = "identity", ..., na.rm = FALSE,
                                   orientation = NA, show.legend = NA,
@@ -17,27 +18,24 @@ geom_scribbledensity <- function (mapping = NULL, data = NULL, stat = "density",
   outline.type <- rlang::arg_match0(outline.type, c("both", "upper",
                                                     "lower", "full"))
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbledensity, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, orientation = orientation,
-                                       outline.type = outline.type,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbledensity, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, orientation = orientation,
+                       outline.type = outline.type, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled kernel density estimates
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbledensity <- ggplot2::ggproto("GeomScribbledensity",
+GeomScribbledensity <- ggproto("GeomScribbledensity",
 
   ggplot2::GeomDensity,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA,
                              scribblecolour = NA, scribblewidth = 1,
                              wonkiness = 0.1, wibbliness = 1, randomness = 1,
@@ -86,7 +84,7 @@ GeomScribbledensity <- ggplot2::ggproto("GeomScribbledensity",
     scrib_gp <- grid::gpar(fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
                            col = if (is_full_outline) aes$colour else NA,
                            lwd = if (is_full_outline)
-                                      aes$linewidth * ggplot2::.pt else 0,
+                                      aes$linewidth * .pt else 0,
                            lty = if (is_full_outline)
                                       aes$linetype else 1,
                            lineend = lineend, linejoin = linejoin,
@@ -117,7 +115,7 @@ GeomScribbledensity <- ggplot2::ggproto("GeomScribbledensity",
         munched_lower), upper = munched_upper, lower = munched_lower)
     g_lines <- grid::polylineGrob(munched_lines$x, munched_lines$y,
         id = munched_lines$id, default.units = "native",
-        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * ggplot2::.pt,
+        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * .pt,
                         lty = aes$linetype, lineend = lineend,
                         linejoin = linejoin, linemitre = linemitre))
     g_lines <- wibblify(g_lines, aes$wibbliness, res)

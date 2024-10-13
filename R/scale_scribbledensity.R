@@ -29,15 +29,15 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+#' ggplot(iris, aes(Species, scribblecolour = Species,
 #'                                    colour = Species,
 #'                                    scribbledensity = Species)) +
 #'  geom_scribblebar() +
 #'  scale_scribbledensity_manual(values = c(45, 135, 0))
 
-scale_scribbledensity <- function (name   = ggplot2::waiver(),
-                                   breaks = ggplot2::waiver(),
-                                   labels = ggplot2::waiver(),
+scale_scribbledensity <- function (name   = waiver(),
+                                   breaks = waiver(),
+                                   labels = waiver(),
                                    limits = NULL,
                                    range  = c(50, 400),
                                    guide  = "legend") {
@@ -55,7 +55,7 @@ scale_scribbledensity_continuous <- scale_scribbledensity
 
 #' @rdname scale_scribbledensity
 #' @export
-scale_scribbledensity_identity <- function(name = ggplot2::waiver(),
+scale_scribbledensity_identity <- function(name = waiver(),
                                            ..., guide = "none") {
   ggplot2::continuous_scale(
     "scribbledensity", name = name,
@@ -66,15 +66,18 @@ scale_scribbledensity_identity <- function(name = ggplot2::waiver(),
 
 #' @rdname scale_scribbledensity
 #' @export
-scale_scribbledensity_manual <- function (..., values, breaks = ggplot2::waiver(),
+
+scale_scribbledensity_manual <- function (..., values, breaks = waiver(),
                                           na.value = NA) {
 
   manual_scale("scribbledensity", values, breaks, ..., na.value = na.value)
 }
 
+
 #' @rdname scale_scribbledensity
 #' @export
-scale_scribbledensity_ordinal <- function (name = ggplot2::waiver(), ...,
+
+scale_scribbledensity_ordinal <- function (name = waiver(), ...,
                                            range = c(50, 400)) {
   force(range)
   ggplot2::discrete_scale("scribbledensity", name = name,
@@ -84,8 +87,10 @@ scale_scribbledensity_ordinal <- function (name = ggplot2::waiver(), ...,
 
 #' @rdname scale_scribbledensity
 #' @export
+
 scale_scribbledensity_discrete <- function (...) {
-  args <- rlang::list2(...)
+
+  args <- list2(...)
   args$call <- if(is.null(args$call)) rlang::current_call() else args$call
   rlang::exec(scale_scribbledensity_ordinal, !!!args)
 }

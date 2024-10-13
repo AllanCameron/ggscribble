@@ -148,8 +148,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Width)) +
-  geom_scribbleboxplot(ggplot2::aes(scribblecolour = Species),
+ggplot(iris, aes(Species, Sepal.Width)) +
+  geom_scribbleboxplot(aes(scribblecolour = Species),
   staplewidth = 0.4) +
-  ggplot2::theme_classic(16)
+  theme_classic(16)
 }

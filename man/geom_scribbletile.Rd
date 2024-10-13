@@ -107,6 +107,6 @@ in \code{vignette("ggplot2-specs")}.
 d <- data.frame(x = rep(letters[1:5], 5),
                 y = rep(LETTERS[1:5], each = 5), z = 1:25)
 
-ggplot2::ggplot(d, ggplot2::aes(x, y, scribbledensity = z)) +
+ggplot(d, aes(x, y, scribbledensity = z)) +
   geom_scribbletile()
 }

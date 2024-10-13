@@ -6,9 +6,9 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Length)) +
+#' ggplot(iris, aes(Species, Sepal.Length)) +
 #'   geom_scribbleviolin() +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
 
 geom_scribbleviolin <- function (mapping = NULL, data = NULL, stat = "ydensity",
                                  position = "dodge", ..., draw_quantiles = NULL,
@@ -17,28 +17,26 @@ geom_scribbleviolin <- function (mapping = NULL, data = NULL, stat = "ydensity",
                                  orientation = NA, show.legend = NA,
                                  inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbleviolin, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(trim = trim, scale = scale,
-                                       draw_quantiles = draw_quantiles,
-                                       na.rm = na.rm, orientation = orientation,
-                                       bounds = bounds, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbleviolin, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(trim = trim, scale = scale,
+                       draw_quantiles = draw_quantiles,
+                       na.rm = na.rm, orientation = orientation,
+                       bounds = bounds, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled violin plots
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbleviolin <- ggplot2::ggproto("GeomScribbleviolin",
+GeomScribbleviolin <- ggproto("GeomScribbleviolin",
 
   ggplot2::GeomViolin,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                     linetype = 1, alpha = NA, subgroup = NULL,
                     scribblecolour = "black", scribblewidth = 1,
                     wonkiness = 0, wibbliness = 1, randomness = 1,

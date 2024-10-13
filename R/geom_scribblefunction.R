@@ -5,7 +5,7 @@
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot2::ggplot() +
+#' ggplot() +
 #'   geom_scribblefunction(fun = dnorm, colour = "red") +
 #'   ggplot2::xlim(-5, 5)
 
@@ -15,26 +15,23 @@ geom_scribblefunction <- function (mapping = NULL, data = NULL,
 
   if (is.null(data)) data <- ensure_nonempty_data
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblefunction, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblefunction, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
 
-#' The ggproto object that powers scribbled function paths
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblefunction <- ggplot2::ggproto("GeomScribblefunction",
+GeomScribblefunction <- ggproto("GeomScribblefunction",
 
   ggplot2::GeomFunction,
 
-  default_aes = ggplot2::aes(colour     = "black",
+  default_aes = aes(colour     = "black",
                              linewidth  = 1,
                              linetype   = 1,
                              alpha      = NA,

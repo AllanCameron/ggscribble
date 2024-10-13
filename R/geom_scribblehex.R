@@ -10,31 +10,31 @@
 #'
 #' d <- data.frame(x = rnorm(1000), y = rnorm(1000))
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(x, y)) +
-#'   geom_scribblehex(ggplot2::aes(scribbledensity = ggplot2::after_stat(count)),
+#' ggplot(d, aes(x, y)) +
+#'   geom_scribblehex(aes(scribbledensity = ggplot2::after_stat(count)),
 #'                    bins = 10, fill = NA, colour = "blue4",
 #'                    scribblecolour = "blue4") +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
+
 geom_scribblehex <- function (mapping = NULL, data = NULL, stat = "binhex",
                               position = "identity", ..., na.rm = FALSE,
                               show.legend = NA, inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblehex, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblehex, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribble-filled hex bins.
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
-#' @usage NULL
-#' @export
-GeomScribblehex <- ggplot2::ggproto("GeomScribblehex", ggplot2::GeomHex,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+#' @rdname ggscribble-ggproto
+#' @usage NULL
+#' @format NULL
+#' @export
+
+GeomScribblehex <- ggproto("GeomScribblehex", ggplot2::GeomHex,
+
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                   linetype = 1, alpha = NA, subgroup = NULL,
                   scribblecolour = "black", scribblewidth = 1,
                   wonkiness = 1, wibbliness = 1, randomness = 1,
@@ -72,7 +72,7 @@ GeomScribblehex <- ggplot2::ggproto("GeomScribblehex", ggplot2::GeomHex,
            scribbleGrob(coords$x, coords$y,
               gp = grid::gpar(col = data$colour,
                         fill = ggplot2::fill_alpha(data$fill, data$alpha),
-                        lwd = data$linewidth * ggplot2::.pt,
+                        lwd = data$linewidth * .pt,
                         lty = data$linetype,
                         lineend = lineend, linejoin = linejoin,
                         linemitre = linemitre),

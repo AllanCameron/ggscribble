@@ -316,7 +316,7 @@ id <- function (.variables, drop = FALSE) {
   }
   else {
     combs <- c(1, cumprod(ndistinct[-p]))
-    mat <- rlsng::inject(cbind(!!!ids))
+    mat <- rlang::inject(cbind(!!!ids))
     res <- c((mat - 1L) %*% combs + 1L)
   }
   if (drop) {

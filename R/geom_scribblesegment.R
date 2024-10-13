@@ -8,11 +8,11 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 2),
+#' ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 2),
 #'                                   y = c(5, 2), y1 = c(3, 4),
 #'                                   g = c("A", "B")),
-#'                 mapping = ggplot2::aes(x, y, colour = g)) +
-#'   geom_scribblesegment(ggplot2::aes(xend = x1, yend = y1),
+#'                 mapping = aes(x, y, colour = g)) +
+#'   geom_scribblesegment(aes(xend = x1, yend = y1),
 #'                        res = 200, wibbliness = 2)
 
 geom_scribblesegment <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -20,24 +20,23 @@ geom_scribblesegment <- function(mapping = NULL, data = NULL, stat = "identity",
                                  res = 200, show.legend = NA,
                                  inherit.aes = TRUE, ...) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblesegment,
-                 position = position, show.legend = show.legend,
-                 inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblesegment,
+        position = position, show.legend = show.legend,
+        inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled line segments
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribblesegment <- ggplot2::ggproto("GeomScribblesegment",
+
+GeomScribblesegment <- ggproto("GeomScribblesegment",
                                         ggplot2::GeomSegment,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+  default_aes = aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
                              wonkiness = 0, wibbliness = 1),
 
@@ -63,7 +62,7 @@ GeomScribblesegment <- ggplot2::ggproto("GeomScribblesegment",
                 default.units = "native",
                 gp = grid::gpar(col = ggplot2::alpha(coord$colour,
                 coord$alpha), fill = ggplot2::alpha(arrow.fill, coord$alpha),
-                lwd = coord$linewidth * ggplot2::.pt, lty = coord$linetype,
+                lwd = coord$linewidth * .pt, lty = coord$linetype,
                 lineend = lineend, linejoin = linejoin), arrow = arrow)
         grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)
         return(wibblify(grobs, wibbliness = first_rows$wibbliness))

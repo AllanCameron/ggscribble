@@ -7,10 +7,10 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(data = data.frame(x = c(5, 10, 7.5, 10, 15, 12.5),
+#' ggplot(data = data.frame(x = c(5, 10, 7.5, 10, 15, 12.5),
 #'                                   y = c(5, 5, 10, 5, 5, 10),
 #'                                   g = rep(1:2, each = 3)),
-#'                 mapping = ggplot2::aes(x, y, group = g)) +
+#'                 mapping = aes(x, y, group = g)) +
 #'  geom_scribblepolygon()
 #'
 geom_scribblepolygon <- function (mapping = NULL, data = NULL,
@@ -19,29 +19,24 @@ geom_scribblepolygon <- function (mapping = NULL, data = NULL,
                                   show.legend = NA, inherit.aes = TRUE,
                                   res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblepolygon,
-                 position = position, show.legend = show.legend,
-                 inherit.aes = inherit.aes,
-                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblepolygon,
+        position = position, show.legend = show.legend,
+        inherit.aes = inherit.aes,
+        params = list2(linejoin = linejoin, na.rm = na.rm, res = res, ...))
 }
 
 
-
-#' The ggproto object that powers scribble-filled shapes.
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
+GeomScribblepolygon <- ggproto("GeomScribblepolygon",
 
     ggplot2::GeomPolygon,
 
-    default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+    default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                       linetype = 1, alpha = NA, subgroup = NULL,
                       scribblecolour = "black", scribblewidth = 1,
                       wonkiness = 1, wibbliness = 1, randomness = 1,
@@ -81,7 +76,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           res = res,
           gp = grid::gpar(col = first_rows$colour,
               fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
-              lwd = first_rows$linewidth * ggplot2::.pt,
+              lwd = first_rows$linewidth * .pt,
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))
       } else {
@@ -103,7 +98,7 @@ GeomScribblepolygon <- ggplot2::ggproto("GeomScribblepolygon",
           res = res,
           gp = grid::gpar(col = first_rows$colour,
               fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
-              lwd = first_rows$linewidth * ggplot2::.pt,
+              lwd = first_rows$linewidth * .pt,
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))
       }

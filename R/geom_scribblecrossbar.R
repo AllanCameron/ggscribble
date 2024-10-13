@@ -12,10 +12,10 @@
 #'                  upper = c(1.1, 5.3, 3.3, 4.2),
 #'                  lower = c(0.8, 4.6, 2.4, 3.6))
 #'
-#' ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group)) +
-#'   geom_scribblecrossbar(ggplot2::aes(ymin = lower, ymax = upper),
+#' ggplot(df, aes(trt, resp, colour = group)) +
+#'   geom_scribblecrossbar(aes(ymin = lower, ymax = upper),
 #'                         width = 0.2) +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
 #'
 
 geom_scribblecrossbar <- function (mapping = NULL, data = NULL,
@@ -24,28 +24,24 @@ geom_scribblecrossbar <- function (mapping = NULL, data = NULL,
                                    orientation = NA, show.legend = NA,
                                    inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblecrossbar, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(fatten = fatten, na.rm = na.rm,
-                                       orientation = orientation,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblecrossbar, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(fatten = fatten, na.rm = na.rm,
+                       orientation = orientation, res = res, ...))
 }
 
 
-#' The ggproto object that powers scribbled crossbars
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblecrossbar <- ggplot2::ggproto("GeomScribblecrossbar",
+GeomScribblecrossbar <- ggproto("GeomScribblecrossbar",
 
   ggplot2::GeomCrossbar,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 0.5,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 0.5,
                              alpha = NA,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0, wibbliness = 1, randomness = 1,

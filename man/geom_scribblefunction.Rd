@@ -93,7 +93,7 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot() +
+ggplot() +
   geom_scribblefunction(fun = dnorm, colour = "red") +
   ggplot2::xlim(-5, 5)
 }

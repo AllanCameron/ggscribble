@@ -9,9 +9,9 @@
 #' d <- data.frame(x = c("A", "B", "C"),
 #'                 y = 1:3, ymin = 0:2, ymax = 2:4)
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(x, y, ymin = ymin, ymax = ymax)) +
+#' ggplot(d, aes(x, y, ymin = ymin, ymax = ymax)) +
 #'   geom_scribblepointrange() +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
 
 geom_scribblepointrange <- function (mapping = NULL, data = NULL,
                                      stat = "identity", position = "identity",
@@ -19,28 +19,24 @@ geom_scribblepointrange <- function (mapping = NULL, data = NULL,
                                      orientation = NA, show.legend = NA,
                                      inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblepointrange, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(fatten = fatten, na.rm = na.rm,
-                                       orientation = orientation,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblepointrange, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(fatten = fatten, na.rm = na.rm,
+                       orientation = orientation, res = res, ...))
 }
 
 
-#' The ggproto object that powers scribble-filled pointranges
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblepointrange <- ggplot2::ggproto("GeomScribblepointrange",
+GeomScribblepointrange <- ggproto("GeomScribblepointrange",
 
   ggplot2::GeomPointrange,
 
-  default_aes = ggplot2::aes(colour = "black",
+  default_aes = aes(colour = "black",
                               linewidth = 1,
                               linetype = 1,
                               alpha = NA,

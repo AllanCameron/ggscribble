@@ -10,8 +10,9 @@
 #'                 low = c(5, 6, 6, 5, 4),
 #'                 high = c(10, 12, 10, 9, 11))
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(year)) +
-#'   geom_scribbleribbon(ggplot2::aes(ymin = low, ymax = high))
+#' ggplot(d, aes(year)) +
+#'   geom_scribbleribbon(aes(ymin = low, ymax = high))
+
 geom_scribbleribbon <- function (mapping = NULL, data = NULL, stat = "identity",
                                  position = "identity", ..., na.rm = FALSE,
                                  orientation = NA, show.legend = NA, res = 200,
@@ -20,27 +21,24 @@ geom_scribbleribbon <- function (mapping = NULL, data = NULL, stat = "identity",
   outline.type <- rlang::arg_match0(outline.type, c("both", "upper",
                                                     "lower", "full"))
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbleribbon, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, orientation = orientation,
-                                       outline.type = outline.type, ...,
-                                       res = res))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbleribbon, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, orientation = orientation,
+                       outline.type = outline.type, ..., res = res))
 }
 
-#' The ggproto object that powers scribble-filled ribbons
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbleribbon <- ggplot2::ggproto("GeomScribbleribbon",
+GeomScribbleribbon <- ggproto("GeomScribbleribbon",
 
   ggplot2::GeomRibbon,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 1, wibbliness = 1, randomness = 1,
@@ -88,7 +86,7 @@ GeomScribbleribbon <- ggplot2::ggproto("GeomScribbleribbon",
     scrib_gp <- grid::gpar(fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
                            col = if (is_full_outline) aes$colour else NA,
                            lwd = if (is_full_outline)
-                                      aes$linewidth * ggplot2::.pt else 0,
+                                      aes$linewidth * .pt else 0,
                            lty = if (is_full_outline)
                                       aes$linetype else 1,
                            lineend = lineend, linejoin = linejoin,
@@ -119,7 +117,7 @@ GeomScribbleribbon <- ggplot2::ggproto("GeomScribbleribbon",
         munched_lower), upper = munched_upper, lower = munched_lower)
     g_lines <- grid::polylineGrob(munched_lines$x, munched_lines$y,
         id = munched_lines$id, default.units = "native",
-        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * ggplot2::.pt,
+        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * .pt,
                         lty = aes$linetype, lineend = lineend,
                         linejoin = linejoin, linemitre = linemitre))
     g_lines <- wibblify(g_lines, aes$wibbliness, res)

@@ -102,6 +102,6 @@ df <- data.frame(
   lower = c(0.8, 4.6, 2.4, 3.6)
 )
 
-p <- ggplot2::ggplot(df, ggplot2::aes(resp, trt, colour = group))
+p <- ggplot(df, aes(resp, trt, colour = group))
 p + geom_scribbleerrorbarh(aes(xmin = lower, xmax = upper), height = 0.2)
 }

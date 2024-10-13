@@ -8,11 +8,12 @@
 #' @examples
 #' v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 #'
-#' ggplot2::ggplot(v, ggplot2::aes(x, y, z = z)) +
+#' ggplot(v, aes(x, y, z = z)) +
 #'  geom_scribblecontour_filled(bins = 6, color = NA, fill = NA,
 #'    scribbledensity = 400,
-#'    mapping = ggplot2::aes(scribblecolour = ggplot2::after_stat(level))) +
-#'  ggplot2::theme_classic(16)
+#'    mapping = aes(scribblecolour = ggplot2::after_stat(level))) +
+#'  theme_classic(16)
+
 geom_scribblecontour_filled <- function (mapping = NULL, data = NULL,
                                          stat = "contour_filled",
                                          position = "identity", ...,
@@ -21,27 +22,24 @@ geom_scribblecontour_filled <- function (mapping = NULL, data = NULL,
                                          show.legend = NA, inherit.aes = TRUE,
                                          res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblecontourFilled, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(bins = bins, binwidth = binwidth,
-                                       breaks = breaks, na.rm = na.rm,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblecontourFilled, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(bins = bins, binwidth = binwidth,
+                       breaks = breaks, na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribble-filled contours
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblecontourFilled <- ggplot2::ggproto("GeomScribblecontourFilled",
+GeomScribblecontourFilled <- ggproto("GeomScribblecontourFilled",
 
   ggplot2::GeomContourFilled,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0, wibbliness = 1, randomness = 1,
@@ -77,7 +75,7 @@ GeomScribblecontourFilled <- ggplot2::ggproto("GeomScribblecontourFilled",
             res = res,
             gp = grid::gpar(col = first_rows$colour,
                 fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
-                lwd = first_rows$linewidth * ggplot2::.pt,
+                lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
         } else {
@@ -99,7 +97,7 @@ GeomScribblecontourFilled <- ggplot2::ggproto("GeomScribblecontourFilled",
             res = res,
             gp = grid::gpar(col = first_rows$colour,
                 fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
-                lwd = first_rows$linewidth * ggplot2::.pt,
+                lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
         }

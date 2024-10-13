@@ -100,8 +100,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 5), y = c(5, 2),
+ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 5), y = c(5, 2),
                                   g = c("A", "B")),
-                mapping = ggplot2::aes(x, y, colour = g)) +
+                mapping = aes(x, y, colour = g)) +
   geom_scribblelinerange(aes(xmin = x, xmax = x1), wibbliness = 2)
 }

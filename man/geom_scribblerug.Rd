@@ -96,7 +96,7 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+ggplot(mtcars, aes(wt, mpg)) +
   ggplot2::geom_point() +
   geom_scribblerug()
 }

@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+#' ggplot(mtcars, aes(wt, mpg)) +
 #'   ggplot2::geom_point() +
 #'   geom_scribblerug()
 
@@ -16,30 +16,28 @@ geom_scribblerug <- function (mapping = NULL, data = NULL, stat = "identity",
                               na.rm = FALSE, show.legend = NA,
                               inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblerug, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(outside = outside, sides = sides,
-                                       length = length, na.rm = na.rm, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblerug, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(outside = outside, sides = sides,
+                       length = length, na.rm = na.rm, ...))
 }
 
 
-#' The ggproto object that powers scribbled marginal rug lines
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribblerug <- ggplot2::ggproto("GeomScribblerug", ggplot2::GeomRug,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+GeomScribblerug <- ggproto("GeomScribblerug", ggplot2::GeomRug,
+
+  default_aes = aes(colour = "black", linewidth = 1,
                            linetype = 1, alpha = NA,
                            wonkiness = 6, wibbliness = 0.5),
 
   draw_panel = function (self, data, panel_params, coord,
                          lineend = "butt", sides = "bl", outside = FALSE,
-                         length = unit(0.03, "npc"), res = 200) {
+                         length = grid::unit(0.03, "npc"), res = 200) {
 
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
@@ -62,7 +60,7 @@ GeomScribblerug <- ggplot2::ggproto("GeomScribblerug", ggplot2::GeomRug,
       list(min = -1 * length, max = unit(1, "npc") + length)
     }
     gp <- grid::gpar(col = alpha(data$colour, data$alpha), lty = data$linetype,
-                     lwd = data$linewidth * ggplot2::.pt, lineend = lineend)
+                     lwd = data$linewidth * .pt, lineend = lineend)
     if (!is.null(data$x)) {
       if (grepl("b", sides)) {
         rugs$x_b <- grid::segmentsGrob(x0 = unit(data$x, "npc"),

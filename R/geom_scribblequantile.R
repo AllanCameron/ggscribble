@@ -7,9 +7,10 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(ggplot2::mpg, ggplot2::aes(displ, 1 / hwy)) +
+#' ggplot(ggplot2::mpg, aes(displ, 1 / hwy)) +
 #'   ggplot2::geom_point() +
 #'   geom_scribblequantile(quantiles = c(0.25, 0.5, 0.75))
+
 geom_scribblequantile <- function (mapping = NULL, data = NULL,
                                    stat = "quantile", position = "identity",
                                    ..., lineend = "butt", linejoin = "round",
@@ -17,24 +18,23 @@ geom_scribblequantile <- function (mapping = NULL, data = NULL,
                                    show.legend = NA, inherit.aes = TRUE,
                                    res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblequantile, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-        params = rlang::list2(lineend = lineend, linejoin = linejoin,
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblequantile, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(lineend = lineend, linejoin = linejoin,
                        linemitre = linemitre, na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled quantile lines
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribblequantile <- ggplot2::ggproto("GeomScribblequantile",
+
+GeomScribblequantile <- ggproto("GeomScribblequantile",
   ggplot2::GeomQuantile,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+  default_aes = aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
                              wonkiness = 0, wibbliness = 1),
 
@@ -91,7 +91,7 @@ GeomScribblequantile <- ggplot2::ggproto("GeomScribblequantile",
               gp = grid::gpar(col = ggplot2::alpha(munched$colour,
                                                    munched$alpha)[!end],
                   fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
-                  lwd = munched$linewidth[!end] * ggplot2::.pt,
+                  lwd = munched$linewidth[!end] * .pt,
                   lty = munched$linetype[!end], lineend = lineend,
                   linejoin = linejoin, linemitre = linemitre))
           grobs <- wonkify(grobs, wonkiness = munched$wonkiness[!end])
@@ -105,8 +105,8 @@ GeomScribblequantile <- ggplot2::ggproto("GeomScribblequantile",
                              gp = grid::gpar(
                                col = ggplot2::alpha(munched$colour,
                   munched$alpha)[start], fill = ggplot2::alpha(munched$colour,
-                  munched$alpha)[start], lwd = munched$linewidth[start] *
-                  ggplot2::.pt, lty = munched$linetype[start],
+                  munched$alpha)[start], lwd = munched$linewidth[start] * .pt,
+                  lty = munched$linetype[start],
                   lineend = lineend, linejoin = linejoin,
                   linemitre = linemitre))
             grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)

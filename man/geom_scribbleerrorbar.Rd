@@ -108,7 +108,7 @@ df <- data.frame(
   lower = c(0.8, 4.6, 2.4, 3.6)
 )
 
-p <- ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group))
-p + geom_scribbleerrorbar(ggplot2::aes(ymin = lower, ymax = upper),
+p <- ggplot(df, aes(trt, resp, colour = group))
+p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper),
                           width = 0.2)
 }

@@ -110,7 +110,7 @@ in \code{vignette("ggplot2-specs")}.
 d <- data.frame(x = c("A", "B", "C"),
                 y = 1:3, ymin = 0:2, ymax = 2:4)
 
-ggplot2::ggplot(d, ggplot2::aes(x, y, ymin = ymin, ymax = ymax)) +
+ggplot(d, aes(x, y, ymin = ymin, ymax = ymax)) +
   geom_scribblepointrange() +
-  ggplot2::theme_classic(16)
+  theme_classic(16)
 }

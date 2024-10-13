@@ -107,7 +107,7 @@ in \code{vignette("ggplot2-specs")}.
 \examples{
 v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 
-ggplot2::ggplot(v, ggplot2::aes(x, y)) +
-  geom_scribblecontour(ggplot2::aes(z = z), bins = 6, color = "black") +
-  ggplot2::theme_classic(16)
+ggplot(v, aes(x, y)) +
+  geom_scribblecontour(aes(z = z), bins = 6, color = "black") +
+  theme_classic(16)
 }

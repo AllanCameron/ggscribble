@@ -29,13 +29,13 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+#' ggplot(iris, aes(Species, scribblecolour = Species,
 #'                                    colour = Species, angle = Species)) +
 #'  geom_scribblebar() +
 #'  scale_angle_manual(values = c(45, 135, 0))
 
-scale_angle <- function (name = ggplot2::waiver(),
-                         breaks = ggplot2::waiver(), labels = ggplot2::waiver(),
+scale_angle <- function (name = waiver(),
+                         breaks = waiver(), labels = waiver(),
                          limits = NULL, range = c(0, 90),
                          guide = "legend") {
   ggplot2::continuous_scale("angle", palette = scales::pal_rescale(range),
@@ -50,7 +50,7 @@ scale_angle_continuous <- scale_angle
 
 #' @rdname scale_angle
 #' @export
-scale_angle_identity <- function(name = ggplot2::waiver(),
+scale_angle_identity <- function(name = waiver(),
                                  ..., guide = "none") {
   ggplot2::continuous_scale(
     "angle", name = name,
@@ -61,7 +61,7 @@ scale_angle_identity <- function(name = ggplot2::waiver(),
 
 #' @rdname scale_angle
 #' @export
-scale_angle_manual <- function (..., values, breaks = ggplot2::waiver(),
+scale_angle_manual <- function (..., values, breaks = waiver(),
                                 na.value = NA) {
 
   manual_scale("angle", values, breaks, ..., na.value = na.value)
@@ -69,8 +69,8 @@ scale_angle_manual <- function (..., values, breaks = ggplot2::waiver(),
 
 #' @rdname scale_angle
 #' @export
-scale_angle_ordinal <- function (name = ggplot2::waiver(), ...,
-                                 range = c(0, 90)) {
+scale_angle_ordinal <- function (name = waiver(), ..., range = c(0, 90)) {
+
   force(range)
   ggplot2::discrete_scale("angle", name = name,
                  palette = function(n) seq(range[1], range[2], length.out = n),
@@ -80,7 +80,8 @@ scale_angle_ordinal <- function (name = ggplot2::waiver(), ...,
 #' @rdname scale_angle
 #' @export
 scale_angle_discrete <- function (...) {
-  args <- rlang::list2(...)
+
+  args <- list2(...)
   args$call <- if(is.null(args$call)) rlang::current_call() else args$call
   rlang::exec(scale_angle_ordinal, !!!args)
 }

@@ -7,41 +7,41 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
+#' ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
 #'                                   ymin = c(5, 10), ymax = c(10, 20),
 #'                                   g = 1:2),
-#'                 mapping = ggplot2::aes(xmin = xmin, xmax = xmax,
+#'                 mapping = aes(xmin = xmin, xmax = xmax,
 #'                                        ymin = ymin, ymax = ymax,
 #'                                        group = g)) +
 #'  geom_scribblerect()
-#'
+
 geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
           position = "identity", ..., linejoin = "mitre",
           na.rm = FALSE, show.legend = NA, inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblerect, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(linejoin = linejoin, na.rm = na.rm,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblerect, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(linejoin = linejoin, na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribble-filled rectangles.
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribblerect <- ggplot2::ggproto("GeomScribblerect",
+
+GeomScribblerect <- ggproto("GeomScribblerect",
 
   ggplot2::GeomRect,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                   linetype = 1, alpha = NA, subgroup = NULL,
                   scribblecolour = "black", scribblewidth = 1,
                   wonkiness = 1, wibbliness = 1, randomness = 1,
                   sloppiness = 1, scribbledensity = 200, angle = 46),
+
+  draw_key = draw_key_scribble,
 
   draw_panel = function (self, data, panel_params, coord, lineend = "butt",
                          linejoin = "mitre", res = 200) {

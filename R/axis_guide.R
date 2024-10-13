@@ -1,19 +1,16 @@
-#' The ggproto object that powers scribbled axes
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GuideScribbleaxis <- ggplot2::ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
+GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
 
   params = list(
-    title = structure(list(), class = "waiver"),
+    title = waiver(),
               theme = NULL,
               name = "axis",
               hash = character(0),
-              position = structure(list(), class = "waiver"),
+              position = waiver(),
               direction = NULL,
               angle = NULL,
               n.dodge = 1,
@@ -168,11 +165,12 @@ GuideScribbleaxis <- ggplot2::ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(mtcars, ggplot2::aes(wt, mpg)) +
+#' ggplot(mtcars, aes(wt, mpg)) +
 #'   geom_scribblepoint() +
 #'   ggplot2::guides(x = guide_scribbleaxis(wibbliness = 0.5),
 #'                   y = guide_scribbleaxis(wibbliness = 0.5)) +
-#'   ggplot2::theme_classic()
+#'   theme_classic()
+
 guide_scribbleaxis <- function (title = ggplot2::waiver(), theme = NULL,
                                 check.overlap = FALSE,
                                 angle = ggplot2::waiver(), n.dodge = 1,

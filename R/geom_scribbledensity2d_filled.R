@@ -10,38 +10,35 @@
 #'
 #' d <- data.frame(x = rnorm(1000), y = rnorm(1000))
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(x, y)) +
+#' ggplot(d, aes(x, y)) +
 #'   geom_scribbledensity2d_filled(
-#'     ggplot2::aes(scribbledensity = ggplot2::after_stat(level)),
+#'     aes(scribbledensity = ggplot2::after_stat(level)),
 #'     fill = NA, colour = "blue4", scribblecolour = "blue4") +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
 
 geom_scribbledensity2d_filled <- function(mapping = NULL, data = NULL,
     stat = "density_2d_filled", position = "identity", ...,
     contour_var = "density", na.rm = FALSE, show.legend = NA,
     inherit.aes = TRUE, res = 200) {
 
-    ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                   geom = GeomScribbledensity2dFilled, position = position,
-                   show.legend = show.legend, inherit.aes = inherit.aes,
-                   params = rlang::list2(na.rm = na.rm, contour = TRUE,
-                                         contour_var = contour_var,
-                                         res = res, ...))
+    layer(data = data, mapping = mapping, stat = stat,
+          geom = GeomScribbledensity2dFilled, position = position,
+          show.legend = show.legend, inherit.aes = inherit.aes,
+          params = list2(na.rm = na.rm, contour = TRUE,
+                         contour_var = contour_var, res = res, ...))
 }
 
-#' The ggproto object that powers scribble-filled density contours
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbledensity2dFilled <- ggplot2::ggproto("GeomScribbledensity2dFilled",
+GeomScribbledensity2dFilled <- ggproto("GeomScribbledensity2dFilled",
 
   ggplot2::GeomDensity2dFilled,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0, wibbliness = 1, randomness = 1,
@@ -79,7 +76,7 @@ GeomScribbledensity2dFilled <- ggplot2::ggproto("GeomScribbledensity2dFilled",
             res = res,
             gp = grid::gpar(col = first_rows$colour,
                 fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
-                lwd = first_rows$linewidth * ggplot2::.pt,
+                lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre)))
 
@@ -104,7 +101,7 @@ GeomScribbledensity2dFilled <- ggplot2::ggproto("GeomScribbledensity2dFilled",
               gp = grid::gpar(col = first_rows$colour,
                               fill = ggplot2::fill_alpha(first_rows$fill,
                                                          first_rows$alpha),
-                              lwd = first_rows$linewidth * ggplot2::.pt,
+                              lwd = first_rows$linewidth * .pt,
                               lty = first_rows$linetype,
                               lineend = lineend, linejoin = linejoin,
                               linemitre = linemitre)))

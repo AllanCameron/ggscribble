@@ -9,7 +9,7 @@
 #' d <- data.frame(x = rep(letters[1:5], 5),
 #'                 y = rep(LETTERS[1:5], each = 5), z = 1:25)
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(x, y, scribbledensity = z)) +
+#' ggplot(d, aes(x, y, scribbledensity = z)) +
 #'   geom_scribbletile()
 
 geom_scribbletile <- function (mapping = NULL, data = NULL, stat = "identity",
@@ -17,27 +17,23 @@ geom_scribbletile <- function (mapping = NULL, data = NULL, stat = "identity",
                                na.rm = FALSE, show.legend = NA,
                                inherit.aes = TRUE, res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbletile, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(linejoin = linejoin,
-                                       na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbletile, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(linejoin = linejoin, na.rm = na.rm, res = res, ...))
 }
 
 
-#' The ggproto object that powers scribble-filled contours
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribbletile <- ggplot2::ggproto("GeomScribbletile",
+GeomScribbletile <- ggproto("GeomScribbletile",
 
   ggplot2::GeomTile,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 1, wibbliness = 1, randomness = 1,

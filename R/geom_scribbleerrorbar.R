@@ -14,8 +14,8 @@
 #'   lower = c(0.8, 4.6, 2.4, 3.6)
 #' )
 #'
-#' p <- ggplot2::ggplot(df, ggplot2::aes(trt, resp, colour = group))
-#' p + geom_scribbleerrorbar(ggplot2::aes(ymin = lower, ymax = upper),
+#' p <- ggplot(df, aes(trt, resp, colour = group))
+#' p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper),
 #'                           width = 0.2)
 
 geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
@@ -24,25 +24,24 @@ geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
                                    show.legend = NA, inherit.aes = TRUE,
                                    res = 200) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbleerrorbar, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, orientation = orientation,
-                                       res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbleerrorbar, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, orientation = orientation,
+                       res = res, ...))
 }
 
-#' The ggproto object that powers scribbled error bars
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribbleerrorbar <- ggplot2::ggproto("GeomScribbleerrorbar",
+
+GeomScribbleerrorbar <- ggproto("GeomScribbleerrorbar",
 
   ggplot2::GeomErrorbar,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+  default_aes = aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
                              wonkiness = 0, wibbliness = 1),
 

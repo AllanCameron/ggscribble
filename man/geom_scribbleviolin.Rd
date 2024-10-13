@@ -122,7 +122,7 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Length)) +
+ggplot(iris, aes(Species, Sepal.Length)) +
   geom_scribbleviolin() +
-  ggplot2::theme_classic(16)
+  theme_classic(16)
 }

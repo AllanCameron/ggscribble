@@ -20,7 +20,9 @@ Imports:
     rlang,
     cli,
     vctrs,
-    ambient
+    ambient,
+    stats,
+    utils
 Suggests:
     hexbin,
     geomtextpath

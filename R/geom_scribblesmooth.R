@@ -10,11 +10,11 @@
 #'                 x = c(1.43, 1.95, -0.33, -0.74, 2.48,
 #'                       3.9, 3.79, 6.39, 5.11, 8.09))
 #'
-#' ggplot2::ggplot(d, ggplot2::aes(x, y)) +
+#' ggplot(d, aes(x, y)) +
 #'   geom_scribblesmooth(angle = 120, color = "gray50", scribblecolor = "gray",
 #'   randomness = 2) +
 #'   ggplot2::geom_point() +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
 
 geom_scribblesmooth <- function (mapping = NULL, data = NULL, stat = "smooth",
                                  position = "identity", ..., method = NULL,
@@ -22,33 +22,31 @@ geom_scribblesmooth <- function (mapping = NULL, data = NULL, stat = "smooth",
                                  orientation = NA, show.legend = NA,
                                  inherit.aes = TRUE, res = 200) {
 
-  params <- rlang::list2(na.rm = na.rm, orientation = orientation,
-                         se = se, res = res, ...)
+  params <- list2(na.rm = na.rm, orientation = orientation,
+                  se = se, res = res, ...)
 
   if (identical(stat, "smooth")) {
     params$method <- method
     params$formula <- formula
   }
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblesmooth, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = params)
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblesmooth, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = params)
 }
 
-#' The ggproto object that powers scribbled conditional means
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-#'
-GeomScribblesmooth <- ggplot2::ggproto("GeomScribblesmooth",
+
+GeomScribblesmooth <- ggproto("GeomScribblesmooth",
 
   ggplot2::GeomSmooth,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0, wibbliness = 1, randomness = 1,

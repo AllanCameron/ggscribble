@@ -6,10 +6,11 @@
 #' @export
 #'
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, Sepal.Width)) +
-#'   geom_scribbleboxplot(ggplot2::aes(scribblecolour = Species),
+#' ggplot(iris, aes(Species, Sepal.Width)) +
+#'   geom_scribbleboxplot(aes(scribblecolour = Species),
 #'   staplewidth = 0.4) +
-#'   ggplot2::theme_classic(16)
+#'   theme_classic(16)
+
 geom_scribbleboxplot <- function (mapping = NULL, data = NULL, stat = "boxplot",
                                   position = "dodge2", ..., outliers = TRUE,
                                   outlier.colour = NULL, outlier.color = NULL,
@@ -38,36 +39,34 @@ geom_scribbleboxplot <- function (mapping = NULL, data = NULL, stat = "boxplot",
     stop("Argument \"outliers\" must be TRUE or FALSE")
   ouliers <- outliers[1]
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribbleboxplot, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(outliers = outliers,
-                                       outlier.colour = outlier.color %||%
-                                                        outlier.colour,
-                                       outlier.fill = outlier.fill,
-                                       outlier.shape = outlier.shape,
-                                       outlier.size = outlier.size,
-                                       outlier.stroke = outlier.stroke,
-                                       outlier.alpha = outlier.alpha,
-                                       notch = notch, res = res,
-                                       notchwidth = notchwidth,
-                                       staplewidth = staplewidth,
-                                       varwidth = varwidth, na.rm = na.rm,
-                                       orientation = orientation, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribbleboxplot, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(outliers = outliers,
+                       outlier.colour = outlier.color %||% outlier.colour,
+                       outlier.fill = outlier.fill,
+                       outlier.shape = outlier.shape,
+                       outlier.size = outlier.size,
+                       outlier.stroke = outlier.stroke,
+                       outlier.alpha = outlier.alpha,
+                       notch = notch, res = res,
+                       notchwidth = notchwidth,
+                       staplewidth = staplewidth,
+                       varwidth = varwidth, na.rm = na.rm,
+                       orientation = orientation, ...))
 }
 
-#' The ggproto object that powers scribbled boxplots
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
-GeomScribbleboxplot <- ggplot2::ggproto("GeomScribbleboxplot",
+
+GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
 
   ggplot2::GeomBoxplot,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 0.5,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 0.5,
                              weight = 1,
                              alpha = NA, shape = 19, size = NULL,
                              scribblecolour = "black", scribblewidth = 1,

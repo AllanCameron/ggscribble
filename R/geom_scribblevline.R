@@ -14,13 +14,13 @@ geom_scribblevline <- function (mapping = NULL, data = NULL, ...,
                            "because {.arg xintercept} was provided."))
     }
     data <- data_frame0(xintercept = xintercept)
-    mapping <- ggplot2::aes(xintercept = xintercept)
+    mapping <- aes(xintercept = xintercept)
     show.legend <- FALSE
   }
-  ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,
-                 geom = GeomScribblevline, position = PositionIdentity,
-                 show.legend = show.legend, inherit.aes = FALSE,
-                 params = rlang::list2(na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = ggplot2::StatIdentity,
+        geom = GeomScribblevline, position = ggplot2::PositionIdentity,
+        show.legend = show.legend, inherit.aes = FALSE,
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
 
@@ -31,9 +31,10 @@ geom_scribblevline <- function (mapping = NULL, data = NULL, ...,
 #' @format NULL
 #' @usage NULL
 #' @export
-GeomScribblevline <- ggplot2::ggproto("GeomScribblevline", ggplot2::GeomVline,
 
-   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+GeomScribblevline <- ggproto("GeomScribblevline", ggplot2::GeomVline,
+
+   default_aes = aes(colour = "black", linewidth = 1,
                          linetype = 1, alpha = NA,
                          wonkiness = 0, wibbliness = 1),
 

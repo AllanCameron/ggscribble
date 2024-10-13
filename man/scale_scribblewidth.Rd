@@ -10,33 +10,28 @@
 \title{Scribble linewidth scales}
 \usage{
 scale_scribblewidth(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(1, 6),
   guide = "legend"
 )
 
 scale_scribblewidth_continuous(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(1, 6),
   guide = "legend"
 )
 
-scale_scribblewidth_identity(name = ggplot2::waiver(), ..., guide = "none")
+scale_scribblewidth_identity(name = waiver(), ..., guide = "none")
 
-scale_scribblewidth_manual(
-  ...,
-  values,
-  breaks = ggplot2::waiver(),
-  na.value = NA
-)
+scale_scribblewidth_manual(..., values, breaks = waiver(), na.value = NA)
 
-scale_scribblewidth_ordinal(name = ggplot2::waiver(), ..., range = c(1, 6))
+scale_scribblewidth_ordinal(name = waiver(), ..., range = c(1, 6))
 
 scale_scribblewidth_discrete(...)
 }
@@ -73,9 +68,8 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot2::ggplot(iris,
-                ggplot2::aes(Species, scribblecolour = Species,
-                             colour = Species, scribblewidth = Species)) +
+ggplot(iris, aes(Species, scribblecolour = Species,
+       colour = Species, scribblewidth = Species)) +
  geom_scribblebar() +
  scale_scribblewidth_manual(values = c(1, 3, 5))
 }

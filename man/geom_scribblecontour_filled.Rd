@@ -121,9 +121,9 @@ in \code{vignette("ggplot2-specs")}.
 \examples{
 v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 
-ggplot2::ggplot(v, ggplot2::aes(x, y, z = z)) +
+ggplot(v, aes(x, y, z = z)) +
  geom_scribblecontour_filled(bins = 6, color = NA, fill = NA,
    scribbledensity = 400,
-   mapping = ggplot2::aes(scribblecolour = ggplot2::after_stat(level))) +
- ggplot2::theme_classic(16)
+   mapping = aes(scribblecolour = ggplot2::after_stat(level))) +
+ theme_classic(16)
 }

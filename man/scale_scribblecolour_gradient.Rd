@@ -9,7 +9,7 @@
 \title{Scribble colour scales}
 \usage{
 scale_scribblecolour_gradient(
-  name = ggplot2::waiver(),
+  name = waiver(),
   ...,
   low = "#132B43",
   high = "#56B1F7",
@@ -20,7 +20,7 @@ scale_scribblecolour_gradient(
 )
 
 scale_scribblecolour_continuous(
-  name = ggplot2::waiver(),
+  name = waiver(),
   ...,
   low = "#132B43",
   high = "#56B1F7",
@@ -31,7 +31,7 @@ scale_scribblecolour_continuous(
 )
 
 scale_scribblecolour_identity(
-  name = ggplot2::waiver(),
+  name = waiver(),
   ...,
   guide = "none",
   aesthetics = "scribblecolour"
@@ -46,7 +46,7 @@ scale_scribblecolour_manual(
 )
 
 scale_scribblecolour_discrete(
-  name = ggplot2::waiver(),
+  name = waiver(),
   ...,
   h = c(0, 360) + 15,
   c = 100,
@@ -94,7 +94,7 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+ggplot(iris, aes(Species, scribblecolour = Species,
                                    colour = Species)) +
   geom_scribblebar() +
   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +

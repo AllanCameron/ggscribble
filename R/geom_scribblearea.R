@@ -11,12 +11,12 @@
 #'                         sin(seq(pi/3, 3*pi/2, length = 32))),
 #'                   z = rep(c("A", "B"), each = 32))
 #'
-#' ggplot2::ggplot(dat, ggplot2::aes(x, y, scribblecolour = z, angle = z)) +
+#' ggplot(dat, aes(x, y, scribblecolour = z, angle = z)) +
 #'   geom_scribblearea(res = 300, wibbliness = 0.5,
 #'                     scribblewidth = 2, scribbledensity = 300) +
 #'  scale_angle_manual(values = c(30, 45)) +
 #'  ggplot2::coord_cartesian(expand = 0) +
-#'  ggplot2::theme_classic(16)
+#'  theme_classic(16)
 
 geom_scribblearea <- function (mapping = NULL, data = NULL, stat = "align",
                                position = "stack", na.rm = FALSE,
@@ -27,26 +27,23 @@ geom_scribblearea <- function (mapping = NULL, data = NULL, stat = "align",
   outline.type <- rlang::arg_match0(outline.type, c("both", "upper",
                                                     "lower", "full"))
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblearea, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(na.rm = na.rm, orientation = orientation,
-                                       outline.type = outline.type, ...,
-                                       res = res))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblearea, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(na.rm = na.rm, orientation = orientation,
+                        outline.type = outline.type, ..., res = res))
 }
 
-#' The ggproto object that powers scribble-filled area polygons.
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
+GeomScribblearea <- ggproto("GeomScribblearea",
   ggplot2::GeomArea,
 
-  default_aes = ggplot2::aes(colour = "black", fill = NA, linewidth = 1,
+  default_aes = aes(colour = "black", fill = NA, linewidth = 1,
                              linetype = 1, alpha = NA, subgroup = NULL,
                              scribblecolour = "black", scribblewidth = 1,
                              wonkiness = 0.1, wibbliness = 1, randomness = 1,
@@ -94,7 +91,7 @@ GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
     scrib_gp <- grid::gpar(fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
                            col = if (is_full_outline) aes$colour else NA,
                            lwd = if (is_full_outline)
-                                      aes$linewidth * ggplot2::.pt else 0,
+                                      aes$linewidth * .pt else 0,
                            lty = if (is_full_outline)
                                       aes$linetype else 1,
                            lineend = lineend, linejoin = linejoin,
@@ -125,7 +122,7 @@ GeomScribblearea <- ggplot2::ggproto("GeomScribblearea",
         munched_lower), upper = munched_upper, lower = munched_lower)
     g_lines <- grid::polylineGrob(munched_lines$x, munched_lines$y,
         id = munched_lines$id, default.units = "native",
-        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * ggplot2::.pt,
+        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * .pt,
                         lty = aes$linetype, lineend = lineend,
                         linejoin = linejoin, linemitre = linemitre))
     g_lines <- wibblify(g_lines, aes$wibbliness, res)

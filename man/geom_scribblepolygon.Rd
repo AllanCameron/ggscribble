@@ -102,10 +102,10 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data = data.frame(x = c(5, 10, 7.5, 10, 15, 12.5),
+ggplot(data = data.frame(x = c(5, 10, 7.5, 10, 15, 12.5),
                                   y = c(5, 5, 10, 5, 5, 10),
                                   g = rep(1:2, each = 3)),
-                mapping = ggplot2::aes(x, y, group = g)) +
+                mapping = aes(x, y, group = g)) +
  geom_scribblepolygon()
 
 }

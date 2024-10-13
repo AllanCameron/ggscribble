@@ -101,7 +101,7 @@ set.seed(1)
 df$angle <- runif(100, 0, 2*pi)
 df$speed <- runif(100, 0, sqrt(0.1 * df$x))
 
-ggplot2::ggplot(df, ggplot2::aes(x, y)) +
+ggplot(df, aes(x, y)) +
   ggplot2::geom_point() +
-  geom_scribblespoke(ggplot2::aes(angle = angle, radius = speed))
+  geom_scribblespoke(aes(angle = angle, radius = speed))
 }

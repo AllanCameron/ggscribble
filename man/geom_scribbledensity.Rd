@@ -103,6 +103,6 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data.frame(x = rnorm(100)), ggplot2::aes(x)) +
+ggplot(data.frame(x = rnorm(100)), aes(x)) +
   geom_scribbledensity()
 }

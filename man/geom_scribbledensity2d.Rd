@@ -105,7 +105,7 @@ in \code{vignette("ggplot2-specs")}.
 \examples{
 set.seed(1)
 
-ggplot2::ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
-                ggplot2::aes(x, y)) +
+ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
+                aes(x, y)) +
  geom_scribbledensity2d()
 }

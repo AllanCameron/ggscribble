@@ -26,15 +26,14 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot2::ggplot(iris,
-#'                 ggplot2::aes(Species, scribblecolour = Species,
-#'                              colour = Species, scribblewidth = Species)) +
+#' ggplot(iris, aes(Species, scribblecolour = Species,
+#'        colour = Species, scribblewidth = Species)) +
 #'  geom_scribblebar() +
 #'  scale_scribblewidth_manual(values = c(1, 3, 5))
 
-scale_scribblewidth <- function (name = ggplot2::waiver(),
-                                 breaks = ggplot2::waiver(),
-                                 labels = ggplot2::waiver(),
+scale_scribblewidth <- function (name = waiver(),
+                                 breaks = waiver(),
+                                 labels = waiver(),
                                  limits = NULL,
                                  range = c(1, 6),
                                  guide = "legend") {
@@ -45,14 +44,17 @@ scale_scribblewidth <- function (name = ggplot2::waiver(),
                             limits = limits, guide = guide)
 }
 
+
 #' @rdname scale_scribblewidth
 #' @export
+
 scale_scribblewidth_continuous <- scale_scribblewidth
 
 
 #' @rdname scale_scribblewidth
 #' @export
-scale_scribblewidth_identity <- function(name = ggplot2::waiver(),
+
+scale_scribblewidth_identity <- function(name = waiver(),
                                  ..., guide = "none") {
 
   ggplot2::continuous_scale(
@@ -62,29 +64,34 @@ scale_scribblewidth_identity <- function(name = ggplot2::waiver(),
   )
 }
 
+
 #' @rdname scale_scribblewidth
 #' @export
-scale_scribblewidth_manual <- function (..., values, breaks = ggplot2::waiver(),
+
+scale_scribblewidth_manual <- function (..., values, breaks = waiver(),
                                 na.value = NA) {
 
   manual_scale("scribblewidth", values, breaks, ..., na.value = na.value)
 }
 
-#' @rdname scale_scribblewidth
-#' @export
-scale_scribblewidth_ordinal <- function (name = ggplot2::waiver(), ...,
-                                 range = c(1, 6)) {
-  force(range)
-  ggplot2::discrete_scale("scribblewidth", name = name,
-                          palette = function(n) seq(range[1], range[2],
-                                                    length.out = n),
-                          ...)
-}
 
 #' @rdname scale_scribblewidth
 #' @export
+
+scale_scribblewidth_ordinal <- function(name = waiver(), ..., range = c(1, 6)) {
+
+  force(range)
+  ggplot2::discrete_scale("scribblewidth", name = name,
+                          palette = function(n) seq(range[1], range[2],
+                                                    length.out = n), ...)
+}
+
+
+#' @rdname scale_scribblewidth
+#' @export
+
 scale_scribblewidth_discrete <- function (...) {
-  args <- rlang::list2(...)
+  args <- list2(...)
   args$call <- if(is.null(args$call)) rlang::current_call() else args$call
   rlang::exec(scale_scribblewidth_ordinal, !!!args)
 }

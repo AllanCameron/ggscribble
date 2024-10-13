@@ -106,12 +106,11 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
+ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
                                   ymin = c(5, 10), ymax = c(10, 20),
                                   g = 1:2),
-                mapping = ggplot2::aes(xmin = xmin, xmax = xmax,
+                mapping = aes(xmin = xmin, xmax = xmax,
                                        ymin = ymin, ymax = ymax,
                                        group = g)) +
  geom_scribblerect()
-
 }

@@ -108,6 +108,6 @@ d <- data.frame(year = 2000:2004,
                 low = c(5, 6, 6, 5, 4),
                 high = c(10, 12, 10, 9, 11))
 
-ggplot2::ggplot(d, ggplot2::aes(year)) +
-  geom_scribbleribbon(ggplot2::aes(ymin = low, ymax = high))
+ggplot(d, aes(year)) +
+  geom_scribbleribbon(aes(ymin = low, ymax = high))
 }

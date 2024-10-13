@@ -10,7 +10,7 @@
 #'
 #' spiral <- data.frame(x = sin(t) * 1:1000, y = cos(t) * 1:1000)
 #'
-#' ggplot2::ggplot(spiral, ggplot2::aes(x, y)) +
+#' ggplot(spiral, aes(x, y)) +
 #'   geom_scribblepath(wonkiness = 1.5, wibbliness = 0.5) +
 #'   ggplot2::coord_equal(xlim = c(-1500, 1500), ylim = c(-1500, 1500))
 
@@ -20,26 +20,23 @@ geom_scribblepath <- function (mapping = NULL, data = NULL, stat = "identity",
                                na.rm = FALSE, show.legend = NA, res = 200,
                                inherit.aes = TRUE) {
 
-  ggplot2::layer(data = data, mapping = mapping, stat = stat,
-                 geom = GeomScribblepath, position = position,
-                 show.legend = show.legend, inherit.aes = inherit.aes,
-                 params = rlang::list2(lineend = lineend, linejoin = linejoin,
-                                       linemitre = linemitre, arrow = arrow,
-                                       na.rm = na.rm, res = res, ...))
+  layer(data = data, mapping = mapping, stat = stat,
+        geom = GeomScribblepath, position = position,
+        show.legend = show.legend, inherit.aes = inherit.aes,
+        params = list2(lineend = lineend, linejoin = linejoin,
+                       linemitre = linemitre, arrow = arrow,
+                       na.rm = na.rm, res = res, ...))
 }
 
 
-#' The ggproto object that powers scribbled paths
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
+#' @rdname ggscribble-ggproto
 #' @usage NULL
+#' @format NULL
 #' @export
 
-GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
+GeomScribblepath <- ggproto("GeomScribblepath", ggplot2::GeomPath,
 
-  default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+  default_aes = aes(colour = "black", linewidth = 1,
                              linetype = 1, alpha = NA,
                              wonkiness = 0, wibbliness = 1),
 
@@ -93,7 +90,7 @@ GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
               gp = grid::gpar(
                 col = ggplot2::alpha(munched$colour, munched$alpha)[!end],
                 fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
-                lwd = munched$linewidth[!end] * ggplot2::.pt,
+                lwd = munched$linewidth[!end] * .pt,
                 lty = munched$linetype[!end],
                 lineend = lineend, linejoin = linejoin,
                 linemitre = linemitre))
@@ -107,7 +104,7 @@ GeomScribblepath <- ggplot2::ggproto("GeomScribblepath", ggplot2::GeomPath,
               arrow = arrow, gp = grid::gpar(
                 col = ggplot2::alpha(munched$colour, munched$alpha)[start],
                 fill = ggplot2::alpha(munched$colour, munched$alpha)[start],
-                lwd = munched$linewidth[start] * ggplot2::.pt,
+                lwd = munched$linewidth[start] * .pt,
                 lty = munched$linetype[start], lineend = lineend,
                 linejoin = linejoin, linemitre = linemitre))
             grobs <- wonkify(grobs, munched$wonkiness[start])

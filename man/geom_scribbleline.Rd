@@ -99,9 +99,9 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot2::ggplot(data = data.frame(x = rep(c(1, 2, 3, 4, 5), 2),
+ggplot(data = data.frame(x = rep(c(1, 2, 3, 4, 5), 2),
                                   y = c(5, 2, 0, 5, 3, 4, 1, 3, 2, 4),
                                   g = rep(c("A", "B"), each = 5)),
-                mapping = ggplot2::aes(x, y, colour = g)) +
+                mapping = aes(x, y, colour = g)) +
   geom_scribbleline(res = 200, wibbliness = 2)
 }

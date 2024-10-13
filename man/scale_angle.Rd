@@ -10,28 +10,28 @@
 \title{Scribble angle scales}
 \usage{
 scale_angle(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(0, 90),
   guide = "legend"
 )
 
 scale_angle_continuous(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(0, 90),
   guide = "legend"
 )
 
-scale_angle_identity(name = ggplot2::waiver(), ..., guide = "none")
+scale_angle_identity(name = waiver(), ..., guide = "none")
 
-scale_angle_manual(..., values, breaks = ggplot2::waiver(), na.value = NA)
+scale_angle_manual(..., values, breaks = waiver(), na.value = NA)
 
-scale_angle_ordinal(name = ggplot2::waiver(), ..., range = c(0, 90))
+scale_angle_ordinal(name = waiver(), ..., range = c(0, 90))
 
 scale_angle_discrete(...)
 }
@@ -72,7 +72,7 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+ggplot(iris, aes(Species, scribblecolour = Species,
                                    colour = Species, angle = Species)) +
  geom_scribblebar() +
  scale_angle_manual(values = c(45, 135, 0))

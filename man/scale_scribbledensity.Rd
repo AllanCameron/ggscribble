@@ -10,37 +10,28 @@
 \title{Scribble density scales}
 \usage{
 scale_scribbledensity(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(50, 400),
   guide = "legend"
 )
 
 scale_scribbledensity_continuous(
-  name = ggplot2::waiver(),
-  breaks = ggplot2::waiver(),
-  labels = ggplot2::waiver(),
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
   limits = NULL,
   range = c(50, 400),
   guide = "legend"
 )
 
-scale_scribbledensity_identity(name = ggplot2::waiver(), ..., guide = "none")
+scale_scribbledensity_identity(name = waiver(), ..., guide = "none")
 
-scale_scribbledensity_manual(
-  ...,
-  values,
-  breaks = ggplot2::waiver(),
-  na.value = NA
-)
+scale_scribbledensity_manual(..., values, breaks = waiver(), na.value = NA)
 
-scale_scribbledensity_ordinal(
-  name = ggplot2::waiver(),
-  ...,
-  range = c(50, 400)
-)
+scale_scribbledensity_ordinal(name = waiver(), ..., range = c(50, 400))
 
 scale_scribbledensity_discrete(...)
 }
@@ -81,7 +72,7 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+ggplot(iris, aes(Species, scribblecolour = Species,
                                    colour = Species,
                                    scribbledensity = Species)) +
  geom_scribblebar() +

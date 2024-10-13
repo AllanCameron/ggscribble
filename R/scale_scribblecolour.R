@@ -29,13 +29,13 @@
 #' @return A `Scale` ggproto object that can be added to a plot.
 #' @export
 #' @examples
-#' ggplot2::ggplot(iris, ggplot2::aes(Species, scribblecolour = Species,
+#' ggplot(iris, aes(Species, scribblecolour = Species,
 #'                                    colour = Species)) +
 #'   geom_scribblebar() +
 #'   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +
 #'   ggplot2::scale_colour_manual(values = c("green4", "navy", "red3"))
 
-scale_scribblecolour_gradient <- function (name = ggplot2::waiver(), ...,
+scale_scribblecolour_gradient <- function (name = waiver(), ...,
     low = "#132B43", high = "#56B1F7", space = "Lab", na.value = "grey50",
     guide = "colourbar", aesthetics = "scribblecolour") {
 
@@ -51,7 +51,7 @@ scale_scribblecolour_continuous <- scale_scribblecolour_gradient
 
 #' @rdname scale_scribblecolour_gradient
 #' @export
-scale_scribblecolour_identity <- function (name = ggplot2::waiver(), ...,
+scale_scribblecolour_identity <- function (name = waiver(), ...,
                                            guide = "none",
                                            aesthetics = "scribblecolour") {
 
@@ -73,7 +73,7 @@ scale_scribblecolour_manual <- function (...,
 
 #' @rdname scale_scribblecolour_gradient
 #' @export
-scale_scribblecolour_discrete <- function (name = ggplot2::waiver(), ...,
+scale_scribblecolour_discrete <- function (name = waiver(), ...,
     h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1,
     na.value = "grey50", aesthetics = "scribblecolour") {
 

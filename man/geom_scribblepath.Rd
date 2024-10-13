@@ -109,7 +109,7 @@ t <- seq(5, -1, length.out = 1000) * pi
 
 spiral <- data.frame(x = sin(t) * 1:1000, y = cos(t) * 1:1000)
 
-ggplot2::ggplot(spiral, ggplot2::aes(x, y)) +
+ggplot(spiral, aes(x, y)) +
   geom_scribblepath(wonkiness = 1.5, wibbliness = 0.5) +
   ggplot2::coord_equal(xlim = c(-1500, 1500), ylim = c(-1500, 1500))
 }

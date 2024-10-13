@@ -15,25 +15,24 @@ geom_scribblehline <- function (mapping = NULL, data = NULL, ...,
                            "because {.arg yintercept} was provided."))
     }
     data <- data_frame0(yintercept = yintercept)
-    mapping <- ggplot2::aes(yintercept = yintercept)
+    mapping <- aes(yintercept = yintercept)
     show.legend <- FALSE
   }
-  ggplot2::layer(data = data, mapping = mapping, stat = StatIdentity,
-        geom = GeomScribblehline, position = PositionIdentity,
+  layer(data = data, mapping = mapping, stat = ggplot2::StatIdentity,
+        geom = GeomScribblehline, position = ggplot2::PositionIdentity,
         show.legend = show.legend, inherit.aes = FALSE,
-        params = rlang::list2(na.rm = na.rm, res = res, ...))
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
-#' The ggproto object that powers scribbled horizontal reference lines
-#'
-#' See \link[ggplot2]{ggplot2-ggproto}
-#'
-#' @format NULL
-#' @usage NULL
-#' @export
-GeomScribblehline <- ggplot2::ggproto("GeomScribblehline", ggplot2::GeomHline,
 
-   default_aes = ggplot2::aes(colour = "black", linewidth = 1,
+#' @rdname ggscribble-ggproto
+#' @usage NULL
+#' @format NULL
+#' @export
+
+GeomScribblehline <- ggproto("GeomScribblehline", ggplot2::GeomHline,
+
+   default_aes = aes(colour = "black", linewidth = 1,
                          linetype = 1, alpha = NA,
                          wonkiness = 0, wibbliness = 1),
 
