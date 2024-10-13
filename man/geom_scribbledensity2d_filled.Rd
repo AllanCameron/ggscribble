@@ -119,7 +119,7 @@ d <- data.frame(x = rnorm(1000), y = rnorm(1000))
 
 ggplot(d, aes(x, y)) +
   geom_scribbledensity2d_filled(
-    aes(scribbledensity = ggplot2::after_stat(level)),
+    aes(scribbledensity = after_stat(level)),
     fill = NA, colour = "blue4", scribblecolour = "blue4") +
   theme_classic(16)
 }

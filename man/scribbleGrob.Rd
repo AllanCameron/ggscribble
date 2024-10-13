@@ -8,7 +8,7 @@ scribbleGrob(
   x,
   y,
   id,
-  gp = grid::gpar(),
+  gp = gpar(),
   angle = 45,
   wonkiness = 1,
   pathId = NULL,

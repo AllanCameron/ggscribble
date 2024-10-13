@@ -42,9 +42,9 @@ GeomScribblelinerange <- ggproto("GeomScribblelinerange",
 
     draw_panel = function (data, panel_params, coord, lineend = "butt",
                            flipped_aes = FALSE, na.rm = FALSE, res = 200) {
-        data <- ggplot2::flip_data(data, flipped_aes)
+        data <- flip_data(data, flipped_aes)
         data <- transform(data, xend = x, y = ymin, yend = ymax)
-        data <- ggplot2::flip_data(data, flipped_aes)
+        data <- flip_data(data, flipped_aes)
         ggname("geom_scribblelinerange", GeomScribblesegment$draw_panel(data,
             panel_params, coord, lineend = lineend, na.rm = na.rm, res = res))
     }

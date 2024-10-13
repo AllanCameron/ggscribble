@@ -60,8 +60,8 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
     }
 
     axis_line <- ggplot2::element_grob(elements$line,
-                                       x = grid::unit(decor$x, "npc"),
-                                       y = grid::unit(decor$y, "npc"))
+                                       x = unit(decor$x, "npc"),
+                                       y = unit(decor$y, "npc"))
 
     axis_line <- grid::segmentsGrob(x0 = axis_line$x[1],
                                     y0 = axis_line$y[1],
@@ -82,14 +82,14 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
     grobs <- c(list(grobs$ticks), grobs$labels, list(grobs$title))
     gt <- rlang::exec(gtable::gtable,
                       `:=`(!!params$orth_sizes, sizes),
-                      `:=`(!!params$para_sizes, grid::unit(1, "npc")),
+                      `:=`(!!params$para_sizes, unit(1, "npc")),
                       name = "axis")
     gt <- gtable::gtable_add_grob(gt, grobs, t = layout$t, b = layout$b,
                                   l = layout$l, r = layout$r,
                                   clip = "off", z = z)
     vp <- rlang::exec(grid::viewport,
                       `:=`(!!params$orth_aes,
-                           grid::unit(params$orth_side, "npc")),
+                           unit(params$orth_side, "npc")),
                       `:=`(!!params$orth_size, params$measure_gtable(gt)),
                       just = params$opposite)
 
@@ -121,13 +121,13 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
                         res = params$res * 5, default.units = "npc")
 
       if(params$direction == "horizontal") {
-        yvals <- grid::convertY(ticks$y - grid::unit(npcs_y, "npc"), "mm", TRUE)
-        ticks$y <- grid::unit(npcs_y, "npc") + grid::unit(yvals, "mm")
+        yvals <- grid::convertY(ticks$y - unit(npcs_y, "npc"), "mm", TRUE)
+        ticks$y <- unit(npcs_y, "npc") + unit(yvals, "mm")
 
       }
       if(params$direction == "vertical") {
-        xvals <- grid::convertX(ticks$x - grid::unit(npcs_x, "npc"), "mm", TRUE)
-        ticks$x <- grid::unit(npcs_x, "npc") + grid::unit(xvals, "mm")
+        xvals <- grid::convertX(ticks$x - unit(npcs_x, "npc"), "mm", TRUE)
+        ticks$x <- unit(npcs_x, "npc") + unit(xvals, "mm")
       }
       ticks$vp <- NULL
       gt$grobs[[is_ticks[1]]] <- ticks
@@ -137,13 +137,13 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
     if(params$direction == "horizontal") {
       yvals <- grid::convertY(axis_line$y, "npc", TRUE)
       yvals <- ratio * (yvals - mean(yvals)) + mean(yvals)
-      axis_line$y <- grid::unit(yvals, "npc")
+      axis_line$y <- unit(yvals, "npc")
     }
 
     if(params$direction == "vertical") {
       xvals <- grid::convertX(axis_line$x, "npc", TRUE)
       xvals <- (xvals - mean(xvals))/ratio + mean(xvals)
-      axis_line$x <- grid::unit(xvals, "npc")
+      axis_line$x <- unit(xvals, "npc")
     }
 
     absoluteGrob(grid::gList(axis_line, gt),

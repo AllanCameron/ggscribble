@@ -34,8 +34,8 @@ wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
     x[length(x)] <- x[1]
     y[length(y)] <- y[1]
   }
-  poly$x <- grid::unit(x, default.units)
-  poly$y <- grid::unit(y, default.units)
+  poly$x <- unit(x, default.units)
+  poly$y <- unit(y, default.units)
   poly
 }
 
@@ -74,8 +74,8 @@ wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
     x
   }, split(y,line$id), wonkiness))
 
-  line$x <- grid::unit(x, default.units)
-  line$y <- grid::unit(y, default.units)
+  line$x <- unit(x, default.units)
+  line$y <- unit(y, default.units)
   line
 }
 
@@ -107,10 +107,10 @@ wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
   y0 <- y0 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
   y1 <- y1 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
 
-  line$x0 <- grid::unit(x0, default.units)
-  line$y0 <- grid::unit(y0, default.units)
-  line$x1 <- grid::unit(x1, default.units)
-  line$y1 <- grid::unit(y1, default.units)
+  line$x0 <- unit(x0, default.units)
+  line$y0 <- unit(y0, default.units)
+  line$x1 <- unit(x1, default.units)
+  line$y1 <- unit(y1, default.units)
 
   line
 }

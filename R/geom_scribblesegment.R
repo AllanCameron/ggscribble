@@ -60,8 +60,8 @@ GeomScribblesegment <- ggproto("GeomScribblesegment",
         arrow.fill <- arrow.fill %||% coord$colour
         grobs <- grid::segmentsGrob(coord$x, coord$y, coord$xend, coord$yend,
                 default.units = "native",
-                gp = grid::gpar(col = ggplot2::alpha(coord$colour,
-                coord$alpha), fill = ggplot2::alpha(arrow.fill, coord$alpha),
+                gp = gpar(col = alpha(coord$colour,
+                coord$alpha), fill = alpha(arrow.fill, coord$alpha),
                 lwd = coord$linewidth * .pt, lty = coord$linetype,
                 lineend = lineend, linejoin = linejoin), arrow = arrow)
         grobs <- wonkify(grobs, wonkiness = first_rows$wonkiness)

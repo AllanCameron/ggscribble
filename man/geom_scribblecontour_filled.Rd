@@ -124,6 +124,6 @@ v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 ggplot(v, aes(x, y, z = z)) +
  geom_scribblecontour_filled(bins = 6, color = NA, fill = NA,
    scribbledensity = 400,
-   mapping = aes(scribblecolour = ggplot2::after_stat(level))) +
+   mapping = aes(scribblecolour = after_stat(level))) +
  theme_classic(16)
 }

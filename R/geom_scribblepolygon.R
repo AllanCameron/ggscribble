@@ -53,7 +53,7 @@ GeomScribblepolygon <- ggproto("GeomScribblepolygon",
       n <- nrow(data)
       if (n == 1) return(ggplot2::zeroGrob())
 
-      munched <- ggplot2::coord_munch(coord, data, panel_params,
+      munched <- coord_munch(coord, data, panel_params,
                                       is_closed = TRUE)
 
       if (is.null(munched$subgroup)) {
@@ -74,8 +74,8 @@ GeomScribblepolygon <- ggproto("GeomScribblepolygon",
           randomness = first_rows$randomness,
           angle = first_rows$angle,
           res = res,
-          gp = grid::gpar(col = first_rows$colour,
-              fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+          gp = gpar(col = first_rows$colour,
+              fill = fill_alpha(first_rows$fill, first_rows$alpha),
               lwd = first_rows$linewidth * .pt,
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))
@@ -96,8 +96,8 @@ GeomScribblepolygon <- ggproto("GeomScribblepolygon",
           randomness = first_rows$randomness,
           angle = first_rows$angle,
           res = res,
-          gp = grid::gpar(col = first_rows$colour,
-              fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+          gp = gpar(col = first_rows$colour,
+              fill = fill_alpha(first_rows$fill, first_rows$alpha),
               lwd = first_rows$linewidth * .pt,
               lty = first_rows$linetype,
               lineend = lineend, linejoin = linejoin, linemitre = linemitre))

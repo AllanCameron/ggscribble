@@ -101,7 +101,7 @@ set.seed(1)
 d <- data.frame(x = rnorm(1000), y = rnorm(1000))
 
 ggplot(d, aes(x, y)) +
-  geom_scribblehex(aes(scribbledensity = ggplot2::after_stat(count)),
+  geom_scribblehex(aes(scribbledensity = after_stat(count)),
                    bins = 10, fill = NA, colour = "blue4",
                    scribblecolour = "blue4") +
   theme_classic(16)

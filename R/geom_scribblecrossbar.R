@@ -54,7 +54,7 @@ GeomScribblecrossbar <- ggproto("GeomScribblecrossbar",
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
     }
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     middle <- transform(data, x = xmin, xend = xmax, yend = y,
         linewidth = linewidth * fatten, alpha = NA)
     has_notch <- !is.null(data$ynotchlower) && !is.null(data$ynotchupper) &&
@@ -114,8 +114,8 @@ GeomScribblecrossbar <- ggproto("GeomScribblecrossbar",
                            group = rep(seq_len(nrow(data)), 5))
     }
 
-    box <- ggplot2::flip_data(box, flipped_aes)
-    middle <- ggplot2::flip_data(middle, flipped_aes)
+    box <- flip_data(box, flipped_aes)
+    middle <- flip_data(middle, flipped_aes)
     ggname("geom_scribblecrossbar",
            grid::gTree(children = grid::gList(GeomScribblepolygon$draw_panel(box,
               panel_params, coord, lineend = lineend, linejoin = linejoin,

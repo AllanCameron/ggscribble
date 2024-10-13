@@ -11,7 +11,7 @@
 #' ggplot(v, aes(x, y, z = z)) +
 #'  geom_scribblecontour_filled(bins = 6, color = NA, fill = NA,
 #'    scribbledensity = 400,
-#'    mapping = aes(scribblecolour = ggplot2::after_stat(level))) +
+#'    mapping = aes(scribblecolour = after_stat(level))) +
 #'  theme_classic(16)
 
 geom_scribblecontour_filled <- function (mapping = NULL, data = NULL,
@@ -55,7 +55,7 @@ GeomScribblecontourFilled <- ggproto("GeomScribblecontourFilled",
     n <- nrow(data)
     if (n == 1) return(ggplot2::zeroGrob())
 
-    munched <- ggplot2::coord_munch(coord, data, panel_params,
+    munched <- coord_munch(coord, data, panel_params,
                                     is_closed = TRUE)
       if (is.null(munched$subgroup)) {
           munched    <- munched[order(munched$group), ]
@@ -73,8 +73,8 @@ GeomScribblecontourFilled <- ggproto("GeomScribblecontourFilled",
             randomness = first_rows$randomness,
             angle = first_rows$angle,
             res = res,
-            gp = grid::gpar(col = first_rows$colour,
-                fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+            gp = gpar(col = first_rows$colour,
+                fill = fill_alpha(first_rows$fill, first_rows$alpha),
                 lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
@@ -95,8 +95,8 @@ GeomScribblecontourFilled <- ggproto("GeomScribblecontourFilled",
             randomness = first_rows$randomness,
             angle = first_rows$angle,
             res = res,
-            gp = grid::gpar(col = first_rows$colour,
-                fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+            gp = gpar(col = first_rows$colour,
+                fill = fill_alpha(first_rows$fill, first_rows$alpha),
                 lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))

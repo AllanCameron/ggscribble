@@ -62,7 +62,7 @@ GeomScribbledensity2d <- ggproto("GeomScribbledensity2d",
      }
 
     data <- data[order(data$group), , drop = FALSE]
-    munched <- ggplot2::coord_munch(coord, data, panel_params)
+    munched <- coord_munch(coord, data, panel_params)
     rows <- stats::ave(seq_len(nrow(munched)), munched$group, FUN = length)
     munched <- munched[rows >= 2, ]
     if (nrow(munched) < 2) return(zeroGrob())
@@ -90,9 +90,9 @@ GeomScribbledensity2d <- ggproto("GeomScribbledensity2d",
         grobs <- grid::segmentsGrob(munched$x[!end], munched$y[!end],
                                     munched$x[!start],
             munched$y[!start], default.units = "native", arrow = arrow,
-            gp = grid::gpar(col = ggplot2::alpha(munched$colour,
+            gp = gpar(col = alpha(munched$colour,
                                                  munched$alpha)[!end],
-                fill = ggplot2::alpha(munched$colour, munched$alpha)[!end],
+                fill = alpha(munched$colour, munched$alpha)[!end],
                 lwd = munched$linewidth[!end] * .pt,
                 lty = munched$linetype[!end],
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre))
@@ -104,8 +104,8 @@ GeomScribbledensity2d <- ggproto("GeomScribbledensity2d",
         id <- match(munched$group, unique0(munched$group))
         grobs <- grid::polylineGrob(munched$x, munched$y, id = id,
                            default.units = "native",
-            arrow = arrow, gp = grid::gpar(col = ggplot2::alpha(munched$colour,
-                munched$alpha)[start], fill = ggplot2::alpha(munched$colour,
+            arrow = arrow, gp = gpar(col = alpha(munched$colour,
+                munched$alpha)[start], fill = alpha(munched$colour,
                 munched$alpha)[start], lwd = munched$linewidth[start] *
                 .pt, lty = munched$linetype[start], lineend = lineend,
                 linejoin = linejoin, linemitre = linemitre))

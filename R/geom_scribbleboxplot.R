@@ -85,7 +85,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
       data$linewidth <- data$size
     }
 
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     if (nrow(data) != 1) {
         cli::cli_abort(c("Can only draw one boxplot per group.",
             i = "Did you forget {.code aes(group = ...)}?"))
@@ -94,7 +94,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
                    linewidth = data$linewidth,
                    linetype = data$linetype,
                    wonkiness = data$wonkiness,
-                   fill = ggplot2::fill_alpha(data$fill, data$alpha),
+                   fill = fill_alpha(data$fill, data$alpha),
                    group = data$group)
 
     whiskers <- data_frame0(x = c(data$x, data$x),
@@ -105,7 +105,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
                             wibbliness = data$wibbliness * 2,
                             !!!common,
                             .size = 2)
-    whiskers <- ggplot2::flip_data(whiskers, flipped_aes)
+    whiskers <- flip_data(whiskers, flipped_aes)
     box <- data_frame0(xmin = data$xmin, xmax = data$xmax, ymin = data$lower,
                        y = data$middle, ymax = data$upper,
                        ynotchlower = ifelse(notch, data$notchlower, NA),
@@ -119,7 +119,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
                        randomness = data$randomness,
                        sloppiness = data$sloppiness,
                        !!!common)
-    box <- ggplot2::flip_data(box, flipped_aes)
+    box <- flip_data(box, flipped_aes)
 
     if (!is.null(data$outliers) && length(data$outliers[[1]]) >= 1) {
         outliers <- data_frame0(y = data$outliers[[1]],
@@ -128,7 +128,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
                                 size = outlier.size %||% data$size[1],
                                 alpha = outlier.alpha %||% data$alpha[1],
                                 .size = length(data$outliers[[1]]))
-        outliers <- ggplot2::flip_data(outliers, flipped_aes)
+        outliers <- flip_data(outliers, flipped_aes)
         outliers_grob <- GeomScribblepoint$draw_panel(outliers, panel_params,
                             coord)
     }
@@ -146,7 +146,7 @@ GeomScribbleboxplot <- ggproto("GeomScribbleboxplot",
                                wibbliness = data$wibbliness * 2,
                                !!!common,
                                .size = 2)
-        staples <- ggplot2::flip_data(staples, flipped_aes)
+        staples <- flip_data(staples, flipped_aes)
         staples$wonkiness <- staples$wonkiness * 4
         staple_grob <- GeomScribblesegment$draw_panel(staples, panel_params,
                           coord, lineend = lineend, res = res * 2)

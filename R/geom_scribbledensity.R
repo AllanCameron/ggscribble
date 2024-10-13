@@ -49,7 +49,7 @@ GeomScribbledensity <- ggproto("GeomScribbledensity",
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
     }
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     if (na.rm)
         data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
@@ -75,13 +75,13 @@ GeomScribbledensity <- ggproto("GeomScribbledensity",
     positions_lower <- data_frame0(x  = rev(data$x),
                                    y  = rev(data$ymin),
                                    id = rev(ids))
-    positions_upper <- ggplot2::flip_data(positions_upper, flipped_aes)
-    positions_lower <- ggplot2::flip_data(positions_lower, flipped_aes)
-    munched_upper <- ggplot2::coord_munch(coord, positions_upper, panel_params)
-    munched_lower <- ggplot2::coord_munch(coord, positions_lower, panel_params)
+    positions_upper <- flip_data(positions_upper, flipped_aes)
+    positions_lower <- flip_data(positions_lower, flipped_aes)
+    munched_upper <- coord_munch(coord, positions_upper, panel_params)
+    munched_lower <- coord_munch(coord, positions_lower, panel_params)
     munched_poly <- vctrs::vec_rbind(munched_upper, munched_lower)
     is_full_outline <- identical(outline.type, "full")
-    scrib_gp <- grid::gpar(fill = ggplot2::fill_alpha(aes$fill, aes$alpha),
+    scrib_gp <- gpar(fill = fill_alpha(aes$fill, aes$alpha),
                            col = if (is_full_outline) aes$colour else NA,
                            lwd = if (is_full_outline)
                                       aes$linewidth * .pt else 0,
@@ -115,7 +115,7 @@ GeomScribbledensity <- ggproto("GeomScribbledensity",
         munched_lower), upper = munched_upper, lower = munched_lower)
     g_lines <- grid::polylineGrob(munched_lines$x, munched_lines$y,
         id = munched_lines$id, default.units = "native",
-        gp = grid::gpar(col = aes$colour, lwd = aes$linewidth * .pt,
+        gp = gpar(col = aes$colour, lwd = aes$linewidth * .pt,
                         lty = aes$linetype, lineend = lineend,
                         linejoin = linejoin, linemitre = linemitre))
     g_lines <- wibblify(g_lines, aes$wibbliness, res)

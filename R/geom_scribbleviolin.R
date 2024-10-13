@@ -53,14 +53,14 @@ GeomScribbleviolin <- ggproto("GeomScribbleviolin",
 
   draw_group = function (self, data, ..., res = 200, draw_quantiles = NULL,
                          flipped_aes = FALSE) {
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     data <- transform(data, xminv = x - violinwidth * (x - xmin),
                       xmaxv = x + violinwidth * (xmax - x))
     newdata <- vctrs::vec_rbind(transform(data, x = xminv)[order(data$y), ],
                                 transform(data, x = xmaxv)[order(data$y,
                                                            decreasing = TRUE),])
     newdata <- vctrs::vec_rbind(newdata, newdata[1, ])
-    newdata <- ggplot2::flip_data(newdata, flipped_aes)
+    newdata <- flip_data(newdata, flipped_aes)
     if (length(draw_quantiles) > 0 & !scales::zero_range(range(data$y))) {
       if (!(all(draw_quantiles >= 0) && all(draw_quantiles <= 1))) {
         cli::cli_abort("{.arg draw_quantiles} must be between 0 and 1.")
@@ -72,7 +72,7 @@ GeomScribbleviolin <- ggproto("GeomScribbleviolin",
       aesthetics$alpha <- rep(1, nrow(quantiles))
       both <- vctrs::vec_cbind(quantiles, aesthetics)
       both <- both[!is.na(both$group), , drop = FALSE]
-      both <- ggplot2::flip_data(both, flipped_aes)
+      both <- flip_data(both, flipped_aes)
       quantile_grob <- if (nrow(both) == 0) {
         zeroGrob()
       } else {

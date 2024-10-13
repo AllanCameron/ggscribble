@@ -148,8 +148,8 @@ wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
 
   dat <- wibble_polys(x, y, poly$pathId, poly$id, wibbliness, res)
 
-  poly$x <- grid::unit(dat$x, default.units)
-  poly$y <- grid::unit(dat$y, default.units)
+  poly$x <- unit(dat$x, default.units)
+  poly$y <- unit(dat$y, default.units)
   poly$id <- dat$id
   poly$pathId <- dat$pathId
   poly
@@ -212,8 +212,8 @@ wibblify.polyline <- function(line, wibbliness = 1, res = 100,
 
   li <- wibble_lines(x, y, line$id, wibbliness, res)
 
-  line$x <- grid::unit(li$x, default.units)
-  line$y <- grid::unit(li$y, default.units)
+  line$x <- unit(li$x, default.units)
+  line$y <- unit(li$y, default.units)
   line$id <- li$id
   line
 }

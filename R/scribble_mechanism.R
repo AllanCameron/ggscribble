@@ -4,7 +4,7 @@
 # and density which will be masked and used for the scribble fill of solid
 # shapes
 make_scribbles <- function(angle = 45, scribbledensity = 100, randomness = 1,
-                           gp = grid::gpar(), vp = NULL) {
+                           gp = gpar(), vp = NULL) {
 
   density <- as.integer(scribbledensity)
   x  <- seq(-1, 2, length = density * 2)
@@ -32,19 +32,19 @@ scribble_fill <- function(shape, angle = 45, scribbledensity = 100,
                           col = "black", lwd = 1, wonkiness = 1,
                           sloppiness = 1) {
   shape_mask <- shape
-  shape_mask$gp <- grid::gpar(fill = "black", col = "white")
+  shape_mask$gp <- gpar(fill = "black", col = "white")
   line_mask <- wonkify(shape_mask, sloppiness / 2)
   scrib <- make_scribbles(angle, scribbledensity, randomness,
-                          gp = grid::gpar(lwd = lwd, col = col),
+                          gp = gpar(lwd = lwd, col = col),
                           vp = grid::viewport(mask = line_mask))
   shape$vp <- grid::viewport(mask = shape_mask)
   grid::setChildren(grid::gTree(cl = "scribble"), grid::gList(scrib, shape))
 }
 
 
-make_noise <- function(size = grid::unit(0.01, 'npc'), default.units = "npc") {
+make_noise <- function(size = unit(0.01, 'npc'), default.units = "npc") {
 
-  if(!grid::is.unit(size)) size <- grid::unit(size, default.units)
+  if(!grid::is.unit(size)) size <- unit(size, default.units)
 
   ambient::gen_perlin(seq(0, runif(1, 0.1, 0.3), len = 20),
                       seq(0, runif(1, 0.1, 0.3), len = 20),
@@ -57,11 +57,11 @@ scribble_points <- function(x, y, size = 1,
 
   if(length(size) == 1) size <- rep(size, length(x))
   if(length(colour) == 1) colour <- rep(colour, length(x))
-  gp <- grid::gpar(lwd = size * 2, col = colour)
+  gp <- gpar(lwd = size * 2, col = colour)
 
-  if(!grid::is.unit(x)) x <- grid::unit(x, default.units)
-  if(!grid::is.unit(y)) y <- grid::unit(y, default.units)
-  if(!grid::is.unit(size)) size <- grid::unit(size * 0.005, default.units)
+  if(!grid::is.unit(x)) x <- unit(x, default.units)
+  if(!grid::is.unit(y)) y <- unit(y, default.units)
+  if(!grid::is.unit(size)) size <- unit(size * 0.005, default.units)
 
   g <- grid::gTree(children = do.call(grid::gList, Map(function(x, y, i) {
     grid::polylineGrob(make_noise(size[i]) + x,

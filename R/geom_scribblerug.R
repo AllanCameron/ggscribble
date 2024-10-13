@@ -37,7 +37,7 @@ GeomScribblerug <- ggproto("GeomScribblerug", ggplot2::GeomRug,
 
   draw_panel = function (self, data, panel_params, coord,
                          lineend = "butt", sides = "bl", outside = FALSE,
-                         length = grid::unit(0.03, "npc"), res = 200) {
+                         length = unit(0.03, "npc"), res = 200) {
 
     if (is.null(data$linewidth) && !is.null(data$size)) {
       data$linewidth <- data$size
@@ -59,7 +59,7 @@ GeomScribblerug <- ggproto("GeomScribblerug", ggplot2::GeomRug,
     else {
       list(min = -1 * length, max = unit(1, "npc") + length)
     }
-    gp <- grid::gpar(col = alpha(data$colour, data$alpha), lty = data$linetype,
+    gp <- gpar(col = alpha(data$colour, data$alpha), lty = data$linetype,
                      lwd = data$linewidth * .pt, lineend = lineend)
     if (!is.null(data$x)) {
       if (grepl("b", sides)) {

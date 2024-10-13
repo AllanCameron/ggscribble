@@ -37,6 +37,6 @@ GeomScribblepoint <- ggproto("GeomScribblepoint",
 
             ggname("geom_point", scribble_points(coords$x, coords$y,
                 size = coords$size,
-                colour = ggplot2::alpha(coords$colour, coords$alpha)))
+                colour = alpha(coords$colour, coords$alpha)))
   }
 )

@@ -11,7 +11,7 @@
 #' d <- data.frame(x = rnorm(1000), y = rnorm(1000))
 #'
 #' ggplot(d, aes(x, y)) +
-#'   geom_scribblehex(aes(scribbledensity = ggplot2::after_stat(count)),
+#'   geom_scribblehex(aes(scribbledensity = after_stat(count)),
 #'                    bins = 10, fill = NA, colour = "blue4",
 #'                    scribblecolour = "blue4") +
 #'   theme_classic(16)
@@ -70,8 +70,8 @@ GeomScribblehex <- ggproto("GeomScribblehex", ggplot2::GeomHex,
     coords <- coord$transform(hexdata, panel_params)
     ggname("geom_hex",
            scribbleGrob(coords$x, coords$y,
-              gp = grid::gpar(col = data$colour,
-                        fill = ggplot2::fill_alpha(data$fill, data$alpha),
+              gp = gpar(col = data$colour,
+                        fill = fill_alpha(data$fill, data$alpha),
                         lwd = data$linewidth * .pt,
                         lty = data$linetype,
                         lineend = lineend, linejoin = linejoin,

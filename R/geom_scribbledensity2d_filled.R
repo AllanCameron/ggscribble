@@ -12,7 +12,7 @@
 #'
 #' ggplot(d, aes(x, y)) +
 #'   geom_scribbledensity2d_filled(
-#'     aes(scribbledensity = ggplot2::after_stat(level)),
+#'     aes(scribbledensity = after_stat(level)),
 #'     fill = NA, colour = "blue4", scribblecolour = "blue4") +
 #'   theme_classic(16)
 
@@ -56,7 +56,7 @@ GeomScribbledensity2dFilled <- ggproto("GeomScribbledensity2dFilled",
 
     if (n == 1) return(ggplot2::zeroGrob())
 
-    munched <- ggplot2::coord_munch(coord, data, panel_params, is_closed = TRUE)
+    munched <- coord_munch(coord, data, panel_params, is_closed = TRUE)
 
     if (is.null(munched$subgroup)) {
         munched <- munched[order(munched$group), ]
@@ -74,8 +74,8 @@ GeomScribbledensity2dFilled <- ggproto("GeomScribbledensity2dFilled",
             randomness = first_rows$randomness,
             angle = first_rows$angle,
             res = res,
-            gp = grid::gpar(col = first_rows$colour,
-                fill = ggplot2::fill_alpha(first_rows$fill, first_rows$alpha),
+            gp = gpar(col = first_rows$colour,
+                fill = fill_alpha(first_rows$fill, first_rows$alpha),
                 lwd = first_rows$linewidth * .pt,
                 lty = first_rows$linetype,
                 lineend = lineend, linejoin = linejoin, linemitre = linemitre)))
@@ -98,8 +98,8 @@ GeomScribbledensity2dFilled <- ggproto("GeomScribbledensity2dFilled",
               randomness = first_rows$randomness,
               angle = first_rows$angle,
               res = res,
-              gp = grid::gpar(col = first_rows$colour,
-                              fill = ggplot2::fill_alpha(first_rows$fill,
+              gp = gpar(col = first_rows$colour,
+                              fill = fill_alpha(first_rows$fill,
                                                          first_rows$alpha),
                               lwd = first_rows$linewidth * .pt,
                               lty = first_rows$linetype,
