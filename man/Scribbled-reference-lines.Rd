@@ -111,7 +111,9 @@ the line:
 }
 
 \examples{
-p <- ggplot(mtcars, aes(wt, mpg)) + ggplot2::geom_point()
+library(ggplot2)
+
+p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
 
 # Fixed values
 p + geom_scribblevline(xintercept = 5)
@@ -127,17 +129,17 @@ p + geom_scribbleabline(intercept = 37, slope = -5)
 
 # To show different lines in different facets, use aesthetics
 p <- ggplot(mtcars, aes(mpg, wt)) +
-  ggplot2::geom_point() +
-  ggplot2::facet_wrap(~ cyl)
+  geom_point() +
+  facet_wrap(~ cyl)
 
 mean_wt <- data.frame(cyl = c(4, 6, 8), wt = c(2.28, 3.11, 4.00))
 p + geom_scribblehline(aes(yintercept = wt), mean_wt)
 
 # You can also control other aesthetics
 ggplot(mtcars, aes(mpg, wt, colour = wt)) +
-  ggplot2::geom_point() +
+  geom_point() +
   geom_scribblehline(aes(yintercept = wt, colour = wt), mean_wt) +
-  ggplot2::facet_wrap(~ cyl)
+  facet_wrap(~ cyl)
 }
 \seealso{
 See \code{\link{geom_scribblesegment}} for a more general approach

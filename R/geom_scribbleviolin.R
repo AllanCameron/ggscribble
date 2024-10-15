@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled violin plots
 #'
 #' @inheritParams ggplot2::geom_violin
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleviolin")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(Species, Sepal.Length)) +
 #'   geom_scribbleviolin() +
 #'   theme_classic(16)

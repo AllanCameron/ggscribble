@@ -22,20 +22,7 @@ geom_scribblefunction(
 at the top level of the plot. You must supply \code{mapping} if there is no plot
 mapping.}
 
-\item{data}{The data to be displayed in this layer. There are three
-options:
-
-If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
-
-A \code{data.frame}, or other object, will override the plot
-data. All objects will be fortified to produce a data frame. See
-\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
-
-A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data. A \code{function} can be created
-from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
+\item{data}{Ignored by \code{stat_function()}, do not use.}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, either as a \code{ggproto} \code{Geom} subclass or as a string naming the
@@ -65,6 +52,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 }
 \value{
 A `Layer` ggproto object that can be added to a plot.
@@ -93,7 +86,9 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 ggplot() +
   geom_scribblefunction(fun = dnorm, colour = "red") +
-  ggplot2::xlim(-5, 5)
+  xlim(-5, 5)
 }

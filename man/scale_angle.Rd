@@ -36,29 +36,59 @@ scale_angle_ordinal(name = waiver(), ..., range = c(0, 90))
 scale_angle_discrete(...)
 }
 \arguments{
-\item{breaks}{One of:
-- `NULL` for no breaks
-- `waiver()` for the default breaks computed by the
-  [transformation object][scales::trans_new()]
-- A numeric vector of positions
-- A function that takes the limits as input and returns breaks
-  as output (e.g., a function returned by [scales::extended_breaks()]).
-  Also accepts rlang [lambda][rlang::as_function()] function notation.}
+\item{name}{The name of the scale. Used as the axis or legend title. If
+\code{waiver()}, the default, the name of the scale is taken from the first
+mapping used for that aesthetic. If \code{NULL}, the legend title will be
+omitted.}
 
-\item{range}{Output range of angle in degrees}
+\item{breaks}{One of:
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks computed by the
+\link[scales:new_transform]{transformation object}
+\item A numeric vector of positions
+\item A function that takes the limits as input and returns breaks
+as output (e.g., a function returned by \code{\link[scales:breaks_extended]{scales::extended_breaks()}}).
+Also accepts rlang \link[rlang:as_function]{lambda} function notation.
+}}
+
+\item{labels}{One of:
+\itemize{
+\item \code{NULL} for no labels
+\item \code{waiver()} for the default labels computed by the
+transformation object
+\item A character vector giving labels (must be same length as \code{breaks})
+\item An expression vector (must be the same length as breaks). See ?plotmath for details.
+\item A function that takes the breaks as input and returns labels
+as output. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+}}
+
+\item{limits}{One of:
+\itemize{
+\item \code{NULL} to use the default scale range
+\item A numeric vector of length two providing limits of the scale.
+Use \code{NA} to refer to the existing minimum or maximum
+\item A function that accepts the existing (automatic) limits and returns
+new limits. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+Note that setting limits on positional scales will \strong{remove} data outside of the limits.
+If the purpose is to zoom, use the limit argument in the coordinate system
+(see \code{\link[ggplot2:coord_cartesian]{coord_cartesian()}}).
+}}
+
+\item{range}{The output range of angles (in degrees)}
 
 \item{guide}{A function used to create a guide or its name. See
-[guides()] for more information.}
+\code{\link[ggplot2:guides]{guides()}} for more information.}
 
-\item{...}{Other arguments passed on to `continuous_scale()`, `binned_scale`,
-or `discrete_scale() as appropriate, to control name, limits,
-breaks, labels and so forth.}
+\item{...}{Other arguments to be passed to the relevant scale generator}
 
 \item{values}{a set of aesthetic values to map data values to. The values
-will be matched in order (usually alphabetical) with the limits of the
-scale, or with breaks if provided. If this is a named vector, then the
-values will be matched based on the names instead. Data values that
-don't match will be given na.value.}
+will be matched in order (usually alphabetical) with the limits of the scale,
+or with breaks if provided. If this is a named vector, then the values will
+be matched based on the names instead. Data values that don't match will be
+given na.value}
 
 \item{na.value}{Missing values will be replaced with this value.}
 }
@@ -72,8 +102,10 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(Species, scribblecolour = Species,
-                                   colour = Species, angle = Species)) +
+                 colour = Species, angle = Species)) +
  geom_scribblebar() +
  scale_angle_manual(values = c(45, 135, 0))
 }

@@ -3,11 +3,14 @@
 #' Create a ggplot layer containing scribbled line segments
 #'
 #' @inheritParams ggplot2::geom_segment
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblesegment")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 2),
 #'                                   y = c(5, 2), y1 = c(3, 4),
 #'                                   g = c("A", "B")),

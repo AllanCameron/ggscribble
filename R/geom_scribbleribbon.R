@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled ribbons
 #'
-#' @inheritParams ggplot2::geom_polygon
+#' @inheritParams ggplot2::geom_ribbon
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleribbon")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' d <- data.frame(year = 2000:2004,
 #'                 low = c(5, 6, 6, 5, 4),
 #'                 high = c(10, 12, 10, 9, 11))

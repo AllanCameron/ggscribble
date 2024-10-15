@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribbled 2d kernel density estimates
 #'
-#' @inheritParams ggplot2::geom_polygon
+#' @inheritParams ggplot2::geom_density
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblepolygon")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(data.frame(x = rnorm(100)), aes(x)) +
 #'   geom_scribbledensity()
 

@@ -2,28 +2,31 @@
 #' Create a ggplot layer containing scribble-filled polygons
 #'
 #' @inheritParams ggplot2::geom_polygon
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblepolygon")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(data = data.frame(x = c(5, 10, 7.5, 10, 15, 12.5),
 #'                                   y = c(5, 5, 10, 5, 5, 10),
 #'                                   g = rep(1:2, each = 3)),
-#'                 mapping = aes(x, y, group = g)) +
+#'        mapping = aes(x, y, group = g)) +
 #'  geom_scribblepolygon()
 #'
 geom_scribblepolygon <- function (mapping = NULL, data = NULL,
                                   stat = "identity", position = "identity", ...,
-                                  linejoin = "mitre", na.rm = FALSE,
-                                  show.legend = NA, inherit.aes = TRUE,
+                                  na.rm = FALSE, show.legend = NA,
+                                  inherit.aes = TRUE,
                                   res = 200) {
 
   layer(data = data, mapping = mapping, stat = stat,
         geom = GeomScribblepolygon,
         position = position, show.legend = show.legend,
         inherit.aes = inherit.aes,
-        params = list2(linejoin = linejoin, na.rm = na.rm, res = res, ...))
+        params = list2(na.rm = na.rm, res = res, ...))
 }
 
 

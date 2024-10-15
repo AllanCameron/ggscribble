@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled conditional means
 #'
 #' @inheritParams ggplot2::geom_smooth
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleviolin")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' d <- data.frame(y = 1:10,
 #'                 x = c(1.43, 1.95, -0.33, -0.74, 2.48,
 #'                       3.9, 3.79, 6.39, 5.11, 8.09))
@@ -13,7 +16,7 @@
 #' ggplot(d, aes(x, y)) +
 #'   geom_scribblesmooth(angle = 120, color = "gray50", scribblecolor = "gray",
 #'   randomness = 2) +
-#'   ggplot2::geom_point() +
+#'   geom_point() +
 #'   theme_classic(16)
 
 geom_scribblesmooth <- function (mapping = NULL, data = NULL, stat = "smooth",

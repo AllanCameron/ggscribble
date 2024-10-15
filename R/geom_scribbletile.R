@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled tiles
 #'
 #' @inheritParams ggplot2::geom_tile
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblepolygon")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' d <- data.frame(x = rep(letters[1:5], 5),
 #'                 y = rep(LETTERS[1:5], each = 5), z = 1:25)
 #'

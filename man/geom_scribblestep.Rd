@@ -97,8 +97,9 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot(ggplot2::economics[ggplot2::economics$date >
-                                   as.Date("2013-01-01"), ],
-                aes(date, unemploy)) +
+library(ggplot2)
+
+ggplot(economics[economics$date > as.Date("2013-01-01"), ],
+       aes(date, unemploy)) +
   geom_scribblestep()
 }

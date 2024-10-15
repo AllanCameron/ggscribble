@@ -1,11 +1,18 @@
 #' Create a ggplot layer containing scribble-filled polygonal areas
 #'
-#' @inheritParams ggplot2::geom_polygon
+#' @inheritParams ggplot2::geom_area
+#' @param res An approximate measure of the "resolution" of the wibbled lines
+#' in the layer. It can be thought of as the "frequency" of the wibble,
+#' much as \code{wibbliness} is the "amplitude". Values around the default of
+#' 200 will give a rough, hand-drawn look. Lower numbers are neater and
+#' higher numbers are "shakier"
 #' @eval rd_aesthetics("geom", "scribblearea")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' dat <- data.frame(x = rep(seq(0, pi, 0.1), 2),
 #'                   y = c(2 * sin(seq(0, pi, 0.1)), 1 +
 #'                         sin(seq(pi/3, 3*pi/2, length = 32))),
@@ -15,7 +22,7 @@
 #'   geom_scribblearea(res = 300, wibbliness = 0.5,
 #'                     scribblewidth = 2, scribbledensity = 300) +
 #'  scale_angle_manual(values = c(30, 45)) +
-#'  ggplot2::coord_cartesian(expand = 0) +
+#'  coord_cartesian(expand = 0) +
 #'  theme_classic(16)
 
 geom_scribblearea <- function (mapping = NULL, data = NULL, stat = "align",

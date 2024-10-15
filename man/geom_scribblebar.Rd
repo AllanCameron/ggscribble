@@ -56,6 +56,11 @@ the plot data. The return value must be a \code{data.frame}, and
 will be used as the layer data. A \code{function} can be created
 from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
+\item{stat}{The statistical transformation to use on the data for this
+layer, either as a \code{ggproto} \code{Geom} subclass or as a string naming the
+stat stripped of the \code{stat_} prefix (e.g. \code{"count"} rather than
+\code{"stat_count"})}
+
 \item{position}{Position adjustment, either as a string naming the adjustment
 (e.g. \code{"jitter"} to use \code{position_jitter}), or the result of a call to a
 position adjustment function. Use the latter if you need to change the
@@ -93,6 +98,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 }
 \value{
 A `Layer` ggproto object that can be added to a plot.
@@ -129,10 +140,11 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 ggplot(iris[c(1, 51, 101), ],
-                aes(Species, Sepal.Length, colour = Species)) +
+       aes(Species, Sepal.Length, colour = Species)) +
   geom_scribblecol(aes(scribblecolour = Species),
                    scribblewidth = 2) +
   theme_classic(20)
-
 }

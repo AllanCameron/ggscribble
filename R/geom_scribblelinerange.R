@@ -3,11 +3,14 @@
 #' Create a ggplot layer containing scribbled line ranges
 #'
 #' @inheritParams ggplot2::geom_linerange
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblelinerange")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 5), y = c(5, 2),
 #'                                   g = c("A", "B")),
 #'                 mapping = aes(x, y, colour = g)) +

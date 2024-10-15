@@ -2,12 +2,15 @@
 
 #' Create a ggplot layer containing scribbled contour lines
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_contour
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblecontour")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 #'
 #' ggplot(v, aes(x, y)) +

@@ -1,14 +1,16 @@
 #' Create a ggplot layer containing scribbled steps
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_step
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblestep")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
-#' ggplot(ggplot2::economics[ggplot2::economics$date >
-#'                                    as.Date("2013-01-01"), ],
-#'                 aes(date, unemploy)) +
+#' library(ggplot2)
+#'
+#' ggplot(economics[economics$date > as.Date("2013-01-01"), ],
+#'        aes(date, unemploy)) +
 #'   geom_scribblestep()
 
 geom_scribblestep <- function (mapping = NULL, data = NULL, stat = "identity",

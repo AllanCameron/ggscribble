@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribbled spokes
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_spoke
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblespoke")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' df <- expand.grid(x = 1:10, y = 1:10)
 #'
 #' set.seed(1)
@@ -13,7 +16,7 @@
 #' df$speed <- runif(100, 0, sqrt(0.1 * df$x))
 #'
 #' ggplot(df, aes(x, y)) +
-#'   ggplot2::geom_point() +
+#'   geom_point() +
 #'   geom_scribblespoke(aes(angle = angle, radius = speed))
 
 geom_scribblespoke <- function (mapping = NULL, data = NULL, stat = "identity",

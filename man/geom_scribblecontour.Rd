@@ -58,6 +58,21 @@ often aesthetics, used to set an aesthetic to a fixed value, like
 \code{colour = "red"} or \code{size = 3}. They may also be parameters
 to the paired geom/stat.}
 
+\item{bins}{Number of contour bins. Overridden by \code{breaks}.}
+
+\item{binwidth}{The width of the contour bins. Overridden by \code{bins}.}
+
+\item{breaks}{One of:
+\itemize{
+\item Numeric vector to set the contour breaks
+\item A function that takes the range of the data and binwidth as input
+and returns breaks as output. A function can be created from a formula
+(e.g. ~ fullseq(.x, .y)).
+}
+
+Overrides \code{binwidth} and \code{bins}. By default, this is a vector of length
+ten with \code{\link[=pretty]{pretty()}} breaks.}
+
 \item{lineend}{Line end style (round, butt, square).}
 
 \item{linejoin}{Line join style (round, mitre, bevel).}
@@ -66,6 +81,12 @@ to the paired geom/stat.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -105,6 +126,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 v <- cbind(expand.grid(x = 1:87, y = 1:61), z = as.vector(volcano))
 
 ggplot(v, aes(x, y)) +

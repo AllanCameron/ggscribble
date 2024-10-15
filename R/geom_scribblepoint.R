@@ -6,8 +6,10 @@
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(Species, Petal.Length, colour = Species)) +
-#'   geom_scribblepoint(position = ggplot2::position_jitter(0.5))
+#'   geom_scribblepoint(position = position_jitter(0.5))
 
 geom_scribblepoint <- function (mapping = NULL, data = NULL, stat = "identity",
                                 position = "identity", ..., na.rm = FALSE,

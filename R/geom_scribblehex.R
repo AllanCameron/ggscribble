@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled hex bins
 #'
 #' @inheritParams ggplot2::geom_hex
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblehex")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' set.seed(1)
 #'
 #' d <- data.frame(x = rnorm(1000), y = rnorm(1000))

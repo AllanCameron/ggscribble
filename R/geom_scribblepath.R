@@ -1,18 +1,21 @@
 #' Create a ggplot layer containing scribbled paths
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_path
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblepath")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' t <- seq(5, -1, length.out = 1000) * pi
 #'
 #' spiral <- data.frame(x = sin(t) * 1:1000, y = cos(t) * 1:1000)
 #'
 #' ggplot(spiral, aes(x, y)) +
 #'   geom_scribblepath(wonkiness = 1.5, wibbliness = 0.5) +
-#'   ggplot2::coord_equal(xlim = c(-1500, 1500), ylim = c(-1500, 1500))
+#'   coord_equal(xlim = c(-1500, 1500), ylim = c(-1500, 1500))
 
 geom_scribblepath <- function (mapping = NULL, data = NULL, stat = "identity",
                                position = "identity", ..., lineend = "butt",

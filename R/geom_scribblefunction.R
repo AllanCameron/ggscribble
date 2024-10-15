@@ -1,13 +1,16 @@
 #' Create a ggplot layer containing scribbled function paths
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_function
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblefunction")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot() +
 #'   geom_scribblefunction(fun = dnorm, colour = "red") +
-#'   ggplot2::xlim(-5, 5)
+#'   xlim(-5, 5)
 
 geom_scribblefunction <- function (mapping = NULL, data = NULL,
           stat = "function", position = "identity", ..., na.rm = FALSE,

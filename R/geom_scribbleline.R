@@ -3,11 +3,14 @@
 #' Create a ggplot layer containing scribbled lines
 #'
 #' @inheritParams ggplot2::geom_line
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleline")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(data = data.frame(x = rep(c(1, 2, 3, 4, 5), 2),
 #'                                   y = c(5, 2, 0, 5, 3, 4, 1, 3, 2, 4),
 #'                                   g = rep(c("A", "B"), each = 5)),

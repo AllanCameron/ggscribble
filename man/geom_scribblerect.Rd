@@ -68,6 +68,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 }
 \value{
 A `Layer` ggproto object that can be added to a plot.
@@ -106,11 +112,13 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
-ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
-                                  ymin = c(5, 10), ymax = c(10, 20),
-                                  g = 1:2),
-                mapping = aes(xmin = xmin, xmax = xmax,
-                                       ymin = ymin, ymax = ymax,
-                                       group = g)) +
+library(ggplot2)
+
+ggplot(data = data.frame(xmin = c(5, 10),
+                         xmax = c(15, 20),
+                         ymin = c(5, 10),
+                         ymax = c(10, 20),
+                         g = 1:2),
+       aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, group = g)) +
  geom_scribblerect()
 }

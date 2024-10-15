@@ -76,6 +76,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 }
 \value{
 A `Layer` ggproto object that can be added to a plot.
@@ -112,6 +118,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 df <- data.frame(trt = factor(c(1, 1, 2, 2)),
                  resp = c(1, 5, 3, 4),
                  group = factor(c(1, 2, 1, 2)),
@@ -119,8 +127,7 @@ df <- data.frame(trt = factor(c(1, 1, 2, 2)),
                  lower = c(0.8, 4.6, 2.4, 3.6))
 
 ggplot(df, aes(trt, resp, colour = group)) +
-  geom_scribblecrossbar(aes(ymin = lower, ymax = upper),
-                        width = 0.2) +
+  geom_scribblecrossbar(aes(ymin = lower, ymax = upper), width = 0.2) +
   theme_classic(16)
 
 }

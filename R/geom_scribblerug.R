@@ -1,13 +1,16 @@
 #' Create a ggplot layer containing scribbled marginal rug segments
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_rug
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblerug")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(mtcars, aes(wt, mpg)) +
-#'   ggplot2::geom_point() +
+#'   geom_point() +
 #'   geom_scribblerug()
 
 geom_scribblerug <- function (mapping = NULL, data = NULL, stat = "identity",

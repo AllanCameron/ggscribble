@@ -48,6 +48,9 @@ of each shape. A value of 0 means the shape is exactly as specified. The
 default value of 1 approximates a modestly careful hand drawing. A
 single value can be given instead to apply to all shapes.}
 
+\item{pathId}{A numeric vector used to separate locations in x and y into
+distinct paths. All locations with the same pathId belong to the same path.}
+
 \item{wibbliness}{A numeric vector with the same length as the number of
 shapes which controls how imperfect the straight lines of the shapes are.
 A value of 0 is perfectly straight, and the default value of 1 aims to

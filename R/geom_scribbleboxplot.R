@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled boxplots
 #'
 #' @inheritParams ggplot2::geom_boxplot
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleboxplot")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris, aes(Species, Sepal.Width)) +
 #'   geom_scribbleboxplot(aes(scribblecolour = Species),
 #'   staplewidth = 0.4) +

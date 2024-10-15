@@ -56,6 +56,12 @@ settings of the adjustment.}
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
 
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
+
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
@@ -100,6 +106,8 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 ggplot(data = data.frame(x = c(1, 3), x1 = c(2, 5), y = c(5, 2),
                                   g = c("A", "B")),
                 mapping = aes(x, y, colour = g)) +

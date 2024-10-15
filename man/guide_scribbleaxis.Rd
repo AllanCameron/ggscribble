@@ -73,9 +73,11 @@ A guide object that draws wibbly axis lines and ticks
 Title
 }
 \examples{
+library(ggplot2)
+
 ggplot(mtcars, aes(wt, mpg)) +
   geom_scribblepoint() +
-  ggplot2::guides(x = guide_scribbleaxis(wibbliness = 0.5),
-                  y = guide_scribbleaxis(wibbliness = 0.5)) +
+  guides(x = guide_scribbleaxis(wibbliness = 0.5),
+         y = guide_scribbleaxis(wibbliness = 0.5)) +
   theme_classic()
 }

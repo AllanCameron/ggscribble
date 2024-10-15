@@ -122,53 +122,53 @@ wibble_polys <- function(x, y, pathId, id, wibbliness = 1, res = 200) {
 }
 
 
-wibblify <- function(shape, ...) {
+wibblify <- function(obj, wibbliness, res, default.units, ...) {
   UseMethod("wibblify")
 }
 
 #' @export
-wibblify.zeroGrob <- function(x, ...) {
+wibblify.zeroGrob <- function(obj, wibbliness, res, default.units, ...) {
   return(ggplot2::zeroGrob())
 }
 
 #' @export
-wibblify.polygon <- function(poly, wibbliness = 1, res = 100,
-                             default.units = "native") {
+wibblify.polygon <- function(obj, wibbliness = 1, res = 100,
+                             default.units = "native", ...) {
 
-  x <- grid::convertX(poly$x, default.units, TRUE)
-  y <- grid::convertY(poly$y, default.units, TRUE)
+  x <- grid::convertX(obj$x, default.units, TRUE)
+  y <- grid::convertY(obj$y, default.units, TRUE)
 
-  if(is.null(poly$pathId)) {
-    poly$pathId <- rep(1, length(x))
+  if(is.null(obj$pathId)) {
+    obj$pathId <- rep(1, length(x))
   }
 
-  if(res < length(poly$x)) res <- 5 * length(poly$x)
+  if(res < length(obj$x)) res <- 5 * length(obj$x)
 
-  wibbliness <- rep(wibbliness[1], length(unique(poly$pathId)))
+  wibbliness <- rep(wibbliness[1], length(unique(obj$pathId)))
 
-  dat <- wibble_polys(x, y, poly$pathId, poly$id, wibbliness, res)
+  dat <- wibble_polys(x, y, obj$pathId, obj$id, wibbliness, res)
 
-  poly$x <- unit(dat$x, default.units)
-  poly$y <- unit(dat$y, default.units)
-  poly$id <- dat$id
-  poly$pathId <- dat$pathId
-  poly
+  obj$x <- unit(dat$x, default.units)
+  obj$y <- unit(dat$y, default.units)
+  obj$id <- dat$id
+  obj$pathId <- dat$pathId
+  obj
 }
 
 #' @export
-wibblify.pathgrob <- function(poly, wibbliness = 1, res = 100,
-                              default.units = "npc") {
-  wibblify.polygon(poly, wibbliness, res, default.units = default.units)
+wibblify.pathgrob <- function(obj, wibbliness = 1, res = 100,
+                              default.units = "npc", ...) {
+  wibblify.polygon(obj, wibbliness, res, default.units = default.units)
 }
 
 #' @export
-wibblify.segments <- function(line, wibbliness = 1, res = 100,
-                              default.units = "native") {
+wibblify.segments <- function(obj, wibbliness = 1, res = 100,
+                              default.units = "native", ...) {
 
-  x0 <- grid::convertX(line$x0, default.units, TRUE)
-  y0 <- grid::convertY(line$y0, default.units, TRUE)
-  x1 <- grid::convertX(line$x1, default.units, TRUE)
-  y1 <- grid::convertY(line$y1, default.units, TRUE)
+  x0 <- grid::convertX(obj$x0, default.units, TRUE)
+  y0 <- grid::convertY(obj$y0, default.units, TRUE)
+  x1 <- grid::convertX(obj$x1, default.units, TRUE)
+  y1 <- grid::convertY(obj$y1, default.units, TRUE)
 
   if(length(x0) == 1 && length(x1) == 1 &&
      length(y0) > 1 && length(y1) == length(y0)) {
@@ -188,33 +188,33 @@ wibblify.segments <- function(line, wibbliness = 1, res = 100,
                          res = res, wibbliness = wibbliness)
 
   grid::polylineGrob(wibbled$x, wibbled$y, id = wibbled$id,
-                     gp = line$gp,
+                     gp = obj$gp,
                      default.units = default.units)
 }
 
 #' @export
-wibblify.polyline <- function(line, wibbliness = 1, res = 100,
-                              default.units = "native") {
+wibblify.polyline <- function(obj, wibbliness = 1, res = 100,
+                              default.units = "native", ...) {
 
-  x <- grid::convertX(line$x, default.units, TRUE)
-  y <- grid::convertY(line$y, default.units, TRUE)
+  x <- grid::convertX(obj$x, default.units, TRUE)
+  y <- grid::convertY(obj$y, default.units, TRUE)
 
-  if(is.null(line$id)) {
-    if(is.null(line$id.lengths)) {
-      line$id <- rep(1, length(x))
+  if(is.null(obj$id)) {
+    if(is.null(obj$id.lengths)) {
+      obj$id <- rep(1, length(x))
     } else {
-    line$id <- rep(seq_along(line$id.lengths), line$id.lengths)
+    obj$id <- rep(seq_along(obj$id.lengths), obj$id.lengths)
     }
   }
 
-  n_lines <- length(unique(line$id))
+  n_lines <- length(unique(obj$id))
   if(length(wibbliness) == 1) wibbliness <- rep(wibbliness, n_lines)
 
-  li <- wibble_lines(x, y, line$id, wibbliness, res)
+  li <- wibble_lines(x, y, obj$id, wibbliness, res)
 
-  line$x <- unit(li$x, default.units)
-  line$y <- unit(li$y, default.units)
-  line$id <- li$id
-  line
+  obj$x <- unit(li$x, default.units)
+  obj$y <- unit(li$y, default.units)
+  obj$id <- li$id
+  obj
 }
 

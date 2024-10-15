@@ -51,10 +51,26 @@ stat stripped of the \code{stat_} prefix (e.g. \code{"count"} rather than
 position adjustment function. Use the latter if you need to change the
 settings of the adjustment.}
 
-\item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{layer()}}. These are
-often aesthetics, used to set an aesthetic to a fixed value, like
-\code{colour = "red"} or \code{size = 3}. They may also be parameters
-to the paired geom/stat.}
+\item{...}{
+  Arguments passed on to \code{\link[ggplot2:geom_contour]{geom_contour}}
+  \describe{
+    \item{\code{binwidth}}{The width of the contour bins. Overridden by \code{bins}.}
+    \item{\code{bins}}{Number of contour bins. Overridden by \code{breaks}.}
+    \item{\code{breaks}}{One of:
+\itemize{
+\item Numeric vector to set the contour breaks
+\item A function that takes the range of the data and binwidth as input
+and returns breaks as output. A function can be created from a formula
+(e.g. ~ fullseq(.x, .y)).
+}
+
+Overrides \code{binwidth} and \code{bins}. By default, this is a vector of length
+ten with \code{\link[=pretty]{pretty()}} breaks.}
+  }}
+
+\item{contour_var}{Character string identifying the variable to contour
+by. Can be one of \code{"density"}, \code{"ndensity"}, or \code{"count"}. See the section
+on computed variables for details.}
 
 \item{lineend}{Line end style (round, butt, square).}
 
@@ -64,6 +80,12 @@ to the paired geom/stat.}
 
 \item{na.rm}{If \code{FALSE}, the default, missing values are removed with
 a warning. If \code{TRUE}, missing values are silently removed.}
+
+\item{res}{An approximate measure of the "resolution" of the wibbled lines
+in the layer. It can be thought of as the "frequency" of the wibble,
+much as \code{wibbliness} is the "amplitude". Values around the default of
+200 will give a rough, hand-drawn look. Lower numbers are neater and
+higher numbers are "shakier"}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
@@ -103,9 +125,10 @@ in \code{vignette("ggplot2-specs")}.
 }
 
 \examples{
+library(ggplot2)
+
 set.seed(1)
 
-ggplot(data.frame(x = rnorm(50), y = rnorm(50)),
-                aes(x, y)) +
+ggplot(data.frame(x = rnorm(50), y = rnorm(50)), aes(x, y)) +
  geom_scribbledensity2d()
 }

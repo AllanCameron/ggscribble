@@ -5,19 +5,19 @@
 # therefore it uses S3 method dispatch. It is unexported at present, but this
 # could change if a need arose
 
-wonkify <- function(x, ...) {
+wonkify <- function(obj, wonkiness, default.units, ...) {
   UseMethod("wonkify")
 }
 
 #' @export
-wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
+wonkify.polygon <- function(obj, wonkiness = 1, default.units = "npc", ...) {
 
-  if(all(wonkiness == 0)) return(poly)
+  if(all(wonkiness == 0)) return(obj)
 
   wonkiness <- wonkiness[1]
 
-  x <- grid::convertX(poly$x, default.units, TRUE)
-  y <- grid::convertY(poly$y, default.units, TRUE)
+  x <- grid::convertX(obj$x, default.units, TRUE)
+  y <- grid::convertY(obj$y, default.units, TRUE)
 
   closed <- abs(x[1] - x[length(x)]) < 1e-5 &
     abs(y[1] - y[length(y)]) < 1e-5
@@ -27,38 +27,39 @@ wonkify.polygon <- function(poly, wonkiness = 1, default.units = "npc") {
   y[!is.na(y)] <- y[!is.na(y)] + rnorm(sum(!is.na(y)),
                                        0, 0.005 * size * wonkiness)
 
-  if(is.null(poly$pathId)) {
-    poly$pathId <- rep(1, length(x))
+  if(is.null(obj$pathId)) {
+    obj$pathId <- rep(1, length(x))
   }
   if(closed) {
     x[length(x)] <- x[1]
     y[length(y)] <- y[1]
   }
-  poly$x <- unit(x, default.units)
-  poly$y <- unit(y, default.units)
-  poly
+  obj$x <- unit(x, default.units)
+  obj$y <- unit(y, default.units)
+  obj
 }
 
 #' @export
-wonkify.pathgrob <- function(path, wonkiness = 1, default.units = "npc") {
-  wonkify.polygon(path, wonkiness, default.units)
+wonkify.pathgrob <- function(obj, wonkiness = 1, default.units = "npc", ...) {
+  wonkify.polygon(obj, wonkiness, default.units)
 }
 
 #' @export
-wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
+wonkify.polyline <- function(obj, wonkiness = 1, default.units = "native", ...)
+{
 
-  x <- grid::convertX(line$x, default.units, TRUE)
-  y <- grid::convertY(line$y, default.units, TRUE)
+  x <- grid::convertX(obj$x, default.units, TRUE)
+  y <- grid::convertY(obj$y, default.units, TRUE)
 
-  if(is.null(line$id)) {
-    if(is.null(line$id.lengths)) {
-      line$id <- rep(1, length(x))
+  if(is.null(obj$id)) {
+    if(is.null(obj$id.lengths)) {
+      obj$id <- rep(1, length(x))
     } else {
-      line$id <- rep(seq_along(line$id.lengths), line$id.lengths)
+      obj$id <- rep(seq_along(obj$id.lengths), obj$id.lengths)
     }
   }
 
-  n_lines <- length(unique(line$id))
+  n_lines <- length(unique(obj$id))
 
   if(length(wonkiness) == 1) wonkiness <- rep(wonkiness, n_lines)
 
@@ -67,25 +68,26 @@ wonkify.polyline <- function(line, wonkiness = 1, default.units = "native") {
   x <- do.call("c", Map(function(x, w) {
     x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(!is.na(x)), 0, 0.01 * size * w)
     x
-  }, split(x,line$id), wonkiness))
+  }, split(x,obj$id), wonkiness))
 
   y <- do.call("c", Map(function(x, w) {
     x[!is.na(x)] <- x[!is.na(x)] + rnorm(sum(!is.na(x)), 0, 0.01 * size * w)
     x
-  }, split(y,line$id), wonkiness))
+  }, split(y, obj$id), wonkiness))
 
-  line$x <- unit(x, default.units)
-  line$y <- unit(y, default.units)
-  line
+  obj$x <- unit(x, default.units)
+  obj$y <- unit(y, default.units)
+  obj
 }
 
 #' @export
-wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
+wonkify.segments <- function(obj, wonkiness = 1, default.units = "native", ...)
+{
 
-  x0 <- grid::convertX(line$x0, default.units, TRUE)
-  y0 <- grid::convertY(line$y0, default.units, TRUE)
-  x1 <- grid::convertX(line$x1, default.units, TRUE)
-  y1 <- grid::convertY(line$y1, default.units, TRUE)
+  x0 <- grid::convertX(obj$x0, default.units, TRUE)
+  y0 <- grid::convertY(obj$y0, default.units, TRUE)
+  x1 <- grid::convertX(obj$x1, default.units, TRUE)
+  y1 <- grid::convertY(obj$y1, default.units, TRUE)
 
   if(length(x0) == 1 && length(x1) == 1 &&
      length(y0) > 1 && length(y1) == length(y0)) {
@@ -107,10 +109,10 @@ wonkify.segments <- function(line, wonkiness = 1, default.units = "native") {
   y0 <- y0 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
   y1 <- y1 + rnorm(length(x0), 0, 0.01 * size * wonkiness)
 
-  line$x0 <- unit(x0, default.units)
-  line$y0 <- unit(y0, default.units)
-  line$x1 <- unit(x1, default.units)
-  line$y1 <- unit(y1, default.units)
+  obj$x0 <- unit(x0, default.units)
+  obj$y0 <- unit(y0, default.units)
+  obj$x1 <- unit(x1, default.units)
+  obj$y1 <- unit(y1, default.units)
 
-  line
+  obj
 }

@@ -58,31 +58,136 @@ scale_scribblecolour_discrete(
 )
 }
 \arguments{
-\item{...}{Other arguments passed on to `continuous_scale()`, `binned_scale`,
-or `discrete_scale()` as appropriate, to control name, limits,
-breaks, labels and so forth.}
+\item{name}{The name of the scale. Used as the axis or legend title. If
+\code{waiver()}, the default, the name of the scale is taken from the first
+mapping used for that aesthetic. If \code{NULL}, the legend title will be
+omitted.}
+
+\item{...}{
+  Arguments passed on to \code{\link[ggplot2:continuous_scale]{continuous_scale}}
+  \describe{
+    \item{\code{scale_name}}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} The name of the scale
+that should be used for error messages associated with this scale.}
+    \item{\code{palette}}{A palette function that when called with a numeric vector with
+values between 0 and 1 returns the corresponding output values
+(e.g., \code{\link[scales:pal_area]{scales::pal_area()}}).}
+    \item{\code{breaks}}{One of:
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks computed by the
+\link[scales:new_transform]{transformation object}
+\item A numeric vector of positions
+\item A function that takes the limits as input and returns breaks
+as output (e.g., a function returned by \code{\link[scales:breaks_extended]{scales::extended_breaks()}}).
+Also accepts rlang \link[rlang:as_function]{lambda} function notation.
+}}
+    \item{\code{minor_breaks}}{One of:
+\itemize{
+\item \code{NULL} for no minor breaks
+\item \code{waiver()} for the default breaks (one minor break between
+each major break)
+\item A numeric vector of positions
+\item A function that given the limits returns a vector of minor breaks. Also
+accepts rlang \link[rlang:as_function]{lambda} function notation. When
+the function has two arguments, it will be given the limits and major
+breaks.
+}}
+    \item{\code{n.breaks}}{An integer guiding the number of major breaks. The algorithm
+may choose a slightly different number to ensure nice break labels. Will
+only have an effect if \code{breaks = waiver()}. Use \code{NULL} to use the default
+number of breaks given by the transformation.}
+    \item{\code{labels}}{One of:
+\itemize{
+\item \code{NULL} for no labels
+\item \code{waiver()} for the default labels computed by the
+transformation object
+\item A character vector giving labels (must be same length as \code{breaks})
+\item An expression vector (must be the same length as breaks). See ?plotmath for details.
+\item A function that takes the breaks as input and returns labels
+as output. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+}}
+    \item{\code{limits}}{One of:
+\itemize{
+\item \code{NULL} to use the default scale range
+\item A numeric vector of length two providing limits of the scale.
+Use \code{NA} to refer to the existing minimum or maximum
+\item A function that accepts the existing (automatic) limits and returns
+new limits. Also accepts rlang \link[rlang:as_function]{lambda} function
+notation.
+Note that setting limits on positional scales will \strong{remove} data outside of the limits.
+If the purpose is to zoom, use the limit argument in the coordinate system
+(see \code{\link[ggplot2:coord_cartesian]{coord_cartesian()}}).
+}}
+    \item{\code{rescaler}}{A function used to scale the input values to the
+range [0, 1]. This is always \code{\link[scales:rescale]{scales::rescale()}}, except for
+diverging and n colour gradients (i.e., \code{\link[ggplot2:scale_colour_gradient2]{scale_colour_gradient2()}},
+\code{\link[ggplot2:scale_colour_gradientn]{scale_colour_gradientn()}}). The \code{rescaler} is ignored by position
+scales, which always use \code{\link[scales:rescale]{scales::rescale()}}. Also accepts rlang
+\link[rlang:as_function]{lambda} function notation.}
+    \item{\code{oob}}{One of:
+\itemize{
+\item Function that handles limits outside of the scale limits
+(out of bounds). Also accepts rlang \link[rlang:as_function]{lambda}
+function notation.
+\item The default (\code{\link[scales:oob]{scales::censor()}}) replaces out of
+bounds values with \code{NA}.
+\item \code{\link[scales:oob]{scales::squish()}} for squishing out of bounds values into range.
+\item \code{\link[scales:oob]{scales::squish_infinite()}} for squishing infinite values into range.
+}}
+    \item{\code{trans}}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Deprecated in favour of
+\code{transform}.}
+    \item{\code{expand}}{For position scales, a vector of range expansion constants used to add some
+padding around the data to ensure that they are placed some distance
+away from the axes. Use the convenience function \code{\link[ggplot2:expansion]{expansion()}}
+to generate the values for the \code{expand} argument. The defaults are to
+expand the scale by 5\% on each side for continuous variables, and by
+0.6 units on each side for discrete variables.}
+    \item{\code{position}}{For position scales, The position of the axis.
+\code{left} or \code{right} for y axes, \code{top} or \code{bottom} for x axes.}
+    \item{\code{call}}{The \code{call} used to construct the scale for reporting messages.}
+    \item{\code{super}}{The super class to use for the constructed scale}
+  }}
+
+\item{low, high}{Colours for low and high ends of the gradient.}
+
+\item{space}{colour space in which to calculate gradient. Must be "Lab" -
+other values are deprecated.}
 
 \item{na.value}{Missing values will be replaced with this value.}
 
 \item{guide}{A function used to create a guide or its name. See
-[guides()] for more information.}
+\code{\link[ggplot2:guides]{guides()}} for more information.}
 
-\item{values}{a set of aesthetic values to map data values to. The values
-will be matched in order (usually alphabetical) with the limits of the
-scale, or with breaks if provided. If this is a named vector, then the
-values will be matched based on the names instead. Data values that
-don't match will be given na.value.}
+\item{aesthetics}{The names of the aesthetics that this scale works with.}
+
+\item{values}{if colours should not be evenly positioned along the gradient
+this vector gives the position (between 0 and 1) for each colour in the
+\code{colours} vector. See \code{\link[scales:rescale]{rescale()}} for a convenience function
+to map an arbitrary range to between 0 and 1.}
 
 \item{breaks}{One of:
-- `NULL` for no breaks
-- `waiver()` for the default breaks computed by the
-  [transformation object][scales::trans_new()]
-- A numeric vector of positions
-- A function that takes the limits as input and returns breaks
-  as output (e.g., a function returned by [scales::extended_breaks()]).
-  Also accepts rlang [lambda][rlang::as_function()] function notation.}
+\itemize{
+\item \code{NULL} for no breaks
+\item \code{waiver()} for the default breaks computed by the
+\link[scales:new_transform]{transformation object}
+\item A numeric vector of positions
+\item A function that takes the limits as input and returns breaks
+as output (e.g., a function returned by \code{\link[scales:breaks_extended]{scales::extended_breaks()}}).
+Also accepts rlang \link[rlang:as_function]{lambda} function notation.
+}}
 
-\item{range}{Output range of angle in degrees}
+\item{h}{range of hues to use, in [0, 360]}
+
+\item{c}{chroma (intensity of colour), maximum value varies depending on
+combination of hue and luminance.}
+
+\item{l}{luminance (lightness), in [0, 100]}
+
+\item{h.start}{hue to start at}
+
+\item{direction}{direction to travel around the colour wheel,
+1 = clockwise, -1 = counter-clockwise}
 }
 \value{
 A `Scale` ggproto object that can be added to a plot.
@@ -94,9 +199,10 @@ fill lines. These scales are directly analogous to the scale functions
 in ggplot.
 }
 \examples{
-ggplot(iris, aes(Species, scribblecolour = Species,
-                                   colour = Species)) +
+library(ggplot2)
+
+ggplot(iris, aes(Species, scribblecolour = Species, colour = Species)) +
   geom_scribblebar() +
   scale_scribblecolour_manual(values = c("green4", "navy", "red3")) +
-  ggplot2::scale_colour_manual(values = c("green4", "navy", "red3"))
+  scale_colour_manual(values = c("green4", "navy", "red3"))
 }

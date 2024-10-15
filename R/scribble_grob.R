@@ -7,6 +7,8 @@
 #' @param id A vector matching the length of `x` and `y`. Different values
 #'   within the `id` vector specify different shapes into which the `x` and `y`
 #'   co-ordinates will be split.
+#' @param pathId A numeric vector used to separate locations in x and y into
+#'   distinct paths. All locations with the same pathId belong to the same path.
 #' @param gp TA `grid::gpar` object containing the graphical parameters for the
 #'   shape. Note that these will affect the outline and fill of the shape, but
 #'   will _not_ affect the appearance of the scribbles, which are determined by

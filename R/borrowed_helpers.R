@@ -57,7 +57,7 @@ manual_scale <- function (aesthetic, values = NULL, breaks = ggplot2::waiver(),
                           name = ggplot2::waiver(), ..., limits = NULL,
                           call = rlang::caller_call()) {
 
-  call <- call %||% current_call()
+  call <- call %||% rlang::current_call()
   if (rlang::is_missing(values)) {
     values <- NULL
   }
@@ -167,7 +167,7 @@ check_subclass <- function(
     }
   }
   else {
-    abort(paste0("`", argname, "` must be either a string or a ",
+    rlang::abort(paste0("`", argname, "` must be either a string or a ",
                  subclass, " object"))
   }
 }
@@ -259,7 +259,7 @@ warn_overwritten_args <- function (
                                 "`", provided_args[n_provided_args], "`")
     verb <- "were"
   }
-  warn(paste0(fun_name,
+  rlang::warn(paste0(fun_name,
               ": Ignoring ", overwritten_arg_text, " because ",
               provided_arg_text, " ", verb, " provided."))
 }
@@ -341,6 +341,15 @@ df_rows <- function (x, i) {
 
   cols <- lapply(x, `[`, i = i)
   data_frame0(!!!cols, .size = length(i))
+}
+
+split_matrix <- function (x, col_names = colnames(x)) {
+
+  force(col_names)
+  x <- lapply(seq_len(ncol(x)), function(i) x[, i])
+  if (!is.null(col_names))
+    names(x) <- col_names
+  x
 }
 
 dapply <- function (df, by, fun, ..., drop = TRUE) {

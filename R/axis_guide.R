@@ -165,10 +165,12 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(mtcars, aes(wt, mpg)) +
 #'   geom_scribblepoint() +
-#'   ggplot2::guides(x = guide_scribbleaxis(wibbliness = 0.5),
-#'                   y = guide_scribbleaxis(wibbliness = 0.5)) +
+#'   guides(x = guide_scribbleaxis(wibbliness = 0.5),
+#'          y = guide_scribbleaxis(wibbliness = 0.5)) +
 #'   theme_classic()
 
 guide_scribbleaxis <- function (title = ggplot2::waiver(), theme = NULL,

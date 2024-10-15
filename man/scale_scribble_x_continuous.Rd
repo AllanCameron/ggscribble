@@ -81,10 +81,12 @@ These essentially just use the `wibbliness` and `res` parameters to generate
 the correct guide, which is then passed on to the equivalent ggplot scale.
 }
 \examples{
+library(ggplot2)
+
 ggplot(iris, aes(Species, Sepal.Width)) +
   geom_scribbleboxplot(aes(scribblecolour = Species),
                        staplewidth = 0.4) +
-  ggplot2::theme_classic(16) +
+  theme_classic(16) +
   scale_scribble_y_continuous() +
   scale_scribble_x_discrete()
 }

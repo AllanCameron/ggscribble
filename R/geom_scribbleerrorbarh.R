@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribbled horizontal error bars
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_errorbarh
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleerrorbarh")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' df <- data.frame(
 #'   trt = factor(c(1, 1, 2, 2)),
 #'   resp = c(1, 5, 3, 4),

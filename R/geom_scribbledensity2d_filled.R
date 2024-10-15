@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribble-filled density contours
 #'
 #' @inheritParams ggplot2::geom_density2d_filled
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbledensity2d_filled")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' set.seed(1)
 #'
 #' d <- data.frame(x = rnorm(1000), y = rnorm(1000))

@@ -1,14 +1,17 @@
 
 #' Create a ggplot layer containing scribbled quantile lines
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_quantile
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblequantile")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
-#' ggplot(ggplot2::mpg, aes(displ, 1 / hwy)) +
-#'   ggplot2::geom_point() +
+#' library(ggplot2)
+#'
+#' ggplot(mpg, aes(displ, 1 / hwy)) +
+#'   geom_point() +
 #'   geom_scribblequantile(quantiles = c(0.25, 0.5, 0.75))
 
 geom_scribblequantile <- function (mapping = NULL, data = NULL,

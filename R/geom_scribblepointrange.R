@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribbled point ranges
 #'
 #' @inheritParams ggplot2::geom_pointrange
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblepointrange")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' d <- data.frame(x = c("A", "B", "C"),
 #'                 y = 1:3, ymin = 0:2, ymax = 2:4)
 #'

@@ -1,11 +1,14 @@
 #' Create a ggplot layer containing scribbled error bars
 #'
-#' @inheritParams ggplot2::geom_line
+#' @inheritParams ggplot2::geom_errorbar
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribbleerrorbar")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' df <- data.frame(
 #'   trt = factor(c(1, 1, 2, 2)),
 #'   resp = c(1, 5, 3, 4),
@@ -15,8 +18,7 @@
 #' )
 #'
 #' p <- ggplot(df, aes(trt, resp, colour = group))
-#' p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper),
-#'                           width = 0.2)
+#' p + geom_scribbleerrorbar(aes(ymin = lower, ymax = upper), width = 0.2)
 
 geom_scribbleerrorbar <- function (mapping = NULL, data = NULL,
                                    stat = "identity", position = "identity",

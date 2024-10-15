@@ -1,17 +1,20 @@
 #' Create a ggplot layer containing scribble-filled bars
 #'
 #' @inheritParams ggplot2::geom_bar
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblebar")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
+#' library(ggplot2)
+#'
 #' ggplot(iris[c(1, 51, 101), ],
-#'                 aes(Species, Sepal.Length, colour = Species)) +
+#'        aes(Species, Sepal.Length, colour = Species)) +
 #'   geom_scribblecol(aes(scribblecolour = Species),
 #'                    scribblewidth = 2) +
 #'   theme_classic(20)
-#'
+
 geom_scribblebar <- function (mapping = NULL, data = NULL, stat = "count",
                               position = "stack", ..., just = 0.5, width = NULL,
                               na.rm = FALSE, orientation = NA, show.legend = NA,

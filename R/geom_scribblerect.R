@@ -2,17 +2,20 @@
 #' Create a ggplot layer containing scribble-filled rectangles
 #'
 #' @inheritParams ggplot2::geom_rect
+#' @inheritParams geom_scribblearea
 #' @eval rd_aesthetics("geom", "scribblerect")
 #' @return A `Layer` ggproto object that can be added to a plot.
 #' @export
 #'
 #' @examples
-#' ggplot(data = data.frame(xmin = c(5, 10), xmax = c(15, 20),
-#'                                   ymin = c(5, 10), ymax = c(10, 20),
-#'                                   g = 1:2),
-#'                 mapping = aes(xmin = xmin, xmax = xmax,
-#'                                        ymin = ymin, ymax = ymax,
-#'                                        group = g)) +
+#' library(ggplot2)
+#'
+#' ggplot(data = data.frame(xmin = c(5, 10),
+#'                          xmax = c(15, 20),
+#'                          ymin = c(5, 10),
+#'                          ymax = c(10, 20),
+#'                          g = 1:2),
+#'        aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, group = g)) +
 #'  geom_scribblerect()
 
 geom_scribblerect <- function (mapping = NULL, data = NULL, stat = "identity",
