@@ -1,3 +1,59 @@
+#' Create x or y axis lines with a hand-drawn appearance.
+#'
+#' This is analogous to ggplot's \code{guide_axis}, and should function in the
+#' same way except that the axis lines and ticks will have a hand-drawn
+#' appearance.
+#'
+#' @inheritParams ggplot2::guide_axis
+#' @param wibbliness How wibbly the axis lines should be (0 = straight)
+#' @param res A measure of the resolution of the line's wibbliness.
+#'  Default is 200. Higher numbers give a higher frequency wibble
+#'
+#' @return A guide object that draws wibbly axis lines and ticks
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' ggplot(mtcars, aes(wt, mpg)) +
+#'   geom_scribblepoint() +
+#'   guides(x = guide_scribbleaxis(wibbliness = 0.5),
+#'          y = guide_scribbleaxis(wibbliness = 0.5)) +
+#'   theme_classic()
+
+guide_scribbleaxis <- function (title = ggplot2::waiver(), theme = NULL,
+                                check.overlap = FALSE,
+                                angle = ggplot2::waiver(), n.dodge = 1,
+                                minor.ticks = FALSE, cap = "none", order = 0,
+                                position = ggplot2::waiver(),
+                                wibbliness = 1, res = 200) {
+
+  if(!is.logical(minor.ticks) || length(minor.ticks) > 1) {
+    stop("In guide_scribbleaxis: \"minor.ticks\" must be `TRUE` or `FALSE`")
+  }
+
+  if (is.logical(cap)) {
+    if(length(cap) > 1) {
+      stop("In guide_scribbleaxis: \"cap\" must be length 1")
+    }
+    cap <- if (cap)
+      "both"
+    else "none"
+  }
+  cap <- rlang::arg_match0(cap, c("none", "both", "upper", "lower"))
+
+  ggplot2::new_guide(title = title, theme = theme,
+                     check.overlap = check.overlap,
+                     angle = angle, n.dodge = n.dodge,
+                     minor.ticks = minor.ticks,
+                     cap = cap, wibbliness = wibbliness, res = res,
+                     available_aes = c("x", "y", "r"),
+                     order = order, position = position, name = "axis",
+                     super = GuideScribbleaxis)
+}
+
+
+
 #' @rdname ggscribble-ggproto
 #' @usage NULL
 #' @format NULL
@@ -152,57 +208,4 @@ GuideScribbleaxis <- ggproto("GuideScribbleaxis", ggplot2::GuideAxis,
                  vp = vp)
   }
 )
-
-
-#' Title
-#'
-#' @inheritParams ggplot2::guide_axis
-#' @param wibbliness How wibbly the axis lines should be (0 = straight)
-#' @param res A measure of the resolution of the line's wibbliness.
-#'  Default is 200. Higher numbers give a higher frequency wibble
-#'
-#' @return A guide object that draws wibbly axis lines and ticks
-#' @export
-#'
-#' @examples
-#' library(ggplot2)
-#'
-#' ggplot(mtcars, aes(wt, mpg)) +
-#'   geom_scribblepoint() +
-#'   guides(x = guide_scribbleaxis(wibbliness = 0.5),
-#'          y = guide_scribbleaxis(wibbliness = 0.5)) +
-#'   theme_classic()
-
-guide_scribbleaxis <- function (title = ggplot2::waiver(), theme = NULL,
-                                check.overlap = FALSE,
-                                angle = ggplot2::waiver(), n.dodge = 1,
-                                minor.ticks = FALSE, cap = "none", order = 0,
-                                position = ggplot2::waiver(),
-                                wibbliness = 1, res = 200) {
-
-  if(!is.logical(minor.ticks) || length(minor.ticks) > 1) {
-    stop("In guide_scribbleaxis: \"minor.ticks\" must be `TRUE` or `FALSE`")
-  }
-
-  if (is.logical(cap)) {
-    if(length(cap) > 1) {
-      stop("In guide_scribbleaxis: \"cap\" must be length 1")
-    }
-    cap <- if (cap)
-      "both"
-    else "none"
-  }
-  cap <- rlang::arg_match0(cap, c("none", "both", "upper", "lower"))
-
-  ggplot2::new_guide(title = title, theme = theme,
-                     check.overlap = check.overlap,
-                     angle = angle, n.dodge = n.dodge,
-                     minor.ticks = minor.ticks,
-                     cap = cap, wibbliness = wibbliness, res = res,
-                     available_aes = c("x", "y", "r"),
-                     order = order, position = position, name = "axis",
-                     super = GuideScribbleaxis)
-}
-
-
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/axis_guide.R
 \name{guide_scribbleaxis}
 \alias{guide_scribbleaxis}
-\title{Title}
+\title{Create x or y axis lines with a hand-drawn appearance.}
 \usage{
 guide_scribbleaxis(
   title = ggplot2::waiver(),
@@ -70,7 +70,9 @@ Default is 200. Higher numbers give a higher frequency wibble}
 A guide object that draws wibbly axis lines and ticks
 }
 \description{
-Title
+This is analogous to ggplot's \code{guide_axis}, and should function in the
+same way except that the axis lines and ticks will have a hand-drawn
+appearance.
 }
 \examples{
 library(ggplot2)
